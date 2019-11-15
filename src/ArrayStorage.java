@@ -9,7 +9,8 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     public ArrayStorage() {
-        Arrays.stream(storage).forEach(resume -> resume=null);
+        Arrays.stream(storage).forEach(resume -> resume = null);
+        //storage=null;
     }
 
     void clear() {
@@ -21,19 +22,16 @@ public class ArrayStorage {
     void save(Resume r) {
 
         boolean equals = false;
-        int counter = 0;
-        for (int i = 0; storage[i] != null; i++) {
+        int i = 0;
+        for (i = 0; storage[i] != null; i++) {
             if (storage[i].uuid.equals(r.uuid)) {
                 equals = true; //ОШИБКА}
-
             }
-            counter++;
-
         }
-        if (equals = false || counter >= 0 || counter < 10000) { // запихнуть exception вместо 10000
-            storage[counter] = r;
+        if (equals == false && i >= 0 && i < 10000) { // запихнуть exception вместо 10000 && i < 10000
+            storage[i] = r;
         } else {
-            if (equals = true)
+            if (equals == true)
                 System.out.println("Такое резюме как: " + r.uuid + " уже существует"); //Слелать без  System.out.println
         }
     }
