@@ -10,7 +10,6 @@ public class ArrayStorage {
 
     public ArrayStorage() {
         Arrays.stream(storage).forEach(resume -> resume = null);
-        //storage=null;
     }
 
     void clear() {
@@ -25,11 +24,16 @@ public class ArrayStorage {
         int i = 0;
         for (i = 0; storage[i] != null; i++) {
             if (storage[i].uuid.equals(r.uuid)) {
-                equals = true; //ОШИБКА}
+                equals = true;
             }
         }
-        if (equals == false && i >= 0 && i < 10000) { // запихнуть exception вместо 10000 && i < 10000
-            storage[i] = r;
+        if (equals == false && i >= 0) {
+            try {
+                storage[i] = r;
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+
         } else {
             if (equals == true)
                 System.out.println("Такое резюме как: " + r.uuid + " уже существует"); //Слелать без  System.out.println
@@ -49,7 +53,7 @@ public class ArrayStorage {
     void delete(String uuid) {
 
         boolean equals = false;
-        int del = 0; //Как-то можно обйтись без этого. Не инициализированную переменную нельзя получить
+        int del = 0;
         int i;
         for (i = 0; storage[i] != null; i++) {
             if (storage[i].uuid.equals(uuid)) {
@@ -57,11 +61,11 @@ public class ArrayStorage {
                 equals = true;
             }
         }
-        if (equals = false) {
-            System.out.println("Удаление не возможно, такое резюме не найдено"); //Не использовать кроме main System.out.println
+        if (equals == false) {
+            System.out.println("Удаление не возможно, такое резюме как: " + uuid + " не найдено"); //Не использовать кроме main System.out.println
         } else {
-            storage[del] = storage[i];
-            storage[i] = null;
+            storage[del] = storage[i-1];
+            storage[i-1] = null;
         }
 
     }
