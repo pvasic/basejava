@@ -9,7 +9,7 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     public ArrayStorage() {
-        Arrays.stream(storage).forEach(r -> r = null);
+        Arrays.stream(storage).forEach(resume -> resume = null);
     }
 
     void clear() {
@@ -18,25 +18,25 @@ public class ArrayStorage {
         }
     }
 
-    void save(Resume resume) {
+    void save(Resume r) {
 
         boolean equals = false;
         int i = 0;
         for (i = 0; storage[i] != null; i++) {
-            if (storage[i].uuid.equals(resume.uuid)) {
+            if (storage[i].uuid.equals(r.uuid)) {
                 equals = true;
             }
         }
         if (equals == false && i >= 0) {
             try {
-                storage[i] = resume;
+                storage[i] = r;
             } catch (ArrayIndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
 
         } else {
             if (equals == true)
-                System.out.println("Такое резюме как: " + resume.uuid + " уже существует"); //Сделать без  System.out.println
+                System.out.println("Такое резюме как: " + r.uuid + " уже существует");
         }
     }
 
@@ -62,7 +62,7 @@ public class ArrayStorage {
             }
         }
         if (equals == false) {
-            System.out.println("Удаление не возможно, такое резюме как: " + uuid + " не найдено"); //Не использовать кроме main(). System.out.println. Использовать log4j
+            System.out.println("Удаление не возможно, такое резюме как: " + uuid + " не найдено!");
         } else {
             storage[del] = storage[i-1];
             storage[i-1] = null;
