@@ -23,6 +23,24 @@ public class ArrayStorage {
             System.out.println("База резюме заполнена! Освободите память."); // Вне main() использовать log4j
             return;
         }
+        int i=0;
+        for (; i < size; i++) {
+            if (storage[i].uuid.equals(resume.uuid)) {
+                System.out.println("Такое резюме как: " + resume.uuid + " уже существует!"); // Вне main() использовать log4j
+                return;
+            }
+        }
+        if (size == 0 || i == size) {
+            storage[size] = resume;
+            size++;
+        }
+    }
+
+    /*void save(Resume resume) {
+        if (size == ARRAY_SIZE) {
+            System.out.println("База резюме заполнена! Освободите память."); // Вне main() использовать log4j
+            return;
+        }
         if (size == 0) {
             storage[size] = resume;
             size++;
@@ -39,7 +57,7 @@ public class ArrayStorage {
                 }
             }
         }
-    }
+    }*/
 
     Resume get(String uuid) {
         Resume resume = null;
@@ -55,11 +73,11 @@ public class ArrayStorage {
         if (size == 0) {
             return;
         } else {
-            int  i = 0;
+            int i = 0;
             for (; i < size; i++) {
                 if (storage[i].uuid.equals(uuid)) {
-                    storage[i]=storage[size-1];
-                    storage[size-1]=null;
+                    storage[i] = storage[size - 1];
+                    storage[size - 1] = null;
                     size--;
                     return;
                 }
