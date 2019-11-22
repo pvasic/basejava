@@ -25,14 +25,14 @@ public class ArrayStorage {
 
     // Лучше сравнивать обьект Resume с помощью интерфейса Comparator
     //
-    // Сравнивал uuid вместо resume, чтобы не создавать новый обьект Resume в методе get()
+    // Сравнивал uuid вместо resume, чтобы не создавать новый обьект Resume в методе get() и delete()
     public int contains(String uuid) {
         int i = 0;
         for (; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
 
                 // Вне main() использовать log4j
-                System.out.println("Такое резюме как: com.javaops.web.model.Resume " + uuid + " уже существует!");
+                System.out.println("Такое резюме как: com.javaops.web.model.Resume " + uuid + " существует!");
                 return i;
             }
         }
@@ -53,7 +53,7 @@ public class ArrayStorage {
         size++;
     }
 
-    public void Update(Resume resume) {
+    public void update(Resume resume) {
         int i = contains(resume.getUuid());
         if (i > -1) {
             storage[i] = resume;
