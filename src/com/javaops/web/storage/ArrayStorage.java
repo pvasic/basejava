@@ -23,16 +23,20 @@ public class ArrayStorage {
                 .forEach(r -> r = null);
     }
 
-    public boolean contains(Resume resume) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(resume.getUuid())) {
+    // Лучше сравнивать обьект Resume с помощью интерфейса Comparator
+    //
+    // Сравнивал uuid вместо resume, чтобы не создавать новый обьект Resume в методе get()
+    public int contains(String uuid) {
+        int i = 0;
+        for (; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
 
                 // Вне main() использовать log4j
-                System.out.println("Такое резюме как: " + resume.getUuid() + " уже существует!");
-                return true;
+                System.out.println("Такое резюме как: com.javaops.web.model.Resume " + uuid + " уже существует!");
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 
     public void save(Resume resume) {
@@ -42,7 +46,7 @@ public class ArrayStorage {
             System.out.println("База резюме заполнена! Освободите память.");
             return;
         }
-        if (contains(resume)) {
+        if (contains(resume.getUuid()) > -1) {
             return;
         }
         storage[size] = resume;
@@ -50,37 +54,26 @@ public class ArrayStorage {
     }
 
     public void Update(Resume resume) {
-
+        int i = contains(resume.getUuid());
+        if (i > -1) {
+            storage[i] = resume;
+        }
     }
 
     public Resume get(String uuid) {
-        Resume resume = null;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                resume = storage[i];
-            }
+        int i = contains(uuid);
+        if (i == -1) {
+            return null;
         }
-        return resume;
+        return storage[i];
     }
 
     public void delete(String uuid) {
-
-        // В реальной DB эта проверка лишняя, т.к. используется только когда DB пуста
-        if (size == 0) {
-            return;
-        } else {
-            int i = 0;
-            for (; i < size; i++) {
-                if (storage[i].getUuid().equals(uuid)) {
-                    storage[i] = storage[size - 1];
-                    storage[size - 1] = null;
-                    size--;
-                    return;
-                }
-            }
-
-            // Вне main() использовать log4j
-            System.out.println("Удаление не возможно, такое резюме как: " + uuid + " не найдено!");
+        int i = contains(uuid);
+        if (i > -1) {
+            storage[i] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
         }
     }
 
