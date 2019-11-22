@@ -20,19 +20,25 @@ public class ArrayStorage {
 
     void save(Resume resume) {
         if (size == ARRAY_SIZE) {
-            System.out.println("База резюме заполнена! Освободите память."); // Вне main() использовать log4j
+
+            // Вне main() использовать log4j
+            System.out.println("База резюме заполнена! Освободите память.");
             return;
         }
         int i = 0;
         if (size != 0) {
             for (; i < size; i++) {
                 if (storage[i].uuid.equals(resume.uuid)) {
-                    System.out.println("Такое резюме как: " + resume.uuid + " уже существует!"); // Вне main() использовать log4j
+
+                    // Вне main() использовать log4j
+                    System.out.println("Такое резюме как: " + resume.uuid + " уже существует!");
                     return;
                 }
             }
         }
-        if (size == 0 || i == size) { // В реальной DB size == 0 проверка лишняя, т.к. используется только когда DB пуста
+
+        // В реальной DB size == 0 проверка лишняя, т.к. используется только когда DB пуста
+        if (size == 0 || i == size) {
             storage[size] = resume;
             size++;
         }
@@ -49,7 +55,9 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        if (size == 0) { // В реальной DB эта проверка лишняя, т.к. используется только когда DB пуста
+
+        // В реальной DB эта проверка лишняя, т.к. используется только когда DB пуста
+        if (size == 0) {
             return;
         } else {
             int i = 0;
@@ -61,7 +69,9 @@ public class ArrayStorage {
                     return;
                 }
             }
-            System.out.println("Удаление не возможно, такое резюме как: " + uuid + " не найдено!"); // Вне main() использовать log4j
+
+            // Вне main() использовать log4j
+            System.out.println("Удаление не возможно, такое резюме как: " + uuid + " не найдено!");
         }
     }
 
