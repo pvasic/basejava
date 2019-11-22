@@ -2,6 +2,8 @@ package com.javaops.web.storage;
 
 import com.javaops.web.model.Resume;
 
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -16,10 +18,21 @@ public class ArrayStorage {
     }
 
     public void clear() {
+        Arrays.stream(storage)
+                .limit(size)
+                .forEach(r -> r = null);
+    }
+
+    public boolean contains(Resume resume) {
         for (int i = 0; i < size; i++) {
-            storage[i] = null;
+            if (storage[i].getUuid().equals(resume.getUuid())) {
+
+                // Вне main() использовать log4j
+                System.out.println("Такое резюме как: " + resume.getUuid() + " уже существует!");
+                return true;
+            }
         }
-        size = 0;
+        return false;
     }
 
     public void save(Resume resume) {
@@ -29,23 +42,11 @@ public class ArrayStorage {
             System.out.println("База резюме заполнена! Освободите память.");
             return;
         }
-        int i = 0;
-        if (size != 0) {
-            for (; i < size; i++) {
-                if (storage[i].getUuid().equals(resume.getUuid())) {
-
-                    // Вне main() использовать log4j
-                    System.out.println("Такое резюме как: " + resume.getUuid() + " уже существует!");
-                    return;
-                }
-            }
+        if (contains(resume)) {
+            return;
         }
-
-        // В реальной DB size == 0 проверка лишняя, т.к. используется только когда DB пуста
-        if ((size == 0)) {
-            storage[size] = resume;
-            size++;
-        }
+        storage[size] = resume;
+        size++;
     }
 
     public void Update(Resume resume) {
@@ -84,11 +85,9 @@ public class ArrayStorage {
     }
 
     public Resume[] getAll() {
-        Resume[] resumes = new Resume[size];
-        for (int i = 0; i < size; i++) {
-            resumes[i] = storage[i];
-        }
-        return resumes;
+        return Arrays.stream(storage)
+                .limit(size)
+                .toArray(Resume[]::new);
     }
 
     public int size() {
