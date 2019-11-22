@@ -1,3 +1,7 @@
+package com.javaops.web.storage;
+
+import com.javaops.web.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
@@ -11,14 +15,14 @@ public class ArrayStorage {
         this.size = 0;
     }
 
-    void clear() {
+    public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
         size = 0;
     }
 
-    void save(Resume resume) {
+    public void save(Resume resume) {
         if (size == ARRAY_SIZE) {
 
             // Вне main() использовать log4j
@@ -28,33 +32,37 @@ public class ArrayStorage {
         int i = 0;
         if (size != 0) {
             for (; i < size; i++) {
-                if (storage[i].uuid.equals(resume.uuid)) {
+                if (storage[i].getUuid().equals(resume.getUuid())) {
 
                     // Вне main() использовать log4j
-                    System.out.println("Такое резюме как: " + resume.uuid + " уже существует!");
+                    System.out.println("Такое резюме как: " + resume.getUuid() + " уже существует!");
                     return;
                 }
             }
         }
 
         // В реальной DB size == 0 проверка лишняя, т.к. используется только когда DB пуста
-        if (size == 0 || i == size) {
+        if ((size == 0)) {
             storage[size] = resume;
             size++;
         }
     }
 
-    Resume get(String uuid) {
+    public void Update(Resume resume) {
+
+    }
+
+    public Resume get(String uuid) {
         Resume resume = null;
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 resume = storage[i];
             }
         }
         return resume;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
 
         // В реальной DB эта проверка лишняя, т.к. используется только когда DB пуста
         if (size == 0) {
@@ -62,7 +70,7 @@ public class ArrayStorage {
         } else {
             int i = 0;
             for (; i < size; i++) {
-                if (storage[i].uuid.equals(uuid)) {
+                if (storage[i].getUuid().equals(uuid)) {
                     storage[i] = storage[size - 1];
                     storage[size - 1] = null;
                     size--;
@@ -75,7 +83,7 @@ public class ArrayStorage {
         }
     }
 
-    Resume[] getAll() {
+    public Resume[] getAll() {
         Resume[] resumes = new Resume[size];
         for (int i = 0; i < size; i++) {
             resumes[i] = storage[i];
@@ -83,7 +91,7 @@ public class ArrayStorage {
         return resumes;
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 }
