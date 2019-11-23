@@ -8,13 +8,12 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    static final int ARRAY_SIZE = 10000;
-    Resume[] storage;
-    int size;
+    private static final int ARRAY_SIZE = 10_000;
+    private Resume[] storage;
+    private int size;
 
     public ArrayStorage() {
         this.storage = new Resume[ARRAY_SIZE];
-        this.size = 0;
     }
 
     public void clear() {
@@ -23,30 +22,13 @@ public class ArrayStorage {
                 .forEach(r -> r = null);
     }
 
-    // Лучше сравнивать обьект Resume с помощью интерфейса Comparator
-    //
-    // Сравнивал uuid вместо resume, чтобы не создавать новый обьект Resume в методе get() и delete()
-    public int contains(String uuid) {
-        int i = 0;
-        for (; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-
-                // Вне main() использовать log4j
-                System.out.println("Такое резюме как: com.javaops.web.model.Resume " + uuid + " существует!");
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public void save(Resume resume) {
         if (size == ARRAY_SIZE) {
-
-            // Вне main() использовать log4j
-            System.out.println("База резюме заполнена! Освободите память.");
+            System.out.println("The database is full! Free memory.");
             return;
         }
         if (contains(resume.getUuid()) > -1) {
+            System.out.println("Resume " + resume.getUuid() + " already exists.");
             return;
         }
         storage[size] = resume;
@@ -58,11 +40,13 @@ public class ArrayStorage {
         if (i > -1) {
             storage[i] = resume;
         }
+        System.out.println("No resume found " + resume.getUuid() + ".");
     }
 
     public Resume get(String uuid) {
         int i = contains(uuid);
         if (i == -1) {
+            System.out.println("No resume found " + uuid + ".");
             return null;
         }
         return storage[i];
@@ -75,6 +59,7 @@ public class ArrayStorage {
             storage[size - 1] = null;
             size--;
         }
+        System.out.println("No resume found " + uuid + ".");
     }
 
     public Resume[] getAll() {
@@ -85,5 +70,14 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    private int contains(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }

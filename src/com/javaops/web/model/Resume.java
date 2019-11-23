@@ -6,7 +6,7 @@ package com.javaops.web.model;
 public class Resume {
 
     // Unique identifier
-    String uuid;
+    private String uuid;
 
     public String getUuid() {
         return uuid;
