@@ -7,26 +7,30 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private static final int ARRAY_SIZE = 10_000;
+    private static final int STORAGE_LIMIT = 10_000;
     private Resume[] storage;
     private int size;
 
     public ArrayStorage() {
-        storage = new Resume[ARRAY_SIZE];
+        storage = new Resume[STORAGE_LIMIT];
     }
 
     public void clear() {
+
+        // Как вариант: Arrays.fill(storage, 0, size, null);
         Arrays.stream(storage)
                 .limit(size)
                 .forEach(r -> r = null);
+        size = 0;
+        Arrays.fill(storage, 0, size, null);
     }
 
     public void save(Resume resume) {
-        if (size == ARRAY_SIZE) {
+        if (size == STORAGE_LIMIT) {
             System.out.println("The database is full! Free memory.");
             return;
         }
-        if (contains(resume.getUuid()) > -1) {
+        if (getIndex(resume.getUuid()) > -1) {
             System.out.println("Resume " + resume.getUuid() + " already exists.");
             return;
         }
@@ -35,7 +39,7 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int i = contains(resume.getUuid());
+        int i = getIndex(resume.getUuid());
         if (i > -1) {
             storage[i] = resume;
         }
@@ -43,7 +47,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        int i = contains(uuid);
+        int i = getIndex(uuid);
         if (i == -1) {
             System.out.println("No resume found " + uuid + ".");
             return null;
@@ -52,7 +56,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        int i = contains(uuid);
+        int i = getIndex(uuid);
         if (i > -1) {
             storage[i] = storage[size - 1];
             storage[size - 1] = null;
@@ -62,6 +66,8 @@ public class ArrayStorage {
     }
 
     public Resume[] getAll() {
+
+        // Как вариант: return Arrays.copyOfRange(storage, 0, size);
         return Arrays.stream(storage)
                 .limit(size)
                 .toArray(Resume[]::new);
@@ -71,7 +77,7 @@ public class ArrayStorage {
         return size;
     }
 
-    private int contains(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
