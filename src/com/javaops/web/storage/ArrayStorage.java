@@ -1,5 +1,4 @@
 package com.javaops.web.storage;
-
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
@@ -13,7 +12,7 @@ public class ArrayStorage {
     private int size;
 
     public ArrayStorage() {
-        this.storage = new Resume[ARRAY_SIZE];
+        storage = new Resume[ARRAY_SIZE];
     }
 
     public void clear() {
