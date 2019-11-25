@@ -6,11 +6,7 @@ import java.util.Arrays;
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    private static final int STORAGE_LIMIT = 10_000;
-    private Resume[] storage;
-    private int size;
-
+public class ArrayStorage extends AbstractArrayStorage {
     public ArrayStorage() {
         storage = new Resume[STORAGE_LIMIT];
     }
