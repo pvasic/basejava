@@ -5,6 +5,10 @@ import com.javaops.web.model.Resume;
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
+    public SortedArrayStorage() {
+        storage = new Resume[STORAGE_LIMIT];
+    }
+
     @Override
     public void update(Resume r) {
 

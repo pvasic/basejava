@@ -10,15 +10,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index > -1) {
-            storage[index] = resume;
-        }
-        System.out.println("No resume found " + resume.getUuid() + ".");
-    }
-
-    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 100_000;
-    protected Resume[] storage;
+    public Resume[] storage;
     protected int size;
 
     public void clear() {
@@ -36,6 +36,14 @@ public abstract class AbstractArrayStorage implements Storage {
         size++;
     }
 
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index > -1) {
+            storage[index] = resume;
+        }
+        System.out.println("No resume found " + resume.getUuid() + ".");
+    }
+
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index > -1) {
@@ -54,7 +62,8 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected int getIndexInsert(Resume resume) {
-        return Arrays.binarySearch(storage, 0, size, resume, Resume::compareTo);
+        //return Arrays.binarySearch(storage, 0, size, resume, Resume::compareTo);
+        return 0;
     }
 
     protected abstract void saveAndMove(Resume resume);
