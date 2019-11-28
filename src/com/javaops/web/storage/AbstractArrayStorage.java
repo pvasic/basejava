@@ -62,7 +62,6 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected int getIndexInsert(Resume resume) {
-        //return Arrays.binarySearch(storage, 0, size, resume, Resume::compareTo);
         return 0;
     }
 
