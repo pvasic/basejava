@@ -10,16 +10,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void update(Resume r) {
-
-    }
-
-    @Override
-    protected void saveAndMove(Resume resume) {
-        int index =getIndexInsert(resume);
-        int i =size;
+    protected void saveAndMove(Resume resume, int index) {
+        int i = size;
         for (; i > index; i--) {
-            storage[i-1]=storage[i];
+            storage[i] = storage[i - 1];
         }
         storage[index] = resume;
 
@@ -27,8 +21,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void deleteAndMove(int index) {
-        for (;index < size;index++) {
-            storage[index] = storage[index+1];
+        for (; index < size; index++) {
+            storage[index] = storage[index + 1];
         }
     }
 
