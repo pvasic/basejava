@@ -6,20 +6,15 @@ import com.javaops.web.model.Resume;
  * Array based storage for Resumes
  */
 public class ArrayStorage extends AbstractArrayStorage {
-    public ArrayStorage() {
-        storage = new Resume[STORAGE_LIMIT];
-    }
-
     @Override
-    protected void saveAndMove(Resume resume, int index) {
+    protected void insertElement(Resume resume, int index) {
         storage[size] = resume;
 
     }
 
     @Override
-    protected void deleteAndMove(int index) {
+    protected void removeElement(int index) {
         storage[index] = storage[size - 1];
-        storage[size - 1] = null;
     }
 
     @Override
