@@ -5,6 +5,10 @@ import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
 
+/**
+ * @author Vasichkin Pavel
+ */
+
 public abstract class AbstractArrayStorage implements Storage {
     protected static final int STORAGE_LIMIT = 100_000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];

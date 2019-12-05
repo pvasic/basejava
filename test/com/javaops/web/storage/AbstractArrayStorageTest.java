@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest {
@@ -15,8 +17,17 @@ public abstract class AbstractArrayStorageTest {
     private final String UUID_2 = "uuid2";
     private final String UUID_3 = "uuid3";
 
+    public AbstractArrayStorageTest() throws IllegalAccessException {
+        Class clazz = this.getClass();
+        Field field = clazz.getDeclaredFields()[0];
+        field.setAccessible(true);
+        field.set(this, this);
+        field.setAccessible(false);
+    }
+
     @Before
     public void setUP() throws Exception {
+
         storage.clear();
         storage.save(new Resume(UUID_1));
         storage.save(new Resume(UUID_2));
