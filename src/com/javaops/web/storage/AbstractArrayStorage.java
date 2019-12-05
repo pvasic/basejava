@@ -1,5 +1,6 @@
 package com.javaops.web.storage;
 
+import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
@@ -9,17 +10,23 @@ public abstract class AbstractArrayStorage implements Storage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size;
 
+    public int size() {
+        return size;
+    }
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
+    public Resume[] getAll() {
+        return Arrays.copyOfRange(storage, 0, size);
+    }
+
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index == -1) {
-            System.out.println("Resume " + uuid + " not found.");
-            return null;
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -45,7 +52,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = resume;
             return;
         }
-        System.out.println("Resume " + resume.getUuid() + " not found.");
+        throw new NotExistStorageException(resume.getUuid());
     }
 
     public void delete(String uuid) {
@@ -56,20 +63,10 @@ public abstract class AbstractArrayStorage implements Storage {
             size--;
             return;
         }
-        System.out.println("Resume " + uuid + " not found.");
-    }
-
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
-    }
-
-    public int size() {
-        return size;
+        throw new NotExistStorageException(uuid);
     }
 
     protected abstract void insertElement(Resume resume, int index);
-
     protected abstract void removeElement(int index);
-
     protected abstract int getIndex(String uuid);
 }
