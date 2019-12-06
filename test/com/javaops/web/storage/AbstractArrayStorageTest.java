@@ -2,8 +2,9 @@ package com.javaops.web.storage;
 
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
-import org.junit.Assert;
+import jdk.nashorn.internal.objects.annotations.Constructor;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -17,26 +18,22 @@ public abstract class AbstractArrayStorageTest {
     private final String UUID_2 = "uuid2";
     private final String UUID_3 = "uuid3";
 
-    public AbstractArrayStorageTest() throws IllegalAccessException {
-        Class clazz = this.getClass();
-        Field field = clazz.getDeclaredFields()[0];
-        field.setAccessible(true);
-        field.set(this, this);
-        field.setAccessible(false);
+    protected AbstractArrayStorageTest(Storage storage) {
+        this.storage=storage;
     }
 
     @Before
-    public void setUP() throws Exception {
-
+    public void setUP(){
         storage.clear();
         storage.save(new Resume(UUID_1));
         storage.save(new Resume(UUID_2));
         storage.save(new Resume(UUID_3));
     }
 
+
     @Test
     public void size() {
-        Assert.assertEquals(3, storage.size());
+        assertEquals(3, storage.size());
     }
 
     @Test
