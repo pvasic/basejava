@@ -43,7 +43,7 @@ public class MainString {
         System.out.println(s9.endsWith("l!")); // true, if current string suffix exist or ==
 
         Date d = new Date();
-        String s10 = String.format("%1$50s   It's I am    Day = %2$td : %2$tm : %2$ty" ,s9 , d);
+        String s10 = String.format("%1$50s   It's I am    Day = %2$td-%2$tm-%2$ty" ,s9 , d);
         System.out.println(s10);
 
         String [] array = s10.trim().split("\\s*"); // String regex

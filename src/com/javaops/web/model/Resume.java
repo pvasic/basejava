@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
+ * @author Vasichkin Pavel
  * Initial resume class
  */
 public class Resume implements Comparable<Resume>{

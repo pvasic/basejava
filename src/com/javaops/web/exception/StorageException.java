@@ -1,5 +1,10 @@
 package com.javaops.web.exception;
 
+/**
+ * @author Vasichkin Pavel
+ * Exception based for resume
+ */
+
 public class StorageException extends RuntimeException {
     private final String uuid;
 

@@ -4,6 +4,11 @@ import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
 
+/**
+ * @author Vasichkin Pavel
+ * Array sorted storage for Resumes
+ */
+
 public class SortedArrayStorage extends AbstractArrayStorage {
     @Override
     protected void insertElement(Resume resume, int index) {

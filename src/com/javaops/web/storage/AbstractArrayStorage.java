@@ -1,18 +1,21 @@
 package com.javaops.web.storage;
 
+import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
+import com.javaops.web.exception.StackOverFlowStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
 
 /**
  * @author Vasichkin Pavel
+ * Abstract storage for Resume
  */
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 100_000;
-    protected Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int size;
+    protected static final int STORAGE_LIMIT = 10_000;
+    protected static final Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected static int size;
 
     public int size() {
         return size;
@@ -37,13 +40,11 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void save(Resume resume) {
         if (size == STORAGE_LIMIT) {
-            System.out.println("The database is full! Free memory.");
-            return;
+            throw new StackOverFlowStorageException(resume.getUuid());
         }
         int index = getIndex(resume.getUuid());
         if (index > -1) {
-            System.out.println("Resume " + resume.getUuid() + " already exists.");
-            return;
+            throw new ExistStorageException(resume.getUuid());
         }
         index = -index - 1;
         insertElement(resume, index);
@@ -71,6 +72,8 @@ public abstract class AbstractArrayStorage implements Storage {
     }
 
     protected abstract void insertElement(Resume resume, int index);
+
     protected abstract void removeElement(int index);
+
     protected abstract int getIndex(String uuid);
 }
