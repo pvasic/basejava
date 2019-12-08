@@ -1,6 +1,5 @@
 package com.javaops.web.exception;
 
-
 /**
  * @author Vasichkin Pavel
  * Exception not existing for resume

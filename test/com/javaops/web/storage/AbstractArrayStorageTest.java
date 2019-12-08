@@ -1,22 +1,23 @@
 package com.javaops.web.storage;
 
+import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
-import com.javaops.web.exception.StackOverFlowStorageException;
+import com.javaops.web.exception.OverflowStorageException;
 import com.javaops.web.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 public abstract class AbstractArrayStorageTest {
-    private Storage storage;
+    private final Storage storage;
 
-    private final Resume r1 = new Resume("uuid1");
-    private final Resume r2 = new Resume("uuid2");
-    private final Resume r3 = new Resume("uuid3");
+    private final static String uuid1 = "uuid1";
+    private final static Resume r1 = new Resume(uuid1);
+    private final static String uuid2 = "uuid2";
+    private final static Resume r2 = new Resume(uuid2);
+    private final static String uuid3 = "uuid3";
+    private final static Resume r3 = new Resume(uuid3);
 
     protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
@@ -39,19 +40,23 @@ public abstract class AbstractArrayStorageTest {
     public void getAll() {
         Resume[] array = {r1, r2, r3};
         assertArrayEquals(array, storage.getAll());
+        assertEquals(array.length, storage.size());
     }
 
     @Test
     public void clear() {
         storage.clear();
-        for (Resume resume : storage.getAll()) {
-            assertNull(resume);
-        }
+        assertEquals(0, storage.size());
     }
 
     @Test
     public void get() {
-        assertEquals(r2, storage.get("uuid2"));
+        assertEquals(r2, storage.get(uuid2));
+    }
+
+    @Test(expected = NotExistStorageException.class)
+    public void getNotExist() {
+        storage.get("dummy");
     }
 
     @Test
@@ -59,38 +64,51 @@ public abstract class AbstractArrayStorageTest {
         Resume r4 = new Resume("uuid4");
         storage.save(r4);
         assertEquals(r4, storage.get("uuid4"));
+        assertEquals(4, storage.size());
+    }
+
+    @Test(expected = ExistStorageException.class)
+    public void saveExist(){
+        Resume resume = new Resume(uuid2);
+        storage.save(resume);
+    }
+
+    @Test(expected = OverflowStorageException.class)
+    public void saveOverflow() {
+        storage.clear();
+        try {
+            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
+                storage.save(new Resume());
+            }
+        } catch (OverflowStorageException e) {
+            fail("There should be no overflow" + e);
+        }
+        storage.save(new Resume());
     }
 
     @Test
     public void update() {
-        Resume r4 = new Resume("uuid2");
-        storage.update(r4);
-        assertEquals(r4, storage.get("uuid2"));
+        Resume actual = new Resume(uuid2);
+        Resume unexpected = storage.get(uuid2);
+        storage.update(actual);
+        assertNotSame(unexpected, storage.get(uuid2));
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void delete() throws Exception {
-        storage.delete("uuid2");
-        storage.get("uuid2");
+    public void updateNotExist(){
+        Resume dummy = new Resume("dummy");
+        storage.update(dummy);
     }
 
     @Test(expected = NotExistStorageException.class)
-    public void getNotExist() throws Exception {
-        storage.get("dummy");
+    public void delete() {
+        storage.delete(uuid2);
+        storage.get(uuid2);
+        assertEquals(2, storage.size());
     }
 
-    @Test(expected = StackOverFlowStorageException.class)
-    public void stackOverFlow() throws Exception {
-        Field field = Class.forName("com.javaops.web.storage.AbstractArrayStorage").getDeclaredField("STORAGE_LIMIT");
-        field.setAccessible(true);
-        storage.clear();
-        try {
-            for (int i = 0; i < field.getInt(field); i++) {
-                storage.save(new Resume());
-            }
-        } catch (StackOverFlowStorageException e) {
-            fail("There should be no overflow" + e);
-        }
-        storage.save(new Resume());
+    @Test(expected = NotExistStorageException.class)
+    public void deleteNotExist() {
+        storage.delete("dummy");
     }
 }

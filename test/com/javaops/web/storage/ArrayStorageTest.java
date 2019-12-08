@@ -1,7 +1,7 @@
 package com.javaops.web.storage;
 
 public class ArrayStorageTest extends AbstractArrayStorageTest {
-    public ArrayStorageTest() throws Exception {
+    public ArrayStorageTest() {
         super(new ArrayStorage());
     }
 }
