@@ -2,7 +2,7 @@ package com.javaops.web.storage;
 
 import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
-import com.javaops.web.exception.StackOverFlowStorageException;
+import com.javaops.web.exception.OverflowStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public abstract class AbstractArrayStorage implements Storage {
 
     public void save(Resume resume) {
         if (size == STORAGE_LIMIT) {
-            throw new StackOverFlowStorageException(resume.getUuid());
+            throw new OverflowStorageException(resume.getUuid());
         }
         int index = getIndex(resume.getUuid());
         if (index > -1) {
