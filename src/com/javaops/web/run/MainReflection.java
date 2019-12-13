@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 
 public class MainReflection {
     public static void main(String[] args) throws IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+
         Method method = Class.forName("com.javaops.web.model.Resume").getMethod("toString");
         System.out.println(method.toString());
         Resume resume = new Resume("uuid");
