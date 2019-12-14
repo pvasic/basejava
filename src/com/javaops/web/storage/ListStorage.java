@@ -3,6 +3,7 @@ package com.javaops.web.storage;
 import com.javaops.web.model.Resume;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,12 +37,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void updateResume(Object index, Resume resume) {
-        STORAGE.set((Integer) index, resume);
+        STORAGE.set((int) index, resume);
     }
 
     @Override
     protected void deleteResume(Object index) {
-        STORAGE.remove((Integer) index);
+        STORAGE.remove((int) index);
     }
 
     @Override
@@ -56,6 +57,6 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return (Resume[]) STORAGE.toArray();
+        return (STORAGE.toArray(new Resume[0]));
     }
 }

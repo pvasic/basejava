@@ -31,7 +31,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected Object searchObject(Object object) {
+    protected Object searchObject(String uuid) {
         return null;
     }
 
@@ -47,6 +47,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void saveResume(Resume resume) {
+
+    }
+
+    @Override
+    protected void updateResume(Object index, Resume resume) {
+
+    }
+
+    @Override
+    protected void deleteResume(Object index) {
 
     }
 }
