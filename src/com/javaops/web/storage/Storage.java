@@ -4,7 +4,6 @@ import com.javaops.web.model.Resume;
 
 public interface Storage {
 
-
     int size();
 
     void clear();

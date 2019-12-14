@@ -16,7 +16,7 @@ public abstract class AbstractStorage implements Storage {
         if (object instanceof Integer) {
             int index = (int) object;
             if (index >= 0) {
-                return getByIndex(index);
+                return getResume(index);
             } else {
                 if (index<0 || object == null) {
                     throw new NotExistStorageException(uuid);
@@ -71,7 +71,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object searchObject(String uuid);
 
-    protected abstract Resume getByIndex(int index);
+    protected abstract Resume getResume(int index);
 
     protected abstract boolean containsResume(Resume resume);
 
@@ -80,8 +80,4 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void updateResume(Object index, Resume resume);
 
     protected abstract void deleteResume(Object index);
-
-    public abstract int size();
-
-    public abstract void clear();
 }

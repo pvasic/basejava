@@ -3,9 +3,8 @@ package com.javaops.web.storage;
 import com.javaops.web.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
+import java.util.Objects;
 
 /**
  * @author Vasichkin Pavel
@@ -13,16 +12,21 @@ import java.util.List;
  */
 public class ListStorage extends AbstractStorage {
 
-    private static final List<Resume> STORAGE = new ArrayList();
+    private static final List<Resume> STORAGE = new ArrayList<>();
 
     @Override
     protected Object searchObject(String uuid) {
-            Resume resume = new Resume(uuid);
-            return STORAGE.indexOf(resume);
+        int hashcodUUID = Objects.hash(uuid);
+        for (Resume resume : STORAGE) {
+            if (hashcodUUID == resume.hashCode()) {
+                return STORAGE.indexOf(resume);
+            }
+        }
+            return null;
     }
 
     @Override
-    protected Resume getByIndex(int index) {
+    protected Resume getResume(int index) {
         return STORAGE.get(index);
     }
 
