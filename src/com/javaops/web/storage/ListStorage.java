@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * @author Vasichkin Pavel
+ * Storage based on list for Resume
  */
 public class ListStorage extends AbstractStorage {
 

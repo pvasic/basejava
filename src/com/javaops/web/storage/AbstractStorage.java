@@ -6,6 +6,7 @@ import com.javaops.web.model.Resume;
 
 /**
  * @author Vasichkin Pavel
+ * Abstract storage based on collections for Resume
  */
 public abstract class AbstractStorage implements Storage {
 
@@ -38,7 +39,7 @@ public abstract class AbstractStorage implements Storage {
     public void update(Resume resume) {
         Object object = searchObject(resume.getUuid());
         if (object instanceof Integer) {
-            int index = (Integer) object;
+            int index = (int) object;
             if (index >= 0) {
                 updateResume(index, resume);
                 return;
