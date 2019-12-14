@@ -4,7 +4,6 @@ import com.javaops.web.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Vasichkin Pavel
@@ -16,13 +15,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Object searchObject(String uuid) {
-        int hashcodUUID = Objects.hash(uuid);
-        for (Resume resume : STORAGE) {
-            if (hashcodUUID == resume.hashCode()) {
-                return STORAGE.indexOf(resume);
+        for (int i = 0; i < STORAGE.size(); i++) {
+            if (uuid.equals(STORAGE.get(i).getUuid())) {
+                return i;
             }
         }
-            return null;
+        return -1;
     }
 
     @Override
