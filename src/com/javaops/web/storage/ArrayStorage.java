@@ -26,4 +26,24 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
+    @Override
+    protected Object searchObject(Object object) {
+        return null;
+    }
+
+    @Override
+    protected Resume getByIndex(int index) {
+        return null;
+    }
+
+    @Override
+    protected boolean containsResume(Resume resume) {
+        return false;
+    }
+
+    @Override
+    protected void saveResume(Resume resume) {
+
+    }
 }
