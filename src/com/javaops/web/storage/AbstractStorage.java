@@ -11,28 +11,26 @@ import com.javaops.web.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     @Override
-    public Resume get(String uuid) {
-        Object object = searchObject(uuid);
-        if (object instanceof Integer) {
-            int index = (int) object;
-            if (index >= 0) {
-                return getResume(index);
-            } else {
-                if (index<0 || object == null) {
-                    throw new NotExistStorageException(uuid);
-                }
-            }
-        }
-        return (Resume) object;
-    }
-
-    @Override
     public void save(Resume resume) {
         if (containsResume(resume)) {
             throw new ExistStorageException(resume.getUuid());
         } else {
             saveResume(resume);
         }
+    }
+
+    @Override
+    public Resume get(String uuid) {
+        Object object = searchObject(uuid);
+        if (validResume(new Resume(uuid))) {
+            if (object instanceof Integer) {
+                return getResume((int) object);
+            } else {
+                return (Resume) object;
+            }
+
+        }
+        return null;
     }
 
     @Override
@@ -67,6 +65,14 @@ public abstract class AbstractStorage implements Storage {
             }
         }
         deleteResume(uuid);
+    }
+
+    private boolean validResume(Resume resume) {
+        if (containsResume(resume)) {
+            return true;
+        } else {
+            throw new NotExistStorageException(resume.getUuid());
+        }
     }
 
     protected abstract Object searchObject(String uuid);
