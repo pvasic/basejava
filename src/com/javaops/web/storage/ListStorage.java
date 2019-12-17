@@ -15,12 +15,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Object searchObject(String uuid) {
-        int index = storage.indexOf(new Resume(uuid));
-        if (index < 0) {
-            return null;
-        } else {
-            return index;
+        for (int i = 0; i < storage.size(); i++) {
+            if (uuid.equals(storage.get(i).getUuid())) {
+                return i;
+            }
         }
+        return null;
     }
 
     @Override
