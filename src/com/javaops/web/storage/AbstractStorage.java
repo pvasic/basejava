@@ -12,78 +12,61 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void save(Resume resume) {
-        if (containsResume(resume)) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
+        Object object = searchObject(resume.getUuid());
+        if (object == null) {
             saveResume(resume);
+        } else {
+            throw new ExistStorageException(resume.getUuid());
         }
     }
 
     @Override
     public Resume get(String uuid) {
         Object object = searchObject(uuid);
-        if (validResume(new Resume(uuid))) {
-            if (object instanceof Integer) {
-                return getResume((int) object);
-            } else {
-                return (Resume) object;
-            }
-
+        containsResume(uuid, object);
+        if (object instanceof Integer) {
+            return getResume(object);
+        } else {
+            return getResume(uuid);
         }
-        return null;
     }
 
     @Override
     public void update(Resume resume) {
-        Object object = searchObject(resume.getUuid());
+        String uuid = resume.getUuid();
+        Object object = searchObject(uuid);
+        containsResume(uuid, object);
         if (object instanceof Integer) {
-            int index = (int) object;
-            if (index >= 0) {
-                updateResume(index, resume);
-                return;
-            } else {
-                if (index<0 || object == null) {
-                    throw new NotExistStorageException(resume.getUuid());
-                }
-            }
+            updateResume(object, resume);
+        } else {
+            updateResume(uuid, resume);
         }
-        updateResume(resume.getUuid(), resume);
     }
 
     @Override
     public void delete(String uuid) {
         Object object = searchObject(uuid);
+        containsResume(uuid, object);
         if (object instanceof Integer) {
-            int index = (int) object;
-            if (index >= 0) {
-                deleteResume(index);
-                return;
-            } else {
-                if (index<0 || object == null) {
-                    throw new NotExistStorageException(uuid);
-                }
-            }
+            deleteResume(object);
+        } else {
+            deleteResume(uuid);
         }
-        deleteResume(uuid);
     }
 
-    private boolean validResume(Resume resume) {
-        if (containsResume(resume)) {
-            return true;
-        } else {
-            throw new NotExistStorageException(resume.getUuid());
+    private void containsResume(String uuid, Object object) {
+        if (object == null) {
+            throw new NotExistStorageException(uuid);
         }
     }
 
     protected abstract Object searchObject(String uuid);
 
-    protected abstract Resume getResume(int index);
-
-    protected abstract boolean containsResume(Resume resume);
+    protected abstract Resume getResume(Object indexOrKey);
 
     protected abstract void saveResume(Resume resume);
 
-    protected abstract void updateResume(Object index, Resume resume);
+    protected abstract void updateResume(Object indexOrKey, Resume resume);
 
-    protected abstract void deleteResume(Object index);
+    protected abstract void deleteResume(Object indexOrKey);
 }

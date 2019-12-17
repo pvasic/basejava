@@ -14,23 +14,18 @@ public class ListStorage extends AbstractStorage {
     private static final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected Integer searchObject(String uuid) {
-        for (int i = 0; i < storage.size(); i++) {
-            if (uuid.equals(storage.get(i).getUuid())) {
-                return i;
-            }
+    protected Object searchObject(String uuid) {
+        int index = storage.indexOf(new Resume(uuid));
+        if (index < 0) {
+            return null;
+        } else {
+            return index;
         }
-        return null;
     }
 
     @Override
-    protected Resume getResume(int index) {
-        return storage.get(index);
-    }
-
-    @Override
-    protected boolean containsResume(Resume resume) {
-        return storage.contains(resume);
+    protected Resume getResume(Object index) {
+        return storage.get((int) index);
     }
 
     @Override
