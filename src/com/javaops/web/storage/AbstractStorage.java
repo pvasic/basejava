@@ -34,7 +34,7 @@ public abstract class AbstractStorage implements Storage {
         deleteResume(key);
     }
 
-    protected Object getSearchKeyIfExist(String uuid) {
+    private Object getSearchKeyIfExist(String uuid) {
         Object key = searchKey(uuid);
         if (!isKey(key)) {
             throw new NotExistStorageException(uuid);
@@ -42,7 +42,7 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
-    protected Object getSearchKeyIfNotExist(String uuid) {
+    private Object getSearchKeyIfNotExist(String uuid) {
         Object key = searchKey(uuid);
         if (isKey(key)) {
             throw new ExistStorageException(uuid);
