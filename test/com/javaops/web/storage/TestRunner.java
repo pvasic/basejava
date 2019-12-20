@@ -10,7 +10,11 @@ import org.junit.runner.notification.Failure;
  */
 public class TestRunner {
     public static void main(String[] args) {
-        Result result = JUnitCore.runClasses(ArrayStorageTest.class, SortedArrayStorageTest.class);
+        Result result = JUnitCore.runClasses(
+                ArrayStorageTest.class,
+                SortedArrayStorageTest.class,
+                ListStorageTest.class,
+                MapStorageTest.class);
 
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
