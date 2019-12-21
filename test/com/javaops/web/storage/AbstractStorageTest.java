@@ -3,9 +3,10 @@ package com.javaops.web.storage;
 import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
+
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 /**
@@ -65,9 +66,8 @@ public class AbstractStorageTest {
     public void getAll() {
         Resume[] array = storage.getAll();
         assertEquals(3, array.length);
-        assertEquals(RESUME_1, array[0]);
-        assertEquals(RESUME_2, array[1]);
-        assertEquals(RESUME_3, array[2]);
+        Arrays.sort(array);
+        assertArrayEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, array);
     }
 
     @Test(expected = NotExistStorageException.class)
