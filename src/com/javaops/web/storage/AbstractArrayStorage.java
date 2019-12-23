@@ -58,12 +58,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isKey(Object key){
-        return ((Integer) key) > -1;
+    protected boolean isKey(Object searchKey){
+        return ((Integer) searchKey) > -1;
     };
 
     @Override
-    protected abstract Object searchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
     protected abstract void insertElement(Resume resume, int index);
 

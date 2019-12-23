@@ -14,7 +14,7 @@ public class ListStorage extends AbstractStorage {
     private static final List<Resume> storage = new ArrayList<>();
 
     @Override
-    protected Object searchKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
                 return i;
@@ -24,8 +24,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isKey(Object key) {
-        return key != null;
+    protected boolean isKey(Object searchKey) {
+        return searchKey != null;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveResume(Resume resume, Object key) {
+    protected void saveResume(Resume resume, Object searchKey) {
         storage.add(resume);
     }
 

@@ -12,33 +12,33 @@ public class MapStorage extends AbstractStorage {
     private static final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected String searchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected boolean isKey(Object key) {
-        return storage.containsKey((String) key);
+    protected boolean isKey(Object searchKey) {
+        return storage.containsKey((String) searchKey);
     }
 
     @Override
-    protected Resume getResume(Object key) {
-        return storage.get((String) key);
+    protected Resume getResume(Object searchKey) {
+        return storage.get((String) searchKey);
     }
 
     @Override
-    protected void saveResume(Resume resume, Object key) {
+    protected void saveResume(Resume resume, Object searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void updateResume(Object key, Resume resume) {
-        storage.put((String) key, resume);
+    protected void updateResume(Object searchKey, Resume resume) {
+        storage.put((String) searchKey, resume);
     }
 
     @Override
-    protected void deleteResume(Object key) {
-        storage.remove((String) key);
+    protected void deleteResume(Object searchKey) {
+        storage.remove((String) searchKey);
     }
 
     @Override
