@@ -2,13 +2,11 @@ package com.javaops.web.storage;
 
 import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
-import com.javaops.web.exception.OverflowStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +14,7 @@ import static org.junit.Assert.*;
  * @author Vasichkin Pavel
  */
 public abstract class AbstractStorageTest {
-    private final Storage storage;
+    protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -88,20 +86,6 @@ public abstract class AbstractStorageTest {
     @Test(expected = ExistStorageException.class)
     public void saveExist() {
         storage.save(RESUME_1);
-    }
-
-    @Test(expected = OverflowStorageException.class)
-    @Category(CategoryArray.class)
-    public void saveOverflow() {
-        storage.clear();
-        try {
-            for (int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (OverflowStorageException e) {
-            fail("There should be no overflow" + e);
-        }
-        storage.save(new Resume());
     }
 
     @Test
