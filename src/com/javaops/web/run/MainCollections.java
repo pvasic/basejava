@@ -62,7 +62,21 @@ public class MainCollections {
         List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
 
         // UnsupportedOperationException
-        resumes.remove(1);
+        //resumes.remove(1);
         System.out.println(resumes);
+
+        String s3 = "hello";
+        String s1 = "hello";
+        String s2 = "hell";
+
+        List<String> strings = new ArrayList<>();
+        strings.add(s1);
+        strings.add(s2);
+        strings.add(s3);
+        Collections.sort(strings, Comparator.comparing(String::new));
+        for (String s : strings) {
+            System.out.println(s);
+        }
+
     }
 }

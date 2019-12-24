@@ -26,6 +26,18 @@ public class Resume implements Comparable<Resume> {
         return uuid;
     }
 
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -33,24 +45,24 @@ public class Resume implements Comparable<Resume> {
         if (o == null || getClass() != o.getClass())
             return false;
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid) && Objects.equals(fullName, resume.fullName);
+        return Objects.equals(getUuid(), resume.getUuid()) && Objects.equals(getFullName(), resume.getFullName());
     }
 
     @Override
     public int hashCode() {
         int result = 17;
-        result = 37 * result + ((uuid == null) ? 0 : uuid.hashCode());
-        result = 37 * result + ((fullName == null) ? 0 : fullName.hashCode());
+        result = 37 * result + ((getUuid() == null) ? 0 : getUuid().hashCode());
+        result = 37 * result + ((getFullName() == null) ? 0 : getFullName().hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return uuid;
+        return getUuid();
     }
 
     @Override
     public int compareTo(Resume resume) {
-        return fullName.compareTo(resume.fullName);
+        return getFullName().compareTo(resume.getFullName());
     }
 }

@@ -2,26 +2,23 @@ package com.javaops.web.storage;
 
 import com.javaops.web.model.Resume;
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Vasichkin Pavel
  */
-public class MapIteratorStorage extends AbstractStorage {
+public class MapIndexStorage extends AbstractStorage {
     private static final Map<String, Resume> storage = new HashMap<>();
-    private static Iterator<Map.Entry<String, Resume>> iterator;
 
     @Override
-    protected Map.Entry<String, Resume> getSearchKey(String uuid) {
-        iterator = storage.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, Resume> searchKey = iterator.next();
-            if (uuid.equals(searchKey.getKey())) {
-                return searchKey;
+    protected Integer getSearchKey(String uuid) {
+        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
+            if (uuid.equals(entry.getKey())) {
+                return entry.getValue().hashCode();
             }
         }
         return null;
@@ -34,7 +31,12 @@ public class MapIteratorStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        return ((Map.Entry<String, Resume>) searchKey).getValue();
+        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
+            if ((Integer) searchKey == entry.getValue().hashCode()) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -44,12 +46,16 @@ public class MapIteratorStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Object searchKey, Resume resume) {
-        ((Map.Entry<String, Resume>) searchKey).setValue(resume);
+        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
+            if ((Integer) searchKey == entry.getValue().hashCode()) {
+                entry.setValue(resume);
+            }
+        }
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        iterator.remove();
+        storage.values().removeIf(resume -> (Integer) searchKey == resume.hashCode());
     }
 
     @Override
@@ -63,7 +69,7 @@ public class MapIteratorStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage.values().stream().sorted().collect(Collectors.toList());
+    public List<Resume> getAll() {
+        return new ArrayList<>(storage.values());
     }
 }

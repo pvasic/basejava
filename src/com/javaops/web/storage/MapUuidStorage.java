@@ -2,15 +2,13 @@ package com.javaops.web.storage;
 
 import com.javaops.web.model.Resume;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * @author Vasichkin Pavel
  */
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
     private static final Map<String, Resume> storage = new HashMap<>();
 
     @Override
@@ -54,9 +52,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        return storage.values().stream()
-                .sorted()
-                .collect(Collectors.toList());
+    public List<Resume> getAll() {
+        return new ArrayList<>(storage.values());
     }
 }

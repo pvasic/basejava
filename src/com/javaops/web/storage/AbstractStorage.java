@@ -4,6 +4,10 @@ import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Vasichkin Pavel
  * Abstract storage based on collections for Resume
@@ -34,6 +38,13 @@ public abstract class AbstractStorage implements Storage {
         doDelete(searchKey);
     }
 
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> arrayList = getAll();
+        Collections.sort(arrayList);
+        return arrayList;
+    }
+
     private Object getSearchKeyIfExist(String uuid) {
         Object searchKey = getSearchKey(uuid);
         if (!isKey(searchKey)) {
@@ -61,4 +72,6 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void doUpdate(Object searchKey, Resume resume);
 
     protected abstract void doDelete(Object searchKey);
+
+    protected abstract List<Resume> getAll();
 }

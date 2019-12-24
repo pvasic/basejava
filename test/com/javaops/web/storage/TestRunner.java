@@ -14,7 +14,7 @@ public class TestRunner {
                 ArrayStorageTest.class,
                 SortedArrayStorageTest.class,
                 ListStorageTest.class,
-                MapStorageTest.class);
+                MapUuidStorageTest.class);
 
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
