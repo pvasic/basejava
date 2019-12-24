@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
         ArrayStorageTest.class,
         SortedArrayStorageTest.class,
         ListStorageTest.class,
-        MapStorageTest.class
+        MapStorageTest.class,
+        MapIteratorStorageTest.class
 })
 public class AllStorageClassTest {
 }
