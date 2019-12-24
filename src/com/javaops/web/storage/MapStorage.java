@@ -3,7 +3,9 @@ package com.javaops.web.storage;
 import com.javaops.web.model.Resume;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Vasichkin Pavel
@@ -52,7 +54,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        return storage.values().stream().sorted().collect(Collectors.toList());
     }
 }

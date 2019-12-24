@@ -4,6 +4,7 @@ import com.javaops.web.model.Resume;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Vasichkin Pavel
@@ -59,7 +60,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return (storage.toArray(new Resume[0]));
+    public List<Resume> getAllSorted() {
+        return storage.stream().sorted().collect(Collectors.toList());
     }
 }

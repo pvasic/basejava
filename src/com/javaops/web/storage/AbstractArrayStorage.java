@@ -4,6 +4,7 @@ import com.javaops.web.exception.OverflowStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Vasichkin Pavel
@@ -27,8 +28,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    public List<Resume> getAllSorted() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
     @Override

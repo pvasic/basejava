@@ -2,6 +2,8 @@ package com.javaops.web.storage;
 
 import com.javaops.web.model.Resume;
 
+import java.util.List;
+
 public interface Storage {
 
     int size();
@@ -10,7 +12,7 @@ public interface Storage {
 
     Resume get(String uuid);
 
-    Resume[] getAll();
+    List<Resume> getAllSorted();
 
     void save(Resume resume);
 
