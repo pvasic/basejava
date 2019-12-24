@@ -7,7 +7,7 @@ import java.util.UUID;
  * @author Vasichkin Pavel
  * Initial resume class
  */
-public class Resume implements Comparable<Resume>{
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private String uuid;
@@ -39,8 +39,8 @@ public class Resume implements Comparable<Resume>{
     @Override
     public int hashCode() {
         int result = 17;
-        result = 37*result + ((uuid == null) ? 0 : uuid.hashCode());
-        result = 37*result + ((fullName == null) ? 0 : fullName.hashCode());
+        result = 37 * result + ((uuid == null) ? 0 : uuid.hashCode());
+        result = 37 * result + ((fullName == null) ? 0 : fullName.hashCode());
         return result;
     }
 

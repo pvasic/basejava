@@ -4,6 +4,7 @@ import com.javaops.web.exception.OverflowStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,7 +30,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+        List<Resume> arrayList = Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+        Collections.sort(arrayList);
+        return arrayList;
     }
 
     @Override
@@ -42,7 +45,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (size == STORAGE_LIMIT) {
             throw new OverflowStorageException(resume.getUuid());
         }
-        insertElement(resume, - ((Integer) index) -1);
+        insertElement(resume, -((Integer) index) - 1);
         size++;
     }
 
@@ -59,9 +62,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isKey(Object searchKey){
+    protected boolean isKey(Object searchKey) {
         return ((Integer) searchKey) > -1;
-    };
+    }
+
+    ;
 
     @Override
     protected abstract Object getSearchKey(String uuid);
