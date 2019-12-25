@@ -1,6 +1,7 @@
 package com.javaops.web.run;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class MainString {
 
@@ -55,5 +56,7 @@ public class MainString {
         StringBuilder stringBuilder1 = new StringBuilder();
         stringBuilder1.append("hello").append(true).append(7565.56485).append('&');
         System.out.println(stringBuilder1.toString());
+
+        System.out.println(UUID.randomUUID().toString());
     }
 }

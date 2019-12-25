@@ -3,7 +3,6 @@ package com.javaops.web.storage;
 import com.javaops.web.model.Resume;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Vasichkin Pavel
