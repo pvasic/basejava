@@ -3,23 +3,22 @@ package com.javaops.web.storage;
 import com.javaops.web.model.Resume;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Vasichkin Pavel
  */
 public class MapIndexStorage extends AbstractStorage {
-    private static final Map<String, Resume> storage = new HashMap<>();
+    private static final Map<String, Resume> storage = new TreeMap<>();
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if (uuid.equals(entry.getKey())) {
-                return entry.getValue().hashCode();
+        int index = 0;
+        for (String key: storage.keySet()) {
+            if (uuid.equals(key)) {
+                return index;
             }
+            index++;
         }
         return null;
     }
@@ -31,12 +30,9 @@ public class MapIndexStorage extends AbstractStorage {
 
     @Override
     protected Resume doGet(Object searchKey) {
-        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if ((Integer) searchKey == entry.getValue().hashCode()) {
-                return entry.getValue();
-            }
-        }
-        return null;
+        Iterator<Resume> iter = getIterByIndex((Integer) searchKey);
+         Resume resume = iter.next();
+        return resume;
     }
 
     @Override
@@ -46,16 +42,15 @@ public class MapIndexStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Object searchKey, Resume resume) {
-        for (Map.Entry<String, Resume> entry: storage.entrySet()) {
-            if ((Integer) searchKey == entry.getValue().hashCode()) {
-                entry.setValue(resume);
-            }
-        }
+        doDelete(searchKey);
+        doSave(resume, searchKey);
     }
 
     @Override
     protected void doDelete(Object searchKey) {
-        storage.values().removeIf(resume -> (Integer) searchKey == resume.hashCode());
+        Iterator<Resume> iter = getIterByIndex((Integer) searchKey);
+        iter.next();
+        iter.remove();
     }
 
     @Override
@@ -71,5 +66,13 @@ public class MapIndexStorage extends AbstractStorage {
     @Override
     public List<Resume> getAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    private Iterator<Resume> getIterByIndex(int index){
+        Iterator<Resume> iter = storage.values().iterator();
+        for (int i = 0; i < index && iter.hasNext() ; i++) {
+            iter.next();
+        }
+        return iter;
     }
 }
