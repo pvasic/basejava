@@ -4,7 +4,6 @@ import com.javaops.web.exception.OverflowStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,7 +28,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAll() {
+    protected List<Resume> getAll() {
         return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
@@ -63,11 +62,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected boolean isKey(Object searchKey) {
         return ((Integer) searchKey) > -1;
     }
-
-    ;
-
-    @Override
-    protected abstract Object getSearchKey(String uuid);
 
     protected abstract void insertElement(Resume resume, int index);
 

@@ -4,7 +4,6 @@ import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

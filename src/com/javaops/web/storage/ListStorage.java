@@ -3,7 +3,6 @@ package com.javaops.web.storage;
 import com.javaops.web.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -60,7 +59,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAll() {
+    protected List<Resume> getAll() {
         return new ArrayList<>(storage);
     }
 }

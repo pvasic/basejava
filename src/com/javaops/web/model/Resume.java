@@ -18,7 +18,9 @@ public class Resume implements Comparable<Resume> {
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
         this.uuid = uuid;
+        Objects.requireNonNull(fullName, "fullName must not be null");
         this.fullName = fullName;
     }
 
@@ -65,7 +67,7 @@ public class Resume implements Comparable<Resume> {
     public int compareTo(Resume resume) {
         int result = fullName.compareTo(resume.fullName);
         if (result == 0) {
-            return uuid.compareTo(uuid);
+            return uuid.compareTo(resume.uuid);
         } else {
             return result;
         }
