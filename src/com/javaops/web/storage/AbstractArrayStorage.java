@@ -11,7 +11,7 @@ import java.util.List;
  * Abstract storage based on arrays for Resume
  */
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10_000;
     protected static final Resume[] storage = new Resume[STORAGE_LIMIT];
     protected static int size;
@@ -33,34 +33,34 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return storage[((Integer) index)];
+    protected Resume doGet(Integer index) {
+        return storage[(index)];
     }
 
     @Override
-    protected void doSave(Resume resume, Object index) {
+    protected void doSave(Resume resume, Integer index) {
         if (size == STORAGE_LIMIT) {
             throw new OverflowStorageException(resume.getUuid());
         }
-        insertElement(resume, -((Integer) index) - 1);
+        insertElement(resume, -(index) - 1);
         size++;
     }
 
     @Override
-    protected void doUpdate(Object index, Resume resume) {
-        storage[((Integer) index)] = resume;
+    protected void doUpdate(Integer index, Resume resume) {
+        storage[(index)] = resume;
     }
 
     @Override
-    protected void doDelete(Object index) {
-        removeElement(((Integer) index));
+    protected void doDelete(Integer index) {
+        removeElement((index));
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected boolean isKey(Object searchKey) {
-        return ((Integer) searchKey) > -1;
+    protected boolean isKey(Integer searchKey) {
+        return (searchKey) > -1;
     }
 
     protected abstract void insertElement(Resume resume, int index);
