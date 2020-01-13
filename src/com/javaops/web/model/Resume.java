@@ -1,5 +1,6 @@
 package com.javaops.web.model;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -12,6 +13,8 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     private String uuid;
     private String fullName;
+    private Map<ContactType, String> contacts;
+    private Map<SectionType, Section> section;
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
