@@ -3,12 +3,10 @@ package com.javaops.web.storage;
 import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
-
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
