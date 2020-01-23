@@ -98,23 +98,19 @@ public class ResumeTestData {
         EDUCATION_SECTION = new OrganisationSection(EDUCATION_LIST);
 
 
-        contacts.put(ContactType.TEL, TEL);
-        contacts.put(ContactType.SKYPE, SKYPE);
-        contacts.put(ContactType.EMAIL, EMAIL);
-        contacts.put(ContactType.LINKEDLN, LINKEDLN);
-        contacts.put(ContactType.GITHUB, GITHUB);
-        contacts.put(ContactType.STACKOVERFLOW, STACKOVERFLOW);
+        RESUME.getContacts().put(ContactType.TEL, TEL);
+        RESUME.getContacts().put(ContactType.SKYPE, SKYPE);
+        RESUME.getContacts().put(ContactType.EMAIL, EMAIL);
+        RESUME.getContacts().put(ContactType.LINKEDLN, LINKEDLN);
+        RESUME.getContacts().put(ContactType.GITHUB, GITHUB);
+        RESUME.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW);
 
-        sections.put(SectionType.PERSONAL, PERSONAL_SECTION);
-        sections.put(SectionType.OBJECTIVE, OBJECTIVE_SECTION);
-        sections.put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION);
-        sections.put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION);
-        sections.put(SectionType.EXPERIENCE, EXPERIENCE_SECTION);
-        sections.put(SectionType.EDUCATION, EDUCATION_SECTION);
-
-        RESUME.setContacts(contacts);
-        RESUME.setSections(sections);
-
+        RESUME.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION);
+        RESUME.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION);
+        RESUME.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION);
+        RESUME.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION);
+        RESUME.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION);
+        RESUME.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION);
     }
 
     public static void main(String[] args) {
