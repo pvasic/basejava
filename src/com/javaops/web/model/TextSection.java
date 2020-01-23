@@ -4,7 +4,7 @@ package com.javaops.web.model;
  * @author Vasichkin Pavel
  */
 public class TextSection implements Section {
-    private String description;
+    private final String description;
 
     public TextSection(String description) {
         this.description = description;
@@ -14,7 +14,10 @@ public class TextSection implements Section {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+
+
+    @Override
+    public String toString() {
+        return "TextSection{" + "description='" + description + '\'' + '}';
     }
 }

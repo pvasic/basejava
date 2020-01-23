@@ -6,7 +6,7 @@ import java.util.List;
  * @author Vasichkin Pavel
  */
 public class ListSection implements Section {
-    private List<String> skills;
+    private final List<String> skills;
 
     public ListSection(List<String> skills) {
         this.skills = skills;
@@ -16,7 +16,8 @@ public class ListSection implements Section {
         return skills;
     }
 
-    public void setSkills(List<String> skills) {
-        this.skills = skills;
+    @Override
+    public String toString() {
+        return "ListSection{" + "skills=" + skills + '}';
     }
 }
