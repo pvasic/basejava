@@ -10,6 +10,7 @@ public class ListSection implements Section {
     private final List<String> skills;
 
     public ListSection(List<String> skills) {
+        Objects.requireNonNull(skills, "skills must not be null");
         this.skills = skills;
     }
 

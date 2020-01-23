@@ -10,6 +10,7 @@ public class OrganisationSection implements Section {
     private final List<Organisation> organisations;
 
     public OrganisationSection(List<Organisation> organisations) {
+        Objects.requireNonNull(organisations, "organisations must not be null");
         this.organisations = organisations;
     }
 

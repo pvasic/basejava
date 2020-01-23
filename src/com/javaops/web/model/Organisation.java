@@ -7,7 +7,7 @@ import java.util.Objects;
  * @author Vasichkin Pavel
  */
 public class Organisation {
-    private final String CompanyName;
+    private final String companyName;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String positionName;
@@ -15,7 +15,11 @@ public class Organisation {
     private final String url;
 
     public Organisation(String companyName, LocalDate startDate, LocalDate endDate, String positionName, String responsibility, String url) {
-        CompanyName = companyName;
+        Objects.requireNonNull(companyName, "companyName must not be null");
+        Objects.requireNonNull(startDate, "startDate must not be null");
+        Objects.requireNonNull(endDate, "endDate must not be null");
+        Objects.requireNonNull(positionName, "positionName must not be null");
+        this.companyName = companyName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.positionName = positionName;
@@ -24,7 +28,7 @@ public class Organisation {
     }
 
     public String getCompanyName() {
-        return CompanyName;
+        return companyName;
     }
 
     public LocalDate getStartDate() {
@@ -54,16 +58,16 @@ public class Organisation {
         if (o == null || getClass() != o.getClass())
             return false;
         Organisation that = (Organisation) o;
-        return CompanyName.equals(that.CompanyName) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && responsibility.equals(that.responsibility) && url.equals(that.url);
+        return companyName.equals(that.companyName) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility) && Objects.equals(url, that.url);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(CompanyName, startDate, endDate, positionName, responsibility, url);
+        return Objects.hash(companyName, startDate, endDate, positionName, responsibility, url);
     }
 
     @Override
     public String toString() {
-        return "Organisation{" + "CompanyName='" + CompanyName + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + ", url='" + url + '\'' + '}';
+        return "Organisation{" + "CompanyName='" + companyName + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + ", url='" + url + '\'' + '}';
     }
 }
