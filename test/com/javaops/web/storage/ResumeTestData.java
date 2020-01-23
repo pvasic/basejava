@@ -1,13 +1,10 @@
-package com.javaops.web.run;
+package com.javaops.web.storage;
 
 import com.javaops.web.model.*;
 import java.lang.String;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Vasichkin Pavel
@@ -125,9 +122,13 @@ public class ResumeTestData {
 
         List<Organisation> org = ((OrganisationSection) RESUME.getSections().get(SectionType.EDUCATION)).getOrganisations();
         org.remove(0);
-        org.add(new Organisation("NewCompany", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility", "www"));
+        org.add(new Organisation("NewCompany", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility", null));
         RESUME.getSections().put(SectionType.EDUCATION, new OrganisationSection(org));
         System.out.println(RESUME);
+
+        Resume resume1 = new Resume("resume1");
+        System.out.println(RESUME.equals(resume1));
+        System.out.println(RESUME.equals(RESUME));
 
     }
 
