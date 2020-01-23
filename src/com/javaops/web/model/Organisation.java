@@ -1,6 +1,7 @@
 package com.javaops.web.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * @author Vasichkin Pavel
@@ -44,6 +45,21 @@ public class Organisation {
 
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Organisation that = (Organisation) o;
+        return CompanyName.equals(that.CompanyName) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && responsibility.equals(that.responsibility) && url.equals(that.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(CompanyName, startDate, endDate, positionName, responsibility, url);
     }
 
     @Override
