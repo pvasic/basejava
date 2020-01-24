@@ -42,8 +42,8 @@ public class ResumeTestData {
     private static final LocalDate START_DATE_2 = LocalDate.of(2013, 3, 1);
     private static final LocalDate END_DATE_2 = LocalDate.of(2013, 5, 1);
     private static final String POSITION_NAME_2 = "\"Functional Programming Principles in Scala\" by Martin Odersky";
-    private static final String RESPONSIBILITY_2 = "";
-    private static final String URL_2 = "";
+    private static final String RESPONSIBILITY_2 = null;
+    private static final String URL_2 = null;
 
     private static final Organisation EXPERIENCE_ORGANISATION;
     private static final Organisation EDUCATION_ORGANISATION;
@@ -61,16 +61,10 @@ public class ResumeTestData {
     private static final Section EXPERIENCE_SECTION;
     private static final Section EDUCATION_SECTION;
 
-    private static final Map<ContactType, String> contacts;
-    private static final Map<SectionType, Section> sections;
-
     private static final Resume RESUME;
 
     static {
         RESUME = new Resume(UUID, FULL_NAME);
-
-        contacts = new EnumMap<>(ContactType.class);
-        sections = new EnumMap<>(SectionType.class);
 
         PERSONAL_SECTION = new TextSection(DESC_PERSONAL);
         OBJECTIVE_SECTION = new TextSection(DESC_OBJECTIVE);
@@ -114,15 +108,13 @@ public class ResumeTestData {
 
         System.out.println(RESUME);
         RESUME.getContacts().put(ContactType.TEL, "+79261300855");
-        System.out.println(RESUME);
-
         String oldDesc = ((TextSection) RESUME.getSections().get(SectionType.PERSONAL)).getDescription();
         RESUME.getSections().put(SectionType.PERSONAL, new TextSection("Новое описание плюс старое :" + oldDesc));
         System.out.println(RESUME);
 
         List<Organisation> org = ((OrganisationSection) RESUME.getSections().get(SectionType.EDUCATION)).getOrganisations();
         org.remove(0);
-        org.add(new Organisation("NewCompany", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility", null));
+        org.add(new Organisation("NewCompany", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility", "http"));
         RESUME.getSections().put(SectionType.EDUCATION, new OrganisationSection(org));
         System.out.println(RESUME);
 

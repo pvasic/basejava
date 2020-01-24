@@ -9,7 +9,7 @@ public class TextSection implements Section {
     private final String description;
 
     public TextSection(String description) {
-        Objects.requireNonNull(description, "uuid must not be null");
+        Objects.requireNonNull(description, "description must not be null");
         this.description = description;
     }
 
