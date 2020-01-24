@@ -4,12 +4,15 @@ package com.javaops.web.model;
  * @author Vasichkin Pavel
  */
 public enum ContactType {
-    TEL("Телефон"),
+    PHONE("Телефон"),
+    MOBILE("Мобильный"),
+    HOME_PHONE("Домашний тел."),
     SKYPE("Skype"),
     EMAIL("Email"),
     LINKEDLN("LinkedIn"),
     GITHUB("GitHub"),
-    STACKOVERFLOW("Stackoverflow");
+    STACKOVERFLOW("Stackoverflow"),
+    HOME_PAGE("Домашняя страница");
 
     private String title;
 

@@ -6,15 +6,15 @@ import java.util.Objects;
  * @author Vasichkin Pavel
  */
 public class TextSection implements Section {
-    private final String description;
+    private final String content;
 
-    public TextSection(String description) {
-        Objects.requireNonNull(description, "description must not be null");
-        this.description = description;
+    public TextSection(String content) {
+        Objects.requireNonNull(content, "content must not be null");
+        this.content = content;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
     @Override
@@ -24,16 +24,16 @@ public class TextSection implements Section {
         if (o == null || getClass() != o.getClass())
             return false;
         TextSection that = (TextSection) o;
-        return description.equals(that.description);
+        return content.equals(that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(description);
+        return Objects.hash(content);
     }
 
     @Override
     public String toString() {
-        return "TextSection{" + "description='" + description + '\'' + '}';
+        return "TextSection{" + "content='" + content + '\'' + '}';
     }
 }

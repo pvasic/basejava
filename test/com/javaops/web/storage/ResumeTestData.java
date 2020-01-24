@@ -15,7 +15,7 @@ public class ResumeTestData {
     private static final String FULL_NAME = "FullName1";
 
 
-    private static final String TEL = "+7(921) 855-0482";
+    private static final String MOBILE = "+7(921) 855-0482";
     private static final String SKYPE = "grigory.kislin";
     private static final String EMAIL = "gkislin@yandex.ru";
     private static final String LINKEDLN = "https://www.linkedin.com/in/gkislin";
@@ -31,19 +31,19 @@ public class ResumeTestData {
     private static final String DESC_QUALIFICATIONS_2 = "Version control: Subversion, Git, Mercury, ClearCase, Perforce";
     private static final String DESC_QUALIFICATIONS_3 = "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle";
 
-    private static final String COMPANY_NAME_1 = "Java Online Projects";
+    private static final String NAME_1 = "Java Online Projects";
+    private static final String URL_1 = "javaops.ru";
     private static final LocalDate START_DATE_1 = LocalDate.of(2013, 10, 1);
     private static final LocalDate END_DATE_1 = LocalDate.now();
     private static final String POSITION_NAME_1 = "Автор проекта";
     private static final String RESPONSIBILITY_1 = "Создание, организация и проведение Java онлайн проектов и стажировок";
-    private static final String URL_1 = "";
 
-    private static final String COMPANY_NAME_2 = "Coursera";
+    private static final String NAME_2 = "Coursera";
+    private static final String URL_2 = null;
     private static final LocalDate START_DATE_2 = LocalDate.of(2013, 3, 1);
     private static final LocalDate END_DATE_2 = LocalDate.of(2013, 5, 1);
     private static final String POSITION_NAME_2 = "\"Functional Programming Principles in Scala\" by Martin Odersky";
     private static final String RESPONSIBILITY_2 = null;
-    private static final String URL_2 = null;
 
     private static final Organisation EXPERIENCE_ORGANISATION;
     private static final Organisation EDUCATION_ORGANISATION;
@@ -79,8 +79,8 @@ public class ResumeTestData {
         ACHIEVEMENT_SECTION = new ListSection(ACHIEVEMENT_LIST);
         QUALIFICATIONS_SECTION = new ListSection(QUALIFICATIONS_LIST);
 
-        EXPERIENCE_ORGANISATION = new Organisation(COMPANY_NAME_1, START_DATE_1, END_DATE_1, POSITION_NAME_1, RESPONSIBILITY_1, URL_1);
-        EDUCATION_ORGANISATION = new Organisation(COMPANY_NAME_2, START_DATE_2, END_DATE_2, POSITION_NAME_2, RESPONSIBILITY_2, URL_2);
+        EXPERIENCE_ORGANISATION = new Organisation(NAME_1, URL_1, START_DATE_1, END_DATE_1, POSITION_NAME_1, RESPONSIBILITY_1);
+        EDUCATION_ORGANISATION = new Organisation(NAME_2, URL_2, START_DATE_2, END_DATE_2, POSITION_NAME_2, RESPONSIBILITY_2);
         EXPERIENCE_LIST = new ArrayList<>();
         EDUCATION_LIST = new ArrayList<>();
         EXPERIENCE_LIST.add(EXPERIENCE_ORGANISATION);
@@ -89,7 +89,7 @@ public class ResumeTestData {
         EDUCATION_SECTION = new OrganisationSection(EDUCATION_LIST);
 
 
-        RESUME.getContacts().put(ContactType.TEL, TEL);
+        RESUME.getContacts().put(ContactType.MOBILE, MOBILE);
         RESUME.getContacts().put(ContactType.SKYPE, SKYPE);
         RESUME.getContacts().put(ContactType.EMAIL, EMAIL);
         RESUME.getContacts().put(ContactType.LINKEDLN, LINKEDLN);
@@ -107,14 +107,14 @@ public class ResumeTestData {
     public static void main(String[] args) {
 
         System.out.println(RESUME);
-        RESUME.getContacts().put(ContactType.TEL, "+79261300855");
-        String oldDesc = ((TextSection) RESUME.getSections().get(SectionType.PERSONAL)).getDescription();
+        RESUME.getContacts().put(ContactType.MOBILE, "+79261300855");
+        String oldDesc = ((TextSection) RESUME.getSections().get(SectionType.PERSONAL)).getContent();
         RESUME.getSections().put(SectionType.PERSONAL, new TextSection("Новое описание плюс старое :" + oldDesc));
         System.out.println(RESUME);
 
         List<Organisation> org = ((OrganisationSection) RESUME.getSections().get(SectionType.EDUCATION)).getOrganisations();
         org.remove(0);
-        org.add(new Organisation("NewCompany", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility", "http"));
+        org.add(new Organisation("NewCompany", "http", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility"));
         RESUME.getSections().put(SectionType.EDUCATION, new OrganisationSection(org));
         System.out.println(RESUME);
 

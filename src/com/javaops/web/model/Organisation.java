@@ -7,28 +7,26 @@ import java.util.Objects;
  * @author Vasichkin Pavel
  */
 public class Organisation {
-    private final String companyName;
+    private final Link homePage;
+
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String positionName;
     private final String responsibility;
-    private final String url;
 
-    public Organisation(String companyName, LocalDate startDate, LocalDate endDate, String positionName, String responsibility, String url) {
-        Objects.requireNonNull(companyName, "companyName must not be null");
+    public Organisation(String name, String url, LocalDate startDate, LocalDate endDate, String positionName, String responsibility) {
         Objects.requireNonNull(startDate, "startDate must not be null");
         Objects.requireNonNull(endDate, "endDate must not be null");
         Objects.requireNonNull(positionName, "positionName must not be null");
-        this.companyName = companyName;
+        this.homePage = new Link(name, url);
         this.startDate = startDate;
         this.endDate = endDate;
         this.positionName = positionName;
         this.responsibility = responsibility;
-        this.url = url;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public Link getHomePage() {
+        return homePage;
     }
 
     public LocalDate getStartDate() {
@@ -47,10 +45,6 @@ public class Organisation {
         return responsibility;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -58,16 +52,16 @@ public class Organisation {
         if (o == null || getClass() != o.getClass())
             return false;
         Organisation that = (Organisation) o;
-        return companyName.equals(that.companyName) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility) && Objects.equals(url, that.url);
+        return homePage.equals(that.homePage) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(companyName, startDate, endDate, positionName, responsibility, url);
+        return Objects.hash(homePage, startDate, endDate, positionName, responsibility);
     }
 
     @Override
     public String toString() {
-        return "Organisation{" + "CompanyName='" + companyName + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + ", url='" + url + '\'' + '}';
+        return "Organisation{" + "homePage='" + homePage + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
     }
 }

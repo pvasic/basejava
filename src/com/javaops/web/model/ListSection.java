@@ -7,15 +7,15 @@ import java.util.Objects;
  * @author Vasichkin Pavel
  */
 public class ListSection implements Section {
-    private final List<String> skills;
+    private final List<String> items;
 
-    public ListSection(List<String> skills) {
-        Objects.requireNonNull(skills, "skills must not be null");
-        this.skills = skills;
+    public ListSection(List<String> items) {
+        Objects.requireNonNull(items, "items must not be null");
+        this.items = items;
     }
 
-    public List<String> getSkills() {
-        return skills;
+    public List<String> getItems() {
+        return items;
     }
 
     @Override
@@ -25,16 +25,16 @@ public class ListSection implements Section {
         if (o == null || getClass() != o.getClass())
             return false;
         ListSection that = (ListSection) o;
-        return skills.equals(that.skills);
+        return items.equals(that.items);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(skills);
+        return Objects.hash(items);
     }
 
     @Override
     public String toString() {
-        return "ListSection{" + "skills=" + skills + '}';
+        return "ListSection{" + "items=" + items + '}';
     }
 }
