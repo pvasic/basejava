@@ -1,6 +1,7 @@
 package com.javaops.web.model;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -9,40 +10,20 @@ import java.util.Objects;
 public class Organisation {
     private final Link homePage;
 
-    private final LocalDate startDate;
-    private final LocalDate endDate;
-    private final String positionName;
-    private final String responsibility;
+    private final Map<LocalDate, BusyPeriod> periods;
 
-    public Organisation(String name, String url, LocalDate startDate, LocalDate endDate, String positionName, String responsibility) {
-        Objects.requireNonNull(startDate, "startDate must not be null");
-        Objects.requireNonNull(endDate, "endDate must not be null");
-        Objects.requireNonNull(positionName, "positionName must not be null");
+    public Organisation(String name, String url, Map<LocalDate, BusyPeriod> periods) {
+        Objects.requireNonNull(periods, "periods must not be null");
         this.homePage = new Link(name, url);
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.positionName = positionName;
-        this.responsibility = responsibility;
+        this.periods = periods;
     }
 
     public Link getHomePage() {
         return homePage;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public String getPositionName() {
-        return positionName;
-    }
-
-    public String getResponsibility() {
-        return responsibility;
+    public Map<LocalDate, BusyPeriod> getPeriods() {
+        return periods;
     }
 
     @Override
@@ -52,16 +33,16 @@ public class Organisation {
         if (o == null || getClass() != o.getClass())
             return false;
         Organisation that = (Organisation) o;
-        return homePage.equals(that.homePage) && startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility);
+        return Objects.equals(homePage, that.homePage) && periods.equals(that.periods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homePage, startDate, endDate, positionName, responsibility);
+        return Objects.hash(homePage, periods);
     }
 
     @Override
     public String toString() {
-        return "Organisation{" + "homePage='" + homePage + '\'' + ", startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
+        return "Organisation{" + "homePage=" + homePage + ", periods=" + periods + '}';
     }
 }

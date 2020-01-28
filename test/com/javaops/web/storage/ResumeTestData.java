@@ -1,9 +1,13 @@
 package com.javaops.web.storage;
 
 import com.javaops.web.model.*;
+import com.javaops.web.util.DateUtil;
+
 import java.lang.String;
 
 import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.util.*;
 
 /**
@@ -33,26 +37,43 @@ public class ResumeTestData {
 
     private static final String NAME_1 = "Java Online Projects";
     private static final String URL_1 = "javaops.ru";
-    private static final LocalDate START_DATE_1 = LocalDate.of(2013, 10, 1);
+    private static final LocalDate START_DATE_1 = DateUtil.of(2013, Month.JANUARY);
     private static final LocalDate END_DATE_1 = LocalDate.now();
+    private static final Period PERIOD_1 = Period.between(START_DATE_1, END_DATE_1);
     private static final String POSITION_NAME_1 = "Автор проекта";
     private static final String RESPONSIBILITY_1 = "Создание, организация и проведение Java онлайн проектов и стажировок";
 
     private static final String NAME_2 = "Coursera";
     private static final String URL_2 = null;
-    private static final LocalDate START_DATE_2 = LocalDate.of(2013, 3, 1);
-    private static final LocalDate END_DATE_2 = LocalDate.of(2013, 5, 1);
+    private static final LocalDate START_DATE_2 = DateUtil.of(2013, Month.MARCH);
+    private static final LocalDate END_DATE_2 = DateUtil.of(2013, Month.MAY);
+    private static final Period PERIOD_2 = Period.between(START_DATE_2, END_DATE_2);
     private static final String POSITION_NAME_2 = "\"Functional Programming Principles in Scala\" by Martin Odersky";
     private static final String RESPONSIBILITY_2 = null;
+
+    private static final String NAME_3 = "Coursera";
+    private static final String URL_3 = null;
+    private static final LocalDate START_DATE_3 = DateUtil.of(2015, Month.FEBRUARY);
+    private static final LocalDate END_DATE_3 = DateUtil.of(2016, Month.OCTOBER);
+    private static final Period PERIOD_3 = Period.between(START_DATE_3, END_DATE_3);
+    private static final String POSITION_NAME_3 = "\"Java Enterprise\" by Bill";
+    private static final String RESPONSIBILITY_3 = null;
+
+    private static final BusyPeriod BUSY_PERIOD_1;
+    private static final BusyPeriod BUSY_PERIOD_2;
+    private static final BusyPeriod BUSY_PERIOD_3;
+
+    private static final Map<LocalDate, BusyPeriod> PERIODS_1 = new TreeMap<>();
+    private static final Map<LocalDate, BusyPeriod> PERIODS_2 = new TreeMap<>();
 
     private static final Organisation EXPERIENCE_ORGANISATION;
     private static final Organisation EDUCATION_ORGANISATION;
 
-    private static final List<String> ACHIEVEMENT_LIST;
-    private static final List<String> QUALIFICATIONS_LIST;
+    private static final List<String> ACHIEVEMENT_LIST = new ArrayList<>();;
+    private static final List<String> QUALIFICATIONS_LIST = new ArrayList<>();;
 
-    private static final List<Organisation> EXPERIENCE_LIST;
-    private static final List<Organisation> EDUCATION_LIST;
+    private static final List<Organisation> EXPERIENCE_LIST = new ArrayList<>();;
+    private static final List<Organisation> EDUCATION_LIST = new ArrayList<>();;
 
     private static final Section PERSONAL_SECTION;
     private static final Section OBJECTIVE_SECTION;
@@ -69,8 +90,6 @@ public class ResumeTestData {
         PERSONAL_SECTION = new TextSection(DESC_PERSONAL);
         OBJECTIVE_SECTION = new TextSection(DESC_OBJECTIVE);
 
-        ACHIEVEMENT_LIST = new ArrayList<>();
-        QUALIFICATIONS_LIST = new ArrayList<>();
         ACHIEVEMENT_LIST.add(DESC_ACHIEVEMENT_1);
         ACHIEVEMENT_LIST.add(DESC_ACHIEVEMENT_2);
         QUALIFICATIONS_LIST.add(DESC_QUALIFICATIONS_1);
@@ -79,10 +98,17 @@ public class ResumeTestData {
         ACHIEVEMENT_SECTION = new ListSection(ACHIEVEMENT_LIST);
         QUALIFICATIONS_SECTION = new ListSection(QUALIFICATIONS_LIST);
 
-        EXPERIENCE_ORGANISATION = new Organisation(NAME_1, URL_1, START_DATE_1, END_DATE_1, POSITION_NAME_1, RESPONSIBILITY_1);
-        EDUCATION_ORGANISATION = new Organisation(NAME_2, URL_2, START_DATE_2, END_DATE_2, POSITION_NAME_2, RESPONSIBILITY_2);
-        EXPERIENCE_LIST = new ArrayList<>();
-        EDUCATION_LIST = new ArrayList<>();
+        BUSY_PERIOD_1 = new BusyPeriod(PERIOD_1, POSITION_NAME_1, RESPONSIBILITY_1);
+        BUSY_PERIOD_2 = new BusyPeriod(PERIOD_2, POSITION_NAME_2, RESPONSIBILITY_2);
+        BUSY_PERIOD_3 = new BusyPeriod(PERIOD_3, POSITION_NAME_3, RESPONSIBILITY_3);
+
+        PERIODS_1.put(START_DATE_1, BUSY_PERIOD_1);
+        PERIODS_2.put(START_DATE_2, BUSY_PERIOD_2);
+        PERIODS_2.put(START_DATE_3, BUSY_PERIOD_3);
+
+
+        EXPERIENCE_ORGANISATION = new Organisation(NAME_1, URL_1, PERIODS_1);
+        EDUCATION_ORGANISATION = new Organisation(NAME_2, URL_2, PERIODS_2);
         EXPERIENCE_LIST.add(EXPERIENCE_ORGANISATION);
         EDUCATION_LIST.add(EDUCATION_ORGANISATION);
         EXPERIENCE_SECTION = new OrganisationSection(EXPERIENCE_LIST);
@@ -114,7 +140,6 @@ public class ResumeTestData {
 
         List<Organisation> org = ((OrganisationSection) RESUME.getSections(SectionType.EDUCATION).get(SectionType.EDUCATION)).getOrganisations();
         org.remove(0);
-        org.add(new Organisation("NewCompany", "http", LocalDate.of(2000, 1, 1), LocalDate.now(), "NewPosName", "NewResposibility"));
         RESUME.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, new OrganisationSection(org));
         System.out.println(RESUME);
 
