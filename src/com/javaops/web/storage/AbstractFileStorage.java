@@ -74,6 +74,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
 
+
     }
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
