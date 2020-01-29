@@ -38,13 +38,6 @@ public class MainFile {
         }
 
         Path directory = Paths.get("./");
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directory)) {
-            for (Path f: stream) {
-                System.out.println(f.getFileName());
-            }
-        } catch (IOException | DirectoryIteratorException x) {
-            throw new RuntimeException(x);
-        }
 
         Files.walkFileTree(directory, new PrintFiles());
     }
