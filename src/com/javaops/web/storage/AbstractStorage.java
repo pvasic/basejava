@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * @author Vasichkin Pavel
- * Abstract storage based on collections for Resume
+ * Abstract storage based for Resume
  */
 public abstract class AbstractStorage<SK> implements Storage {
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());

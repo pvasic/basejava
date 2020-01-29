@@ -1,17 +1,22 @@
 package com.javaops.web.storage;
 
+import com.javaops.web.exception.NotDeletedFileException;
 import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * @author Vasichkin Pavel
+ * Abstract storage based on files for Resume
  */
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
+    private static final Logger LOG = Logger.getLogger(AbstractFileStorage.class.getName());
     private File directory;
 
     protected AbstractFileStorage(File directory) {
@@ -36,46 +41,83 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected Resume doGet(File searchKey) {
-        return null;
+    protected Resume doGet(File file) {
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            LOG.severe("File " + file.getName() + " cannot be read ");
+            throw new StorageException("IO error", file.getName(), e);
+        }
     }
 
     @Override
     protected void doSave(Resume resume, File file) {
         try {
-            file.createNewFile();
+            if (file.createNewFile()) {
+                LOG.info("File " + file.getName() + " created");
+            }
             doWrite(resume, file);
         } catch (IOException e) {
+            LOG.severe("File " + file.getName() + " cannot be write or was not created");
             throw new StorageException("IO error", file.getName(), e);
         }
-
     }
 
     @Override
-    protected void doUpdate(File searchKey, Resume resume) {
-
+    protected void doUpdate(File file, Resume resume) {
+        try {
+            doWrite(resume, file);
+        } catch (IOException e) {
+            LOG.severe("File " + file.getName() + " cannot be write");
+            throw new StorageException("IO error", file.getName(), e);
+        }
     }
 
     @Override
-    protected void doDelete(File searchKey) {
-
+    protected void doDelete(File file) {
+        if (!file.delete()) {
+            LOG.severe("File " + file.getName() + " not deleted");
+            throw new NotDeletedFileException(file.getName());
+        }
     }
 
     @Override
     protected List<Resume> getAll() {
-        return null;
+        List<Resume> resumes = new ArrayList<>();
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                try {
+                    resumes.add(doRead(file));
+                } catch (IOException e) {
+                    LOG.severe("File " + file.getName() + " cannot be read ");
+                    throw new StorageException("IO error", file.getName(), e);
+                }
+            }
+        }
+        return resumes;
     }
 
     @Override
     public int size() {
+        String[] list = directory.list();
+        if (list != null) {
+            return list.length;
+        }
         return 0;
     }
 
     @Override
     public void clear() {
-
-
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                doDelete(file);
+            }
+        }
     }
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
+
+    protected abstract Resume doRead(File file) throws IOException;
 }
