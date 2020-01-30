@@ -1,7 +1,6 @@
 package com.javaops.web.model;
 
-import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,9 +9,9 @@ import java.util.Objects;
 public class Organisation {
     private final Link homePage;
 
-    private final Map<LocalDate, BusyPeriod> periods;
+    private final List<BusyPeriod> periods;
 
-    public Organisation(String name, String url, Map<LocalDate, BusyPeriod> periods) {
+    public Organisation(String name, String url, List<BusyPeriod> periods) {
         Objects.requireNonNull(periods, "periods must not be null");
         this.homePage = new Link(name, url);
         this.periods = periods;
@@ -22,7 +21,7 @@ public class Organisation {
         return homePage;
     }
 
-    public Map<LocalDate, BusyPeriod> getPeriods() {
+    public List<BusyPeriod> getPeriods() {
         return periods;
     }
 

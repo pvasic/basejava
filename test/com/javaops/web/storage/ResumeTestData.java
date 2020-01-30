@@ -91,8 +91,8 @@ public class ResumeTestData {
     private static final BusyPeriod BUSY_PERIOD_2;
     private static final BusyPeriod BUSY_PERIOD_3;
 
-    private static final Map<LocalDate, BusyPeriod> PERIODS_1 = new TreeMap<>();
-    private static final Map<LocalDate, BusyPeriod> PERIODS_2 = new TreeMap<>();
+    private static final List<BusyPeriod> PERIODS_1 = new ArrayList<>();
+    private static final List<BusyPeriod> PERIODS_2 = new ArrayList<>();
 
     private static final Organisation EXPERIENCE_ORGANISATION_1;
     private static final Organisation EXPERIENCE_ORGANISATION_2;
@@ -104,38 +104,22 @@ public class ResumeTestData {
     private static final Organisation EDUCATION_ORGANISATION_4;
 
     private static final List<String> ACHIEVEMENT_LIST_1 = new ArrayList<>();
-    ;
     private static final List<String> ACHIEVEMENT_LIST_2 = new ArrayList<>();
-    ;
     private static final List<String> ACHIEVEMENT_LIST_3 = new ArrayList<>();
-    ;
     private static final List<String> ACHIEVEMENT_LIST_4 = new ArrayList<>();
-    ;
     private static final List<String> QUALIFICATIONS_LIST_1 = new ArrayList<>();
-    ;
     private static final List<String> QUALIFICATIONS_LIST_2 = new ArrayList<>();
-    ;
     private static final List<String> QUALIFICATIONS_LIST_3 = new ArrayList<>();
-    ;
     private static final List<String> QUALIFICATIONS_LIST_4 = new ArrayList<>();
-    ;
 
     private static final List<Organisation> EXPERIENCE_LIST_1 = new ArrayList<>();
-    ;
     private static final List<Organisation> EXPERIENCE_LIST_2 = new ArrayList<>();
-    ;
     private static final List<Organisation> EXPERIENCE_LIST_3 = new ArrayList<>();
-    ;
     private static final List<Organisation> EXPERIENCE_LIST_4 = new ArrayList<>();
-    ;
     private static final List<Organisation> EDUCATION_LIST_1 = new ArrayList<>();
-    ;
     private static final List<Organisation> EDUCATION_LIST_2 = new ArrayList<>();
-    ;
     private static final List<Organisation> EDUCATION_LIST_3 = new ArrayList<>();
-    ;
     private static final List<Organisation> EDUCATION_LIST_4 = new ArrayList<>();
-    ;
 
     private static final Section PERSONAL_SECTION_1;
     private static final Section PERSONAL_SECTION_2;
@@ -189,13 +173,13 @@ public class ResumeTestData {
         QUALIFICATIONS_SECTION_3 = new ListSection(QUALIFICATIONS_LIST_3);
         QUALIFICATIONS_SECTION_4 = new ListSection(QUALIFICATIONS_LIST_4);
 
-        BUSY_PERIOD_1 = new BusyPeriod(PERIOD_1, POSITION_NAME_1, RESPONSIBILITY_1);
-        BUSY_PERIOD_2 = new BusyPeriod(PERIOD_2, POSITION_NAME_2, RESPONSIBILITY_2);
-        BUSY_PERIOD_3 = new BusyPeriod(PERIOD_3, POSITION_NAME_3, RESPONSIBILITY_3);
+        BUSY_PERIOD_1 = new BusyPeriod(START_DATE_1, PERIOD_1, POSITION_NAME_1, RESPONSIBILITY_1);
+        BUSY_PERIOD_2 = new BusyPeriod(START_DATE_2, PERIOD_2, POSITION_NAME_2, RESPONSIBILITY_2);
+        BUSY_PERIOD_3 = new BusyPeriod(START_DATE_3, PERIOD_3, POSITION_NAME_3, RESPONSIBILITY_3);
 
-        PERIODS_1.put(START_DATE_1, BUSY_PERIOD_1);
-        PERIODS_2.put(START_DATE_2, BUSY_PERIOD_2);
-        PERIODS_2.put(START_DATE_3, BUSY_PERIOD_3);
+        PERIODS_1.add(BUSY_PERIOD_1);
+        PERIODS_2.add(BUSY_PERIOD_2);
+        PERIODS_2.add(BUSY_PERIOD_3);
 
 
         EXPERIENCE_ORGANISATION_1 = new Organisation(NAME_1, URL_1, PERIODS_1);
