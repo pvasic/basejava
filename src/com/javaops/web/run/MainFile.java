@@ -24,17 +24,18 @@ public class MainFile {
 
     }
 
-    private static void hw08PrintFiles(File file) {
+    private static void hw08PrintFiles(File file) throws IOException {
         File[] files = file.listFiles();
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()) {
-                    System.out.printf("Directory %s \n", f.getName());
+                    System.out.printf("Directory %s \n", f.getCanonicalPath());
                     hw08PrintFiles(f);
                 } else {
                     System.out.printf("%50s \n", f.getName());
                 }
             }
+            System.out.println();
         }
     }
 
