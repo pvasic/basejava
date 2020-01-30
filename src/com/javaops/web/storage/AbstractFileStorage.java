@@ -1,6 +1,5 @@
 package com.javaops.web.storage;
 
-import com.javaops.web.exception.NotDeletedFileException;
 import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.Resume;
 
@@ -56,11 +55,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             if (file.createNewFile()) {
                 LOG.info("File " + file.getName() + " created");
             }
-            doWrite(resume, file);
         } catch (IOException e) {
-            LOG.severe("File " + file.getName() + " cannot be write or was not created");
+            LOG.severe("File " + file.getName() + " was not created");
             throw new StorageException("IO error", file.getName(), e);
         }
+        doUpdate(file, resume);
     }
 
     @Override
@@ -77,7 +76,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected void doDelete(File file) {
         if (!file.delete()) {
             LOG.severe("File " + file.getName() + " not deleted");
-            throw new NotDeletedFileException(file.getName());
+            throw new StorageException("File " + file.getName() + " not deleted", file.getName());
         }
     }
 
@@ -85,14 +84,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     protected List<Resume> getAll() {
         List<Resume> resumes = new ArrayList<>();
         File[] files = directory.listFiles();
-        if (files != null) {
+        if (listFileNotNull(files)) {
             for (File file : files) {
-                try {
-                    resumes.add(doRead(file));
-                } catch (IOException e) {
-                    LOG.severe("File " + file.getName() + " cannot be read ");
-                    throw new StorageException("IO error", file.getName(), e);
-                }
+                resumes.add(doGet(file));
             }
         }
         return resumes;
@@ -100,9 +94,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        String[] list = directory.list();
-        if (list != null) {
-            return list.length;
+        File[] files = directory.listFiles();
+        if (listFileNotNull(files)) {
+            return files.length;
         }
         return 0;
     }
@@ -110,10 +104,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     public void clear() {
         File[] files = directory.listFiles();
-        if (files != null) {
+        if (listFileNotNull(files)) {
             for (File file : files) {
                 doDelete(file);
             }
+        }
+    }
+
+    private boolean listFileNotNull(File[] files) {
+        if (files != null) {
+            return true;
+        } else {
+            LOG.info("Directory " + directory.getName() + " is empty");
+            throw new StorageException("Directory " + directory.getName() + " is empty", directory.getName());
         }
     }
 

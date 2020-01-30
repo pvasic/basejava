@@ -13,6 +13,32 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  */
 public class MainFile {
     public static void main(String[] args) throws IOException {
+
+        // Used interface FileVisitor for walkFileTree
+        //Path directory = Paths.get("./");
+        //Files.walkFileTree(directory, new PrintFiles());
+
+        //HW08
+        File file = new File("./");
+        hw08PrintFiles(file);
+
+    }
+
+    private static void hw08PrintFiles(File file) {
+        File[] files = file.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
+                    System.out.printf("Directory %s \n", f.getName());
+                    hw08PrintFiles(f);
+                } else {
+                    System.out.printf("%50s \n", f.getName());
+                }
+            }
+        }
+    }
+
+    public static void examplePrint() {
         String filePath = ".//.gitignore";
 
         File file = new File(filePath);
@@ -36,14 +62,9 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        Path directory = Paths.get("./");
-
-        Files.walkFileTree(directory, new PrintFiles());
     }
 
-    public static class PrintFiles
-            extends SimpleFileVisitor<Path> {
+    public static class PrintFiles extends SimpleFileVisitor<Path> {
 
         // Print information about
         // each type of file.
@@ -62,8 +83,7 @@ public class MainFile {
 
         // Print each directory visited.
         @Override
-        public FileVisitResult postVisitDirectory(Path dir,
-                                                  IOException exc) {
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
             System.out.format("Directory: %s%n", dir);
             return CONTINUE;
         }
@@ -74,8 +94,7 @@ public class MainFile {
         // and an error occurs, an IOException
         // is thrown.
         @Override
-        public FileVisitResult visitFileFailed(Path file,
-                                               IOException exc) {
+        public FileVisitResult visitFileFailed(Path file, IOException exc) {
             System.err.println(exc);
             return CONTINUE;
         }
