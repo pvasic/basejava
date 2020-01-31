@@ -3,12 +3,10 @@ package com.javaops.web.storage;
 import com.javaops.web.model.*;
 import com.javaops.web.util.DateUtil;
 
-import java.lang.String;
-
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Vasichkin Pavel
@@ -67,7 +65,6 @@ public class ResumeTestData {
     private static final String URL_1 = "javaops.ru";
     private static final LocalDate START_DATE_1 = DateUtil.of(2013, Month.JANUARY);
     private static final LocalDate END_DATE_1 = LocalDate.now();
-    private static final Period PERIOD_1 = Period.between(START_DATE_1, END_DATE_1);
     private static final String POSITION_NAME_1 = "Автор проекта";
     private static final String RESPONSIBILITY_1 = "Создание, организация и проведение Java онлайн проектов и стажировок";
 
@@ -75,7 +72,6 @@ public class ResumeTestData {
     private static final String URL_2 = null;
     private static final LocalDate START_DATE_2 = DateUtil.of(2013, Month.MARCH);
     private static final LocalDate END_DATE_2 = DateUtil.of(2013, Month.MAY);
-    private static final Period PERIOD_2 = Period.between(START_DATE_2, END_DATE_2);
     private static final String POSITION_NAME_2 = "\"Functional Programming Principles in Scala\" by Martin Odersky";
     private static final String RESPONSIBILITY_2 = null;
 
@@ -83,7 +79,6 @@ public class ResumeTestData {
     private static final String URL_3 = null;
     private static final LocalDate START_DATE_3 = DateUtil.of(2015, Month.FEBRUARY);
     private static final LocalDate END_DATE_3 = DateUtil.of(2016, Month.OCTOBER);
-    private static final Period PERIOD_3 = Period.between(START_DATE_3, END_DATE_3);
     private static final String POSITION_NAME_3 = "\"Java Enterprise\" by Bill";
     private static final String RESPONSIBILITY_3 = null;
 
@@ -173,9 +168,9 @@ public class ResumeTestData {
         QUALIFICATIONS_SECTION_3 = new ListSection(QUALIFICATIONS_LIST_3);
         QUALIFICATIONS_SECTION_4 = new ListSection(QUALIFICATIONS_LIST_4);
 
-        BUSY_PERIOD_1 = new BusyPeriod(START_DATE_1, PERIOD_1, POSITION_NAME_1, RESPONSIBILITY_1);
-        BUSY_PERIOD_2 = new BusyPeriod(START_DATE_2, PERIOD_2, POSITION_NAME_2, RESPONSIBILITY_2);
-        BUSY_PERIOD_3 = new BusyPeriod(START_DATE_3, PERIOD_3, POSITION_NAME_3, RESPONSIBILITY_3);
+        BUSY_PERIOD_1 = new BusyPeriod(START_DATE_1, END_DATE_1, POSITION_NAME_1, RESPONSIBILITY_1);
+        BUSY_PERIOD_2 = new BusyPeriod(START_DATE_2, END_DATE_2, POSITION_NAME_2, RESPONSIBILITY_2);
+        BUSY_PERIOD_3 = new BusyPeriod(START_DATE_3, END_DATE_3, POSITION_NAME_3, RESPONSIBILITY_3);
 
         PERIODS_1.add(BUSY_PERIOD_1);
         PERIODS_2.add(BUSY_PERIOD_2);

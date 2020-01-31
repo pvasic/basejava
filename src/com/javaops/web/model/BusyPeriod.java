@@ -1,7 +1,6 @@
 package com.javaops.web.model;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Objects;
 
 /**
@@ -9,16 +8,16 @@ import java.util.Objects;
  */
 public class BusyPeriod {
     private final LocalDate startDate;
-    private final Period period;
+    private final LocalDate endDate;
     private final String positionName;
     private final String responsibility;
 
-    public BusyPeriod(LocalDate startDate, Period period, String positionName, String responsibility) {
+    public BusyPeriod(LocalDate startDate, LocalDate endDate, String positionName, String responsibility) {
         Objects.requireNonNull(startDate, "startDate must not be null");
-        Objects.requireNonNull(period, "period must not be null");
+        Objects.requireNonNull(endDate, "endDate must not be null");
         Objects.requireNonNull(positionName, "positionName must not be null");
         this.startDate = startDate;
-        this.period = period;
+        this.endDate = endDate;
         this.positionName = positionName;
         this.responsibility = responsibility;
     }
@@ -27,8 +26,8 @@ public class BusyPeriod {
         return startDate;
     }
 
-    public Period getPeriod() {
-        return period;
+    public LocalDate getEndDate() {
+        return endDate;
     }
 
     public String getPositionName() {
@@ -46,16 +45,16 @@ public class BusyPeriod {
         if (o == null || getClass() != o.getClass())
             return false;
         BusyPeriod that = (BusyPeriod) o;
-        return startDate.equals(that.startDate) && period.equals(that.period) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility);
+        return startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startDate, period, positionName, responsibility);
+        return Objects.hash(startDate, endDate, positionName, responsibility);
     }
 
     @Override
     public String toString() {
-        return "BusyPeriod{" + "startDate=" + startDate + "period=" + period + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
+        return "BusyPeriod{" + "startDate=" + startDate + "endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
     }
 }
