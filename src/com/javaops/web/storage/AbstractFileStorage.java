@@ -83,9 +83,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> getAll() {
         List<Resume> resumes = new ArrayList<>();
-            for (File file : listFileNotNull()) {
-                resumes.add(doGet(file));
-            }
+        for (File file : listFileNotNull()) {
+            resumes.add(doGet(file));
+        }
         return resumes;
     }
 
@@ -96,9 +96,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-            for (File file : listFileNotNull()) {
-                doDelete(file);
-            }
+        for (File file : listFileNotNull()) {
+            doDelete(file);
+        }
     }
 
     private File[] listFileNotNull() {
