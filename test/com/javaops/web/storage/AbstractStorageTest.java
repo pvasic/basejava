@@ -6,6 +6,7 @@ import com.javaops.web.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -14,6 +15,7 @@ import static org.junit.Assert.*;
  * @author Vasichkin Pavel
  */
 public abstract class AbstractStorageTest {
+    protected final static File STORAGE_DIR = new File("/home/pavel/basejava/storage");
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
@@ -95,7 +97,7 @@ public abstract class AbstractStorageTest {
     public void update() {
         Resume expected = new Resume(UUID_2, "FullNameUpdate");
         storage.update(expected);
-        assertSame(expected, storage.get(UUID_2));
+        assertEquals(expected, storage.get(UUID_2));
     }
 
     @Test(expected = NotExistStorageException.class)

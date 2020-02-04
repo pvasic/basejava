@@ -1,11 +1,14 @@
 package com.javaops.web.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * @author Vasichkin Pavel
  */
-public class Link {
+public class Link implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final String name;
     private final String url;
 

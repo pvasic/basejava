@@ -1,5 +1,6 @@
 package com.javaops.web.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -13,7 +14,9 @@ import static com.javaops.web.util.DateUtil.of;
 /**
  * @author Vasichkin Pavel
  */
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private final Link homePage;
     private List<BusyPeriod> periods = new ArrayList<>();
 
@@ -58,7 +61,9 @@ public class Organization {
     /**
      * @author Vasichkin Pavel
      */
-    public static class BusyPeriod {
+    public static class BusyPeriod implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String positionName;

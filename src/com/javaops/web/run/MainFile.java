@@ -19,7 +19,7 @@ public class MainFile {
         //Files.walkFileTree(directory, new PrintFiles());
 
         //HW08
-        File file = new File("./");
+        File file = new File("./src");
         hw08PrintFiles(file);
 
     }
@@ -30,7 +30,7 @@ public class MainFile {
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()) {
-                    System.out.printf("Directory: %-50s \n", f.getCanonicalPath());
+                    System.out.printf("Directory: %-50s \n", f.getName());
                     hw08PrintFiles(f);
                 } else {
                     System.out.printf("%11s  %s \n","File: ", f.getName());
