@@ -25,11 +25,10 @@ public class MainFile {
     }
 
     private static void hw09PrintFiles(File file) throws IOException {
-        String indent = "\t";
+        String indent = "";
         indentedPrintingFiles(file, indent);
     }
 
-    //TODO: make pretty output
     private static void indentedPrintingFiles(File file, String indent) throws IOException {
         String indentPlus = indent + "\t";
         File[] files = file.listFiles();
