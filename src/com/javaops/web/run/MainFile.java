@@ -22,6 +22,7 @@ public class MainFile {
         File file = new File("./src");
         hw09PrintFiles(file);
 
+        printPath();
     }
 
     private static void hw09PrintFiles(File file) throws IOException {
@@ -42,6 +43,16 @@ public class MainFile {
                 }
             }
         }
+    }
+
+    public static void printPath() {
+        Path directory = Paths.get("/home/pavel/basejava/storage");
+        System.out.println(directory.toString());
+        directory = Paths.get("/home/pavel/basejava/storage" + "/" + "uuid4");
+        System.out.println(directory.toString());
+        System.out.println(directory.isAbsolute());
+        System.out.println(directory.toAbsolutePath().getFileName());
+        System.out.println(Files.exists(directory));
     }
 
     public static void examplePrint() {
