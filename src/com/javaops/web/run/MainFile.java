@@ -14,26 +14,32 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 public class MainFile {
     public static void main(String[] args) throws IOException {
 
-        // Used interface FileVisitor for walkFileTree
+        // The used interface FileVisitor for walkFileTree
         //Path directory = Paths.get("./");
         //Files.walkFileTree(directory, new PrintFiles());
 
-        //HW08
+        //HW09
         File file = new File("./src");
-        hw08PrintFiles(file);
+        hw09PrintFiles(file);
 
     }
 
+    private static void hw09PrintFiles(File file) throws IOException {
+        String indent = "\t";
+        indentedPrintingFiles(file, indent);
+    }
+
     //TODO: make pretty output
-    private static void hw08PrintFiles(File file) throws IOException {
+    private static void indentedPrintingFiles(File file, String indent) throws IOException {
+        String indentPlus = indent + "\t";
         File[] files = file.listFiles();
         if (files != null) {
             for (File f : files) {
                 if (f.isDirectory()) {
-                    System.out.printf("Directory: %-50s \n", f.getName());
-                    hw08PrintFiles(f);
+                    System.out.printf("%1$s Directory: %2$s\n", indent, f.getName());
+                    indentedPrintingFiles(f, indentPlus);
                 } else {
-                    System.out.printf("%11s  %s \n","File: ", f.getName());
+                    System.out.printf("%1$s File: %2$s \n",indent, f.getName());
                 }
             }
         }
