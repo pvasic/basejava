@@ -1,14 +1,13 @@
 package com.javaops.web.storage;
 
-import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.Resume;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -31,7 +30,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
     }
-
+    /*
     @Override
     protected boolean isExist(Path path) {
         return path.exists();
@@ -115,5 +114,5 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
             LOG.info("Directory " + directory.getName() + " is empty");
             throw new StorageException("Directory " + directory.getName() + " is empty", directory.getName());
         }
-    }
+    }*/
 }

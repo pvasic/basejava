@@ -177,14 +177,14 @@ public class ResumeTestData {
         PERIODS_2.add(BUSY_PERIOD_3);
 
 
-        EXPERIENCE_ORGANIZATION_1 = new Organization(new Link(NAME_1, URL_1), PERIODS_1);
-        EXPERIENCE_ORGANIZATION_2 = new Organization(new Link(NAME_1, URL_1), PERIODS_1);
-        EXPERIENCE_ORGANIZATION_3 = new Organization(new Link(NAME_1, URL_1), PERIODS_1);
-        EXPERIENCE_ORGANIZATION_4 = new Organization(new Link(NAME_1, URL_1), PERIODS_1);
-        EDUCATION_ORGANIZATION_1 = new Organization(new Link(NAME_1, URL_1), PERIODS_2);
-        EDUCATION_ORGANIZATION_2 = new Organization(new Link(NAME_1, URL_1), PERIODS_2);
-        EDUCATION_ORGANIZATION_3 = new Organization(new Link(NAME_1, URL_1), PERIODS_2);
-        EDUCATION_ORGANIZATION_4 = new Organization(new Link(NAME_1, URL_1), PERIODS_2);
+        EXPERIENCE_ORGANIZATION_1 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
+        EXPERIENCE_ORGANIZATION_2 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
+        EXPERIENCE_ORGANIZATION_3 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
+        EXPERIENCE_ORGANIZATION_4 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
+        EDUCATION_ORGANIZATION_1 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
+        EDUCATION_ORGANIZATION_2 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
+        EDUCATION_ORGANIZATION_3 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
+        EDUCATION_ORGANIZATION_4 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
         EXPERIENCE_LIST_1.add(EXPERIENCE_ORGANIZATION_1);
         EXPERIENCE_LIST_2.add(EXPERIENCE_ORGANIZATION_2);
         EXPERIENCE_LIST_2.add(EXPERIENCE_ORGANIZATION_3);
