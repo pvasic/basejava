@@ -8,8 +8,8 @@ import java.io.*;
 /**
  * @author Vasichkin Pavel
  */
-public class ObjectStreamStorage extends AbstractFileStorage {
-    protected ObjectStreamStorage(File directory) {
+public class ObjectStreamFileStorage extends AbstractFileStorage {
+    protected ObjectStreamFileStorage(File directory) {
         super(directory);
     }
 

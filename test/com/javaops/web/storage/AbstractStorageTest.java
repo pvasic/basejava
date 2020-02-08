@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
  * @author Vasichkin Pavel
  */
 public abstract class AbstractStorageTest {
+    protected final static String DIR_NAME = "/home/pavel/basejava/storage";
     protected final static File STORAGE_DIR = new File("/home/pavel/basejava/storage");
     protected final Storage storage;
 
