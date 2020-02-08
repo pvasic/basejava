@@ -14,7 +14,7 @@ public class ObjectStreamStorage extends AbstractFileStorage {
     }
 
     @Override
-    protected void doWrite(Resume r, OutputStream os) throws IOException {
+    public void doWrite(Resume r, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(r);
         }
@@ -22,9 +22,11 @@ public class ObjectStreamStorage extends AbstractFileStorage {
     }
 
     @Override
-    protected Resume doRead(InputStream is) throws IOException {
+    public Resume doRead(InputStream is) throws IOException {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
+
+            // For example. On the client side, a class that deserializes an object may not be found.
         } catch (ClassNotFoundException e) {
             throw new StorageException("Error read resume", null, e);
         }

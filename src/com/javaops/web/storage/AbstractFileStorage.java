@@ -13,13 +13,13 @@ import java.util.logging.Logger;
  * @author Vasichkin Pavel
  * Abstract storage based on files for Resume
  */
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public abstract class AbstractFileStorage extends AbstractStorage<File> implements ReadWriteStrategy {
     private static final Logger LOG = Logger.getLogger(AbstractFileStorage.class.getName());
     private File directory;
 
-    protected abstract void doWrite(Resume r,  OutputStream os) throws IOException;
+    public abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
+    public abstract Resume doRead(InputStream is) throws IOException;
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "directory must not be null");

@@ -16,13 +16,13 @@ import java.util.logging.Logger;
  * @author Vasichkin Pavel
  * Abstract storage based on files for Resume
  */
-public abstract class AbstractPathStorage extends AbstractStorage<Path> {
+public abstract class AbstractPathStorage extends AbstractStorage<Path> implements ReadWriteStrategy {
     private static final Logger LOG = Logger.getLogger(AbstractPathStorage.class.getName());
     private Path directory;
 
-    protected abstract void doWrite(Resume r, OutputStream os) throws IOException;
+    public abstract void doWrite(Resume r, OutputStream os) throws IOException;
 
-    protected abstract Resume doRead(InputStream is) throws IOException;
+    public abstract Resume doRead(InputStream is) throws IOException;
 
     protected AbstractPathStorage(String dir) {
         directory = Paths.get(dir);
