@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.stream.Collectors;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -19,28 +20,23 @@ public class MainFile {
         //Files.walkFileTree(directory, new PrintFiles());
 
         //HW09
-        File file = new File("./src");
-        hw09PrintFiles(file);
-
-        printPath();
+        Path path = Paths.get("./src");
+        hw09PrintFiles(path);
     }
 
-    private static void hw09PrintFiles(File file) throws IOException {
+    private static void hw09PrintFiles(Path path) throws IOException {
         String indent = "";
-        indentedPrintingFiles(file, indent);
+        indentedPrintingFiles(path, indent);
     }
 
-    private static void indentedPrintingFiles(File file, String indent) throws IOException {
+    private static void indentedPrintingFiles(Path path, String indent) throws IOException {
         String indentPlus = indent + "\t";
-        File[] files = file.listFiles();
-        if (files != null) {
-            for (File f : files) {
-                if (f.isDirectory()) {
-                    System.out.printf("%1$s Directory: %2$s\n", indent, f.getName());
-                    indentedPrintingFiles(f, indentPlus);
-                } else {
-                    System.out.printf("%1$s File: %2$s \n",indent, f.getName());
-                }
+        for (Path p : Files.list(path).collect(Collectors.toList())) {
+            if (Files.isDirectory(p)) {
+                System.out.printf("%1$s Directory: %2$s\n", indent, p.getFileName());
+                indentedPrintingFiles(p, indentPlus);
+            } else {
+                System.out.printf("%1$s File: %2$s \n", indent, p.getFileName());
             }
         }
     }
