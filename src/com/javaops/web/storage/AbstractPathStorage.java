@@ -7,10 +7,11 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Vasichkin Pavel
@@ -39,13 +40,13 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
 
     @Override
     protected Path getSearchKey(String uuid) {
-        return Paths.get(directory.toString() + "/" + uuid);
+        return directory.resolve(uuid);
     }
 
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(path.toFile())));
+            return doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             LOG.severe("Path " + path + " cannot be read ");
             throw new StorageException("IO error", path.toString(), e);
@@ -68,7 +69,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(path.toFile())));
+            doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             LOG.severe("Path " + path.toString() + " cannot be write");
             throw new StorageException("IO error", path.toString(), e);
@@ -87,16 +88,14 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
 
     @Override
     protected List<Resume> getAll() {
-        List<Resume> resumes = new ArrayList<>();
-        for (Path path : getAllFiles()) {
-            resumes.add(doGet(path));
-        }
-        return resumes;
+        return getAllFiles().
+                map(this::doGet).
+                collect(Collectors.toList());
     }
 
     @Override
     public int size() {
-        return getAllFiles().size();
+        return (int) getAllFiles().count();
     }
 
     @Override
@@ -109,11 +108,9 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
         }
     }
 
-    private List<Path> getAllFiles() {
-        List<Path> paths = new ArrayList<>();
+    private Stream<Path> getAllFiles() {
         try {
-            Files.list(directory).forEach(paths::add);
-            return paths;
+            return Files.list(directory);
         } catch (IOException e) {
             LOG.severe("Get path error in directory" + directory.toString());
             throw new StorageException("Get path error", null, e);
