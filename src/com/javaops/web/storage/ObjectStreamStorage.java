@@ -8,10 +8,7 @@ import java.io.*;
 /**
  * @author Vasichkin Pavel
  */
-public class ObjectStreamFileStorage extends AbstractFileStorage {
-    protected ObjectStreamFileStorage(File directory) {
-        super(directory);
-    }
+public class ObjectStreamStorage implements ReadWriteStrategy {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {

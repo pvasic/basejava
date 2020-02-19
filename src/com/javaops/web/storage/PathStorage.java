@@ -15,22 +15,25 @@ import java.util.stream.Stream;
 
 /**
  * @author Vasichkin Pavel
- * Abstract storage based on files for Resume
+ * Storage based on files for Resume
  */
-public abstract class AbstractPathStorage extends AbstractStorage<Path> implements ReadWriteStrategy {
-    private static final Logger LOG = Logger.getLogger(AbstractPathStorage.class.getName());
+public class PathStorage extends AbstractStorage<Path> {
+    private static final Logger LOG = Logger.getLogger(PathStorage.class.getName());
     private Path directory;
+    private ReadWriteStrategy readWriteStrategy;
 
-    public abstract void doWrite(Resume r, OutputStream os) throws IOException;
-
-    public abstract Resume doRead(InputStream is) throws IOException;
-
-    protected AbstractPathStorage(String dir) {
+    protected PathStorage(String dir, ReadWriteStrategy readWriteStrategy) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
+        Objects.requireNonNull(readWriteStrategy, "readWriteStrategy must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
+        this.readWriteStrategy = readWriteStrategy;
+    }
+
+    public void setReadWriteStrategy(ReadWriteStrategy readWriteStrategy) {
+        this.readWriteStrategy = readWriteStrategy;
     }
 
     @Override
@@ -46,7 +49,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
     @Override
     protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return readWriteStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             LOG.severe("Path " + path + " cannot be read ");
             throw new StorageException("IO error", path.toString(), e);
@@ -69,7 +72,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            readWriteStrategy.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             LOG.severe("Path " + path.toString() + " cannot be write");
             throw new StorageException("IO error", path.toString(), e);
@@ -116,4 +119,6 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> implemen
             throw new StorageException("Get path error", null, e);
         }
     }
+
+
 }

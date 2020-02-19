@@ -11,18 +11,16 @@ import java.util.logging.Logger;
 
 /**
  * @author Vasichkin Pavel
- * Abstract storage based on files for Resume
+ * Storage based on files for Resume
  */
-public abstract class AbstractFileStorage extends AbstractStorage<File> implements ReadWriteStrategy {
-    private static final Logger LOG = Logger.getLogger(AbstractFileStorage.class.getName());
+public class FileStorage extends AbstractStorage<File> {
+    private static final Logger LOG = Logger.getLogger(FileStorage.class.getName());
     private File directory;
+    private ReadWriteStrategy readWriteStrategy;
 
-    public abstract void doWrite(Resume r, OutputStream os) throws IOException;
-
-    public abstract Resume doRead(InputStream is) throws IOException;
-
-    protected AbstractFileStorage(File directory) {
+    protected FileStorage(File directory, ReadWriteStrategy readWriteStrategy) {
         Objects.requireNonNull(directory, "directory must not be null");
+        Objects.requireNonNull(readWriteStrategy, "readWriteStrategy must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
         }
@@ -30,6 +28,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> implemen
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
+        this.readWriteStrategy = readWriteStrategy;
+    }
+
+    public void setReadWriteStrategy(ReadWriteStrategy readWriteStrategy) {
+        this.readWriteStrategy = readWriteStrategy;
     }
 
     @Override
@@ -45,7 +48,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> implemen
     @Override
     protected Resume doGet(File file) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file)));
+            return readWriteStrategy.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
             LOG.severe("File " + file.getName() + " cannot be read ");
             throw new StorageException("IO error", file.getName(), e);
@@ -68,7 +71,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> implemen
     @Override
     protected void doUpdate(File file, Resume resume) {
         try {
-            doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
+            readWriteStrategy.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
             LOG.severe("File " + file.getName() + " cannot be write");
             throw new StorageException("IO error", file.getName(), e);
