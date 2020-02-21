@@ -31,10 +31,6 @@ public class FileStorage extends AbstractStorage<File> {
         this.readWriteStrategy = readWriteStrategy;
     }
 
-    public void setReadWriteStrategy(ReadWriteStrategy readWriteStrategy) {
-        this.readWriteStrategy = readWriteStrategy;
-    }
-
     @Override
     protected boolean isExist(File file) {
         return file.exists();

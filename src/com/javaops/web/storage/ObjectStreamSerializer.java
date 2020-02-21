@@ -8,7 +8,7 @@ import java.io.*;
 /**
  * @author Vasichkin Pavel
  */
-public class ObjectStreamStorage implements ReadWriteStrategy {
+public class ObjectStreamSerializer implements ReadWriteStrategy {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
