@@ -1,4 +1,4 @@
-package com.javaops.web.storage;
+package com.javaops.web.storage.serializer;
 
 import com.javaops.web.model.Resume;
 
@@ -9,7 +9,7 @@ import java.io.OutputStream;
 /**
  * @author Vasichkin Pavel
  */
-public interface ReadWriteStrategy {
+public interface StreamSerializer {
 
     void doWrite(Resume r, OutputStream os) throws IOException;
 

@@ -7,15 +7,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Vasichkin Pavel
  */
 public abstract class AbstractStorageTest {
-    protected final static String DIR_NAME = "/home/pavel/basejava/storage";
+    protected final static File STORAGE_DIR = new File("/home/pavel/basejava/storage");
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";

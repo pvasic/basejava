@@ -2,6 +2,7 @@ package com.javaops.web.storage;
 
 import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.Resume;
+import com.javaops.web.storage.serializer.StreamSerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -20,20 +21,20 @@ import java.util.stream.Stream;
 public class PathStorage extends AbstractStorage<Path> {
     private static final Logger LOG = Logger.getLogger(PathStorage.class.getName());
     private Path directory;
-    private ReadWriteStrategy readWriteStrategy;
+    private StreamSerializer streamSerializer;
 
-    protected PathStorage(String dir, ReadWriteStrategy readWriteStrategy) {
+    protected PathStorage(String dir, StreamSerializer streamSerializer) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
-        Objects.requireNonNull(readWriteStrategy, "readWriteStrategy must not be null");
+        Objects.requireNonNull(streamSerializer, "readWriteStrategy must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
-        this.readWriteStrategy = readWriteStrategy;
+        this.streamSerializer = streamSerializer;
     }
 
-    public void setReadWriteStrategy(ReadWriteStrategy readWriteStrategy) {
-        this.readWriteStrategy = readWriteStrategy;
+    public void setStreamSerializer(StreamSerializer streamSerializer) {
+        this.streamSerializer = streamSerializer;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected Resume doGet(Path path) {
         try {
-            return readWriteStrategy.doRead(new BufferedInputStream(Files.newInputStream(path)));
+            return streamSerializer.doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
             LOG.severe("Path " + getFileName(path) + " cannot be read ");
             throw new StorageException("IO error", getFileName(path), e);
@@ -72,7 +73,7 @@ public class PathStorage extends AbstractStorage<Path> {
     @Override
     protected void doUpdate(Path path, Resume resume) {
         try {
-            readWriteStrategy.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
+            streamSerializer.doWrite(resume, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             LOG.severe("Path " + getFileName(path)+ " cannot be write");
             throw new StorageException("IO error", getFileName(path), e);

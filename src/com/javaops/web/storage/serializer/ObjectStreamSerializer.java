@@ -1,4 +1,4 @@
-package com.javaops.web.storage;
+package com.javaops.web.storage.serializer;
 
 import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.Resume;
@@ -8,7 +8,7 @@ import java.io.*;
 /**
  * @author Vasichkin Pavel
  */
-public class ObjectStreamSerializer implements ReadWriteStrategy {
+public class ObjectStreamSerializer implements StreamSerializer {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {

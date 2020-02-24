@@ -21,7 +21,7 @@ public class MainFile {
 
         //HW09
         Path path = Paths.get("./src");
-        hw09PrintFiles(path);
+        indentedPrintingFiles(path, "");
     }
 
     private static void hw09PrintFiles(Path path) throws IOException {
@@ -30,11 +30,10 @@ public class MainFile {
     }
 
     private static void indentedPrintingFiles(Path path, String indent) throws IOException {
-        String indentPlus = indent + "\t";
         for (Path p : Files.list(path).collect(Collectors.toList())) {
             if (Files.isDirectory(p)) {
                 System.out.printf("%1$s Directory: %2$s\n", indent, p.getFileName());
-                indentedPrintingFiles(p, indentPlus);
+                indentedPrintingFiles(p, indent + "\t");
             } else {
                 System.out.printf("%1$s File: %2$s \n", indent, p.getFileName());
             }
