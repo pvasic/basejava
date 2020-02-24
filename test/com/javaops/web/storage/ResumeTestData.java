@@ -59,6 +59,7 @@ public class ResumeTestData {
     private static final String DESC_QUALIFICATIONS_1 = "JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2";
     private static final String DESC_QUALIFICATIONS_2 = "Version control: Subversion, Git, Mercury, ClearCase, Perforce";
     private static final String DESC_QUALIFICATIONS_3 = "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle";
+    private static final String DESC_QUALIFICATIONS_4 = "Scale";
 
     private static final String NAME_1 = "Java Online Projects";
     private static final String NAME_4 = "Java";
@@ -82,12 +83,12 @@ public class ResumeTestData {
     private static final String POSITION_NAME_3 = "\"Java Enterprise\" by Bill";
     private static final String RESPONSIBILITY_3 = null;
 
-    private static final Organization.BusyPeriod BUSY_PERIOD_1;
-    private static final Organization.BusyPeriod BUSY_PERIOD_2;
-    private static final Organization.BusyPeriod BUSY_PERIOD_3;
+    private static final Organization.Position POSITION_1;
+    private static final Organization.Position POSITION_2;
+    private static final Organization.Position POSITION_3;
 
-    private static final List<Organization.BusyPeriod> PERIODS_1 = new ArrayList<>();
-    private static final List<Organization.BusyPeriod> PERIODS_2 = new ArrayList<>();
+    private static final List<Organization.Position> PERIODS_1 = new ArrayList<>();
+    private static final List<Organization.Position> PERIODS_2 = new ArrayList<>();
 
     private static final Organization EXPERIENCE_ORGANIZATION_1;
     private static final Organization EXPERIENCE_ORGANIZATION_2;
@@ -155,10 +156,12 @@ public class ResumeTestData {
         ACHIEVEMENT_LIST_2.add(DESC_ACHIEVEMENT_2);
         ACHIEVEMENT_LIST_3.add(DESC_ACHIEVEMENT_1);
         ACHIEVEMENT_LIST_3.add(DESC_ACHIEVEMENT_2);
+        ACHIEVEMENT_LIST_4.add(DESC_ACHIEVEMENT_1);
 
         QUALIFICATIONS_LIST_1.add(DESC_QUALIFICATIONS_1);
         QUALIFICATIONS_LIST_2.add(DESC_QUALIFICATIONS_2);
         QUALIFICATIONS_LIST_3.add(DESC_QUALIFICATIONS_3);
+        QUALIFICATIONS_LIST_4.add(DESC_QUALIFICATIONS_4);
         ACHIEVEMENT_SECTION_1 = new ListSection(ACHIEVEMENT_LIST_1);
         ACHIEVEMENT_SECTION_2 = new ListSection(ACHIEVEMENT_LIST_2);
         ACHIEVEMENT_SECTION_3 = new ListSection(ACHIEVEMENT_LIST_3);
@@ -168,13 +171,13 @@ public class ResumeTestData {
         QUALIFICATIONS_SECTION_3 = new ListSection(QUALIFICATIONS_LIST_3);
         QUALIFICATIONS_SECTION_4 = new ListSection(QUALIFICATIONS_LIST_4);
 
-        BUSY_PERIOD_1 = new Organization.BusyPeriod(START_DATE_1, END_DATE_1, POSITION_NAME_1, RESPONSIBILITY_1);
-        BUSY_PERIOD_2 = new Organization.BusyPeriod(START_DATE_2, END_DATE_2, POSITION_NAME_2, RESPONSIBILITY_2);
-        BUSY_PERIOD_3 = new Organization.BusyPeriod(START_DATE_3, END_DATE_3, POSITION_NAME_3, RESPONSIBILITY_3);
+        POSITION_1 = new Organization.Position(START_DATE_1, END_DATE_1, POSITION_NAME_1, RESPONSIBILITY_1);
+        POSITION_2 = new Organization.Position(START_DATE_2, END_DATE_2, POSITION_NAME_2, RESPONSIBILITY_2);
+        POSITION_3 = new Organization.Position(START_DATE_3, END_DATE_3, POSITION_NAME_3, RESPONSIBILITY_3);
 
-        PERIODS_1.add(BUSY_PERIOD_1);
-        PERIODS_2.add(BUSY_PERIOD_2);
-        PERIODS_2.add(BUSY_PERIOD_3);
+        PERIODS_1.add(POSITION_1);
+        PERIODS_2.add(POSITION_2);
+        PERIODS_2.add(POSITION_3);
 
 
         EXPERIENCE_ORGANIZATION_1 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
@@ -191,10 +194,18 @@ public class ResumeTestData {
         EXPERIENCE_LIST_3.add(EXPERIENCE_ORGANIZATION_3);
         EXPERIENCE_LIST_3.add(EXPERIENCE_ORGANIZATION_1);
         EXPERIENCE_LIST_3.add(EXPERIENCE_ORGANIZATION_4);
+        EXPERIENCE_LIST_4.add(EXPERIENCE_ORGANIZATION_1);
+        EXPERIENCE_LIST_4.add(EXPERIENCE_ORGANIZATION_2);
+        EXPERIENCE_LIST_4.add(EXPERIENCE_ORGANIZATION_3);
+        EXPERIENCE_LIST_4.add(EXPERIENCE_ORGANIZATION_4);
         EDUCATION_LIST_1.add(EDUCATION_ORGANIZATION_1);
         EDUCATION_LIST_2.add(EDUCATION_ORGANIZATION_2);
         EDUCATION_LIST_3.add(EDUCATION_ORGANIZATION_3);
         EDUCATION_LIST_3.add(EDUCATION_ORGANIZATION_4);
+        EDUCATION_LIST_4.add(EDUCATION_ORGANIZATION_1);
+        EDUCATION_LIST_4.add(EDUCATION_ORGANIZATION_2);
+        EDUCATION_LIST_4.add(EDUCATION_ORGANIZATION_3);
+        EDUCATION_LIST_4.add(EDUCATION_ORGANIZATION_4);
         EXPERIENCE_SECTION_1 = new OrganizationSection(EXPERIENCE_LIST_1);
         EXPERIENCE_SECTION_2 = new OrganizationSection(EXPERIENCE_LIST_2);
         EXPERIENCE_SECTION_3 = new OrganizationSection(EXPERIENCE_LIST_3);

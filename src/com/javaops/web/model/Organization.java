@@ -1,5 +1,10 @@
 package com.javaops.web.model;
 
+import com.javaops.web.util.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -14,17 +19,21 @@ import static com.javaops.web.util.DateUtil.of;
 /**
  * @author Vasichkin Pavel
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final Link homePage;
-    private List<BusyPeriod> periods = new ArrayList<>();
+    private Link homePage;
+    private List<Position> periods = new ArrayList<>();
 
-    public Organization(String name, String url, BusyPeriod... periods) {
+    public Organization() {
+    }
+
+    public Organization(String name, String url, Position... periods) {
         this(new Link(name, url), Arrays.asList(periods));
     }
 
-    public Organization(Link homePage, List<BusyPeriod> periods) {
+    public Organization(Link homePage, List<Position> periods) {
         Objects.requireNonNull(periods, "periods must not be null");
         this.homePage = homePage;
         this.periods = periods;
@@ -34,7 +43,7 @@ public class Organization implements Serializable {
         return homePage;
     }
 
-    public List<BusyPeriod> getPeriods() {
+    public List<Position> getPeriods() {
         return periods;
     }
 
@@ -61,23 +70,29 @@ public class Organization implements Serializable {
     /**
      * @author Vasichkin Pavel
      */
-    public static class BusyPeriod implements Serializable {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Position implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String positionName;
-        private final String responsibility;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String positionName;
+        private String responsibility;
 
-        public BusyPeriod(int startYear, Month startMonth, String title, String description) {
+        public Position() {
+        }
+
+        public Position(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);
         }
 
-        public BusyPeriod(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
+        public Position(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
-        public BusyPeriod(LocalDate startDate, LocalDate endDate, String positionName, String responsibility) {
+        public Position(LocalDate startDate, LocalDate endDate, String positionName, String responsibility) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
             Objects.requireNonNull(positionName, "positionName must not be null");
@@ -109,7 +124,7 @@ public class Organization implements Serializable {
                 return true;
             if (o == null || getClass() != o.getClass())
                 return false;
-            BusyPeriod that = (BusyPeriod) o;
+            Position that = (Position) o;
             return startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility);
         }
 
@@ -120,18 +135,22 @@ public class Organization implements Serializable {
 
         @Override
         public String toString() {
-            return "BusyPeriod{" + "startDate=" + startDate + "endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
+            return "Position{" + "startDate=" + startDate + "endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
         }
     }
 
     /**
      * @author Vasichkin Pavel
      */
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Link implements Serializable {
         private static final long serialVersionUID = 1L;
 
-        private final String name;
-        private final String url;
+        private String name;
+        private String url;
+
+        public Link() {
+        }
 
         public Link(String name, String url) {
             Objects.requireNonNull(name, "name must not be null");
