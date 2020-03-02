@@ -225,12 +225,12 @@ public class ResumeTestData {
         resume.getContacts(ContactType.GITHUB).put(ContactType.GITHUB, GITHUB_1);
         resume.getContacts(ContactType.STACKOVERFLOW).put(ContactType.STACKOVERFLOW, STACKOVERFLOW_1);
 
-        resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_1);
+        /*resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_1);
         resume.getSections(SectionType.OBJECTIVE).put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
         resume.getSections(SectionType.ACHIEVEMENT).put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_1);
         resume.getSections(SectionType.QUALIFICATIONS).put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_1);
         resume.getSections(SectionType.EXPERIENCE).put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_1);
-        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_1);
+        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_1);*/
         return resume;
     }
 
@@ -243,12 +243,12 @@ public class ResumeTestData {
         resume.getContacts(ContactType.GITHUB).put(ContactType.GITHUB, GITHUB_2);
         resume.getContacts(ContactType.STACKOVERFLOW).put(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
 
-        resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_2);
+        /*resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_2);
         resume.getSections(SectionType.OBJECTIVE).put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
         resume.getSections(SectionType.ACHIEVEMENT).put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_2);
         resume.getSections(SectionType.QUALIFICATIONS).put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_2);
         resume.getSections(SectionType.EXPERIENCE).put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_2);
-        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_2);
+        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_2);*/
         return resume;
     }
 
@@ -261,12 +261,12 @@ public class ResumeTestData {
         resume.getContacts(ContactType.GITHUB).put(ContactType.GITHUB, GITHUB_3);
         resume.getContacts(ContactType.STACKOVERFLOW).put(ContactType.STACKOVERFLOW, STACKOVERFLOW_3);
 
-        resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_3);
+        /*resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_3);
         resume.getSections(SectionType.OBJECTIVE).put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_3);
         resume.getSections(SectionType.ACHIEVEMENT).put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_3);
         resume.getSections(SectionType.QUALIFICATIONS).put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_3);
         resume.getSections(SectionType.EXPERIENCE).put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_3);
-        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_3);
+        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_3);*/
         return resume;
     }
 
@@ -279,12 +279,12 @@ public class ResumeTestData {
         resume.getContacts(ContactType.GITHUB).put(ContactType.GITHUB, GITHUB_4);
         resume.getContacts(ContactType.STACKOVERFLOW).put(ContactType.STACKOVERFLOW, STACKOVERFLOW_4);
 
-        resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_4);
+        /*resume.getSections(SectionType.PERSONAL).put(SectionType.PERSONAL, PERSONAL_SECTION_4);
         resume.getSections(SectionType.OBJECTIVE).put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_4);
         resume.getSections(SectionType.ACHIEVEMENT).put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_4);
         resume.getSections(SectionType.QUALIFICATIONS).put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_4);
         resume.getSections(SectionType.EXPERIENCE).put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_4);
-        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_4);
+        resume.getSections(SectionType.EDUCATION).put(SectionType.EDUCATION, EDUCATION_SECTION_4);*/
         return resume;
     }
 }
