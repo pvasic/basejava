@@ -24,27 +24,27 @@ public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Link homePage;
-    private List<Position> periods = new ArrayList<>();
+    private List<Position> positions = new ArrayList<>();
 
     public Organization() {
     }
 
-    public Organization(String name, String url, Position... periods) {
-        this(new Link(name, url), Arrays.asList(periods));
+    public Organization(String name, String url, Position... positions) {
+        this(new Link(name, url), Arrays.asList(positions));
     }
 
-    public Organization(Link homePage, List<Position> periods) {
-        Objects.requireNonNull(periods, "periods must not be null");
+    public Organization(Link homePage, List<Position> positions) {
+        Objects.requireNonNull(positions, "positions must not be null");
         this.homePage = homePage;
-        this.periods = periods;
+        this.positions = positions;
     }
 
     public Link getHomePage() {
         return homePage;
     }
 
-    public List<Position> getPeriods() {
-        return periods;
+    public List<Position> getPositions() {
+        return positions;
     }
 
     @Override
@@ -54,17 +54,17 @@ public class Organization implements Serializable {
         if (o == null || getClass() != o.getClass())
             return false;
         Organization that = (Organization) o;
-        return Objects.equals(homePage, that.homePage) && periods.equals(that.periods);
+        return Objects.equals(homePage, that.homePage) && positions.equals(that.positions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(homePage, periods);
+        return Objects.hash(homePage, positions);
     }
 
     @Override
     public String toString() {
-        return "Organization{" + "homePage=" + homePage + ", periods=" + periods + '}';
+        return "Organization{" + "homePage=" + homePage + ", positions=" + positions + '}';
     }
 
     /**

@@ -1,9 +1,9 @@
 package com.javaops.web.storage.serializer;
 
-import com.javaops.web.model.ContactType;
-import com.javaops.web.model.Resume;
+import com.javaops.web.model.*;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 /**
  * @author Vasichkin Pavel
@@ -21,6 +21,26 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
+            Map<SectionType, Section> sections = r.getSections();
+            dos.writeUTF(SectionType.PERSONAL.name());
+            dos.writeUTF(((TextSection) sections.get(SectionType.PERSONAL)).getContent());
+            dos.writeUTF(SectionType.OBJECTIVE.name());
+            dos.writeUTF(((TextSection) sections.get(SectionType.OBJECTIVE)).getContent());
+
+            List<String> items = ((ListSection) sections.get(SectionType.ACHIEVEMENT)).getItems();
+            dos.writeUTF(SectionType.ACHIEVEMENT.name());
+            writeItems(dos, items);
+
+            items = ((ListSection) sections.get(SectionType.QUALIFICATIONS)).getItems();
+            writeItems(dos, items);
+
+            List<Organization> organizations = ((OrganizationSection) sections.get(SectionType.EXPERIENCE)).getOrganizations();
+            dos.writeUTF(SectionType.EXPERIENCE.name());
+            writeOrganizations(dos, organizations);
+
+            organizations = ((OrganizationSection) sections.get(SectionType.EDUCATION)).getOrganizations();
+            dos.writeUTF(SectionType.EDUCATION.name());
+            writeOrganizations(dos, organizations);
             // TODO implements sections
         }
     }
@@ -35,8 +55,40 @@ public class DataStreamSerializer implements StreamSerializer {
             for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
+
+            resume.addSection(SectionType.PERSONAL, new TextSection(dis.readUTF()));
+            resume.addSection(SectionType.OBJECTIVE, new TextSection(dis.readUTF()));
+
+            size = dis.readInt();
+            for (int i = 0; i < size; i++) {
+                resume.addSection(SectionType.valueOf(dis.readUTF(), StringStr));
+
+            }
             // TODO implements sections
             return resume;
+        }
+    }
+
+    private void writeItems(DataOutputStream dos, List<String> items) throws IOException {
+        dos.writeInt(items.size());
+        for (String str : items) {
+            dos.writeUTF(str);
+        }
+    }
+
+    private void writeOrganizations(DataOutputStream dos, List<Organization> organizations) throws IOException {
+        dos.writeInt(organizations.size());
+        for (Organization org : organizations) {
+            dos.writeUTF(org.getHomePage().getName());
+            dos.writeUTF(org.getHomePage().getUrl());
+            List<Organization.Position> positions = org.getPositions();
+            dos.writeInt(positions.size());
+            for (Organization.Position pos : positions) {
+                dos.writeUTF(pos.getStartDate().toString());
+                dos.writeUTF(pos.getEndDate().toString());
+                dos.writeUTF(pos.getPositionName());
+                dos.writeUTF(pos.getResponsibility());
+            }
         }
     }
 }
