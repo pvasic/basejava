@@ -3,8 +3,10 @@ package com.javaops.web.storage.serializer;
 import com.javaops.web.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 /**
  * @author Vasichkin Pavel
  */
@@ -56,17 +58,60 @@ public class DataStreamSerializer implements StreamSerializer {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
 
-            resume.addSection(SectionType.PERSONAL, new TextSection(dis.readUTF()));
-            resume.addSection(SectionType.OBJECTIVE, new TextSection(dis.readUTF()));
+            String sectionType = dis.readUTF();
+            String content = dis.readUTF();
+            resume.addSection(SectionType.valueOf(sectionType), new TextSection(content));
+            sectionType = dis.readUTF();
+            content = dis.readUTF();
+            resume.addSection(SectionType.valueOf(sectionType), new TextSection(content));
 
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addSection(SectionType.valueOf(dis.readUTF(), StringStr));
+            List<String> items = new ArrayList<>();
+            sectionType = dis.readUTF();
+            readItems(dis, items);
+            resume.addSection(SectionType.valueOf(sectionType), new ListSection(items));
 
-            }
-            // TODO implements sections
+            items.clear();
+            sectionType = dis.readUTF();
+            readItems(dis, items);
+            resume.addSection(SectionType.valueOf(sectionType), new ListSection(items));
+
+            List<Organization> organizations = new ArrayList<>();
+            sectionType = dis.readUTF();
+            readOrganization(dis, organizations);
+            resume.addSection(SectionType.valueOf(sectionType), new OrganizationSection(organizations));
+
+            organizations.clear();
+            sectionType = dis.readUTF();
+            readOrganization(dis, organizations);
+            resume.addSection(SectionType.valueOf(sectionType), new OrganizationSection(organizations));
+
             return resume;
         }
+    }
+
+    private void readItems(DataInputStream dis, List<String> items) throws IOException {
+        int size;
+        size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            items.add(dis.readUTF());
+        }
+    }
+
+    private void readOrganization(DataInputStream dis, List<Organization> organizations) throws IOException {
+        int size;
+        size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            String name = dis.readUTF();
+            String url = dis.readUTF();
+            int sizePos = dis.readInt();
+            for (int j = 0; j < sizePos; j++) {
+
+            }
+            Organization organization = new Organization();
+
+
+        }
+
     }
 
     private void writeItems(DataOutputStream dos, List<String> items) throws IOException {
