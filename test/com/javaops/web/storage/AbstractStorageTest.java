@@ -27,6 +27,7 @@ public abstract class AbstractStorageTest {
     private static final String FULL_NAME_2 = "FullName2";
     private static final String FULL_NAME_3 = "FullName3";
     private static final String FULL_NAME_4 = "FullName4";
+    private static final String FULL_NAME_UPDATE = "FullNameUpdate";
 
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
@@ -96,7 +97,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume expected = new Resume(UUID_2, "FullNameUpdate");
+        Resume expected = ResumeTestData.getRESUME2(UUID_2, FULL_NAME_UPDATE);
         storage.update(expected);
         assertEquals(expected, storage.get(UUID_2));
     }

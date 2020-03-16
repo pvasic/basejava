@@ -25,26 +25,20 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getValue());
             }
             Map<SectionType, Section> sections = r.getSections();
-            dos.writeUTF(SectionType.PERSONAL.name());
-            dos.writeUTF(((TextSection) sections.get(SectionType.PERSONAL)).getContent());
-            dos.writeUTF(SectionType.OBJECTIVE.name());
-            dos.writeUTF(((TextSection) sections.get(SectionType.OBJECTIVE)).getContent());
+            SectionType sectionType = SectionType.PERSONAL;
+            writeTextSection(dos, sections, sectionType);
+            sectionType = SectionType.OBJECTIVE;
+            writeTextSection(dos, sections, sectionType);
 
-            List<String> items = ((ListSection) sections.get(SectionType.ACHIEVEMENT)).getItems();
-            dos.writeUTF(SectionType.ACHIEVEMENT.name());
-            writeItems(dos, items);
+            sectionType = SectionType.ACHIEVEMENT;
+            writeListSections(dos, sections, sectionType);
+            sectionType = SectionType.QUALIFICATIONS;
+            writeListSections(dos, sections, sectionType);
 
-            items = ((ListSection) sections.get(SectionType.QUALIFICATIONS)).getItems();
-            dos.writeUTF(SectionType.QUALIFICATIONS.name());
-            writeItems(dos, items);
-
-            List<Organization> organizations = ((OrganizationSection) sections.get(SectionType.EXPERIENCE)).getOrganizations();
-            dos.writeUTF(SectionType.EXPERIENCE.name());
-            writeOrganizations(dos, organizations);
-
-            organizations = ((OrganizationSection) sections.get(SectionType.EDUCATION)).getOrganizations();
-            dos.writeUTF(SectionType.EDUCATION.name());
-            writeOrganizations(dos, organizations);
+            sectionType = SectionType.EXPERIENCE;
+            writeListOrganizationsSection(dos, sections, sectionType);
+            sectionType = SectionType.EDUCATION;
+            writeListOrganizationsSection(dos, sections, sectionType);
         }
     }
 
@@ -58,64 +52,31 @@ public class DataStreamSerializer implements StreamSerializer {
             for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
-
-            String sectionType = dis.readUTF();
-            String content = dis.readUTF();
-            resume.addSection(SectionType.valueOf(sectionType), new TextSection(content));
-            sectionType = dis.readUTF();
-            content = dis.readUTF();
-            resume.addSection(SectionType.valueOf(sectionType), new TextSection(content));
-
-            List<String> items = new ArrayList<>();
-            sectionType = dis.readUTF();
-            readItems(dis, items);
-            resume.addSection(SectionType.valueOf(sectionType), new ListSection(items));
-
-            items.clear();
-            sectionType = dis.readUTF();
-            readItems(dis, items);
-            resume.addSection(SectionType.valueOf(sectionType), new ListSection(items));
-
-            List<Organization> organizations = new ArrayList<>();
-            sectionType = dis.readUTF();
-            readOrganization(dis, organizations);
-            resume.addSection(SectionType.valueOf(sectionType), new OrganizationSection(organizations));
-
-            organizations.clear();
-            sectionType = dis.readUTF();
-            readOrganization(dis, organizations);
-            resume.addSection(SectionType.valueOf(sectionType), new OrganizationSection(organizations));
+            addTextSection(dis, resume);
+            addTextSection(dis, resume);
+            addListSection(dis, resume);
+            addListSection(dis, resume);
+            addOrganizationSection(dis, resume);
+            addOrganizationSection(dis, resume);
             return resume;
         }
     }
 
-    private void readItems(DataInputStream dis, List<String> items) throws IOException {
-        int size = dis.readInt();
-        for (int i = 0; i < size; i++) {
-            items.add(dis.readUTF());
-        }
+    private void writeTextSection(DataOutputStream dos, Map<SectionType, Section> sections, SectionType sectionType) throws IOException {
+        dos.writeUTF(sectionType.name());
+        dos.writeUTF(((TextSection) sections.get(sectionType)).getContent());
     }
 
-    private void readOrganization(DataInputStream dis, List<Organization> organizations) throws IOException {
-        int sizeOrg;
-        sizeOrg = dis.readInt();
-        for (int i = 0; i < sizeOrg; i++) {
-            String name = dis.readUTF();
-            String url = readCheckNull(dis.readUTF());
-            int sizePos = dis.readInt();
-            List<Organization.Position> positions = new ArrayList<>();
-            for (int j = 0; j < sizePos; j++) {
-                positions.add(new Organization.Position(DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())));
-            }
-            organizations.add(new Organization(new Organization.Link(name, url), positions));
-        }
+    private void writeListSections(DataOutputStream dos, Map<SectionType, Section> sections, SectionType sectionType) throws IOException {
+        List<String> items = ((ListSection) sections.get(sectionType)).getItems();
+        dos.writeUTF(sectionType.name());
+        writeItems(dos, items);
     }
 
-    private void writeItems(DataOutputStream dos, List<String> items) throws IOException {
-        dos.writeInt(items.size());
-        for (String str : items) {
-            dos.writeUTF(str);
-        }
+    private void writeListOrganizationsSection(DataOutputStream dos, Map<SectionType, Section> sections, SectionType sectionType) throws IOException {
+        List<Organization> organizations = ((OrganizationSection) sections.get(sectionType)).getOrganizations();
+        dos.writeUTF(sectionType.name());
+        writeOrganizations(dos, organizations);
     }
 
     private void writeOrganizations(DataOutputStream dos, List<Organization> organizations) throws IOException {
@@ -139,6 +100,57 @@ public class DataStreamSerializer implements StreamSerializer {
             return "null";
         } else {
             return string;
+        }
+    }
+
+    private void addTextSection(DataInputStream dis, Resume resume) throws IOException {
+        String sectionType = dis.readUTF();
+        String content = dis.readUTF();
+        resume.addSection(SectionType.valueOf(sectionType), new TextSection(content));
+    }
+
+    private void addListSection(DataInputStream dis, Resume resume) throws IOException {
+        List<String> items = new ArrayList<>();
+        String sectionType = dis.readUTF();
+        readItems(dis, items);
+
+        // TODO Разобраться: в конструктор ListSection, переменная items педается по ссылке? Или должна по значению?
+        resume.addSection(SectionType.valueOf(sectionType), new ListSection(items));
+    }
+
+    private void addOrganizationSection(DataInputStream dis, Resume resume) throws IOException {
+        List<Organization> organizations = new ArrayList<>();
+        String sectionType = dis.readUTF();
+        readOrganizations(dis, organizations);
+        resume.addSection(SectionType.valueOf(sectionType), new OrganizationSection(organizations));
+    }
+
+    private void readItems(DataInputStream dis, List<String> items) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            items.add(dis.readUTF());
+        }
+    }
+
+    private void readOrganizations(DataInputStream dis, List<Organization> organizations) throws IOException {
+        int sizeOrg;
+        sizeOrg = dis.readInt();
+        for (int i = 0; i < sizeOrg; i++) {
+            String name = dis.readUTF();
+            String url = readCheckNull(dis.readUTF());
+            int sizePos = dis.readInt();
+            List<Organization.Position> positions = new ArrayList<>();
+            for (int j = 0; j < sizePos; j++) {
+                positions.add(new Organization.Position(DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())));
+            }
+            organizations.add(new Organization(new Organization.Link(name, url), positions));
+        }
+    }
+
+    private void writeItems(DataOutputStream dos, List<String> items) throws IOException {
+        dos.writeInt(items.size());
+        for (String str : items) {
+            dos.writeUTF(str);
         }
     }
 
