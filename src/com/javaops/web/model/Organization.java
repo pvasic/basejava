@@ -135,7 +135,7 @@ public class Organization implements Serializable {
 
         @Override
         public String toString() {
-            return "Position{" + "startDate=" + startDate + "endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
+            return "Position{" + "startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
         }
     }
 

@@ -35,6 +35,7 @@ public class DataStreamSerializer implements StreamSerializer {
             writeItems(dos, items);
 
             items = ((ListSection) sections.get(SectionType.QUALIFICATIONS)).getItems();
+            dos.writeUTF(SectionType.QUALIFICATIONS.name());
             writeItems(dos, items);
 
             List<Organization> organizations = ((OrganizationSection) sections.get(SectionType.EXPERIENCE)).getOrganizations();
@@ -44,7 +45,6 @@ public class DataStreamSerializer implements StreamSerializer {
             organizations = ((OrganizationSection) sections.get(SectionType.EDUCATION)).getOrganizations();
             dos.writeUTF(SectionType.EDUCATION.name());
             writeOrganizations(dos, organizations);
-            // TODO implements sections
         }
     }
 
@@ -85,14 +85,12 @@ public class DataStreamSerializer implements StreamSerializer {
             sectionType = dis.readUTF();
             readOrganization(dis, organizations);
             resume.addSection(SectionType.valueOf(sectionType), new OrganizationSection(organizations));
-
             return resume;
         }
     }
 
     private void readItems(DataInputStream dis, List<String> items) throws IOException {
-        int size;
-        size = dis.readInt();
+        int size = dis.readInt();
         for (int i = 0; i < size; i++) {
             items.add(dis.readUTF());
         }
