@@ -1,6 +1,7 @@
 package com.javaops.web.storage.serializer;
 
 import com.javaops.web.model.*;
+import com.javaops.web.util.DateUtil;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -98,20 +99,18 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private void readOrganization(DataInputStream dis, List<Organization> organizations) throws IOException {
-        int size;
-        size = dis.readInt();
-        for (int i = 0; i < size; i++) {
+        int sizeOrg;
+        sizeOrg = dis.readInt();
+        for (int i = 0; i < sizeOrg; i++) {
             String name = dis.readUTF();
-            String url = dis.readUTF();
+            String url = readCheckNull(dis.readUTF());
             int sizePos = dis.readInt();
+            List<Organization.Position> positions = new ArrayList<>();
             for (int j = 0; j < sizePos; j++) {
-
+                positions.add(new Organization.Position(DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())));
             }
-            Organization organization = new Organization();
-
-
+            organizations.add(new Organization(new Organization.Link(name, url), positions));
         }
-
     }
 
     private void writeItems(DataOutputStream dos, List<String> items) throws IOException {
@@ -125,15 +124,31 @@ public class DataStreamSerializer implements StreamSerializer {
         dos.writeInt(organizations.size());
         for (Organization org : organizations) {
             dos.writeUTF(org.getHomePage().getName());
-            dos.writeUTF(org.getHomePage().getUrl());
+            dos.writeUTF(writeCheckNull(org.getHomePage().getUrl()));
             List<Organization.Position> positions = org.getPositions();
             dos.writeInt(positions.size());
             for (Organization.Position pos : positions) {
                 dos.writeUTF(pos.getStartDate().toString());
                 dos.writeUTF(pos.getEndDate().toString());
                 dos.writeUTF(pos.getPositionName());
-                dos.writeUTF(pos.getResponsibility());
+                dos.writeUTF(writeCheckNull(pos.getResponsibility()));
             }
+        }
+    }
+
+    private String writeCheckNull(String string) {
+        if (string == null) {
+            return "null";
+        } else {
+            return string;
+        }
+    }
+
+    private String readCheckNull(String string) {
+        if (string.equals("null")) {
+            return null;
+        } else {
+            return string;
         }
     }
 }
