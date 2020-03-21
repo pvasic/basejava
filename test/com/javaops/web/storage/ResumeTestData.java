@@ -225,12 +225,12 @@ public class ResumeTestData {
         resume.getContacts().put(ContactType.GITHUB, GITHUB_1);
         resume.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW_1);
 
-        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_1);
-        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
-        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_1);
-        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_1);
-        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_1);
-        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_1);
+//        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_1);
+//        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
+//        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_1);
+//        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_1);
+//        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_1);
+//        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_1);
         return resume;
     }
 
@@ -244,11 +244,11 @@ public class ResumeTestData {
         resume.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
 
         resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_2);
-        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
+//        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
         resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_2);
-        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_2);
+//        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_2);
         resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_2);
-        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_2);
+//        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_2);
         return resume;
     }
 
