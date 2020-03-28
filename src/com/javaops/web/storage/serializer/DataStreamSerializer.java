@@ -19,29 +19,48 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
-            dos.writeInt(contacts.size());
+            writeInt(dos, contacts.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
 
             Map<SectionType, Section> sections = r.getSections();
-            dos.writeInt(sections.size());
+            writeInt(dos, sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
-                String sectionTypeName = entry.getKey().name();
-                if (sectionTypeName.equals("PERSONAL") || sectionTypeName.equals("OBJECTIVE")) {
-                    dos.writeUTF(sectionTypeName);
-                    dos.writeUTF(((TextSection) entry.getValue()).getContent());
-                } else {
-                    if (sectionTypeName.equals("ACHIEVEMENT") || sectionTypeName.equals("QUALIFICATIONS")) {
-                        dos.writeUTF(sectionTypeName);
-                        writeItems(dos, ((ListSection) entry.getValue()).getItems());
-                    } else {
-                        if (sectionTypeName.equals("EXPERIENCE") || sectionTypeName.equals("EDUCATION")) {
-                            dos.writeUTF(sectionTypeName);
-                            writeOrganizations(dos, ((OrganizationSection) entry.getValue()).getOrganizations());
+                SectionType sectionName = entry.getKey();
+                switch (sectionName) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        writeSectionName(dos, sectionName);
+                        dos.writeUTF(((TextSection) entry.getValue()).getContent());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        writeSectionName(dos, sectionName);
+                        List<String> items = ((ListSection) entry.getValue()).getItems();
+                        dos.writeInt(items.size());
+                        for (String str : items) {
+                            dos.writeUTF(str);
                         }
-                    }
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        writeSectionName(dos, sectionName);
+                        List<Organization> organizations = ((OrganizationSection) entry.getValue()).getOrganizations();
+                        writeInt(dos, organizations.size());
+                        for (Organization org : organizations) {
+                            dos.writeUTF(org.getHomePage().getName());
+                            dos.writeUTF(writeCheckNull(org.getHomePage().getUrl()));
+                            List<Organization.Position> positions = org.getPositions();
+                            writeInt(dos, positions.size());
+                            for (Organization.Position pos : positions) {
+                                dos.writeUTF(pos.getStartDate().toString());
+                                dos.writeUTF(pos.getEndDate().toString());
+                                dos.writeUTF(pos.getPositionName());
+                                dos.writeUTF(writeCheckNull(pos.getResponsibility()));
+                            }
+                        }
                 }
             }
         }
@@ -60,64 +79,50 @@ public class DataStreamSerializer implements StreamSerializer {
 
             size = dis.readInt();
             for (int i = 0; i < size ; i++) {
-                String sectionTypeName = dis.readUTF();
-                if (sectionTypeName.equals("PERSONAL") || sectionTypeName.equals("OBJECTIVE")) {
-                    String content = dis.readUTF();
-                    resume.addSection(SectionType.valueOf(sectionTypeName), new TextSection(content));
-                } else {
-                    if (sectionTypeName.equals("ACHIEVEMENT") || sectionTypeName.equals("QUALIFICATIONS")) {
+                SectionType sectionName = SectionType.valueOf(dis.readUTF());
+                switch (sectionName) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        resume.addSection(sectionName, new TextSection(dis.readUTF()));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
                         List<String> items = new ArrayList<>();
                         int sizeItems = dis.readInt();
                         for (int j = 0; j < sizeItems; j++) {
                             items.add(dis.readUTF());
                         }
-                        resume.addSection(SectionType.valueOf(sectionTypeName), new ListSection(items));
-                    } else {
-                        if (sectionTypeName.equals("EXPERIENCE") || sectionTypeName.equals("EDUCATION")) {
-                            List<Organization> organizations = new ArrayList<>();
-                            int sizeOrg;
-                            sizeOrg = dis.readInt();
-                            for (int k = 0; k < sizeOrg; k++) {
-                                String name = dis.readUTF();
-                                String url = readCheckNull(dis.readUTF());
-                                int sizePos = dis.readInt();
-                                List<Organization.Position> positions = new ArrayList<>();
-                                for (int l = 0; l < sizePos; l++) {
-                                    positions.add(new Organization.Position(DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())));
-                                }
-                                organizations.add(new Organization(new Organization.Link(name, url), positions));
+                        resume.addSection(sectionName, new ListSection(items));
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        List<Organization> organizations = new ArrayList<>();
+                        int sizeOrg;
+                        sizeOrg = dis.readInt();
+                        for (int k = 0; k < sizeOrg; k++) {
+                            String name = dis.readUTF();
+                            String url = readCheckNull(dis.readUTF());
+                            int sizePos = dis.readInt();
+                            List<Organization.Position> positions = new ArrayList<>();
+                            for (int l = 0; l < sizePos; l++) {
+                                positions.add(new Organization.Position(DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())));
                             }
-                            resume.addSection(SectionType.valueOf(sectionTypeName), new OrganizationSection(organizations));
+                            organizations.add(new Organization(new Organization.Link(name, url), positions));
                         }
-                    }
+                        resume.addSection(sectionName, new OrganizationSection(organizations));
+                        break;
                 }
             }
             return resume;
         }
     }
 
-    private void writeItems(DataOutputStream dos, List<String> items) throws IOException {
-        dos.writeInt(items.size());
-        for (String str : items) {
-            dos.writeUTF(str);
-        }
+    private void writeInt(DataOutputStream dos, int size) throws IOException {
+        dos.writeInt(size);
     }
 
-    private void writeOrganizations(DataOutputStream dos, List<Organization> organizations) throws IOException {
-        dos.writeInt(organizations.size());
-        for (Organization org : organizations) {
-            dos.writeUTF(org.getHomePage().getName());
-            dos.writeUTF(writeCheckNull(org.getHomePage().getUrl()));
-            List<Organization.Position> positions = org.getPositions();
-            dos.writeInt(positions.size());
-            for (Organization.Position pos : positions) {
-                dos.writeUTF(pos.getStartDate().toString());
-                dos.writeUTF(pos.getEndDate().toString());
-                dos.writeUTF(pos.getPositionName());
-                dos.writeUTF(writeCheckNull(pos.getResponsibility()));
-            }
-        }
-
+    private void writeSectionName(DataOutputStream dos, SectionType sectionType) throws IOException {
+        dos.writeUTF(sectionType.name());
     }
 
     private String writeCheckNull(String string) {
