@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Vasichkin Pavel
  */
-public class DataStreamSerializer implements StreamSerializer {
+public class DataStreamSerializer<T> implements StreamSerializer {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
@@ -115,6 +115,10 @@ public class DataStreamSerializer implements StreamSerializer {
             }
             return resume;
         }
+    }
+
+    private void writeWithException(List<? extends T> list, DataOutputStream dos, Writable section) {
+
     }
 
     private void writeInt(DataOutputStream dos, int size) throws IOException {

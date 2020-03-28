@@ -8,5 +8,5 @@ import java.io.Serializable;
  * @author Vasichkin Pavel
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-abstract public class Section implements Serializable {
+abstract public class Section implements Serializable, Writable {
 }
