@@ -5,13 +5,14 @@ import com.javaops.web.util.DateUtil;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author Vasichkin Pavel
  */
-public class DataStreamSerializer<T> implements StreamSerializer {
+public class DataStreamSerializer implements StreamSerializer {
 
     @Override
     public void doWrite(Resume r, OutputStream os) throws IOException {
@@ -19,50 +20,41 @@ public class DataStreamSerializer<T> implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
-            writeInt(dos, contacts.size());
-            for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
+
+            writeCollection(contacts.entrySet(), dos, (entry) -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
-            }
+            });
 
             Map<SectionType, Section> sections = r.getSections();
-            writeInt(dos, sections.size());
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+
+            writeCollection(sections.entrySet(), dos, (entry) -> {
                 SectionType sectionName = entry.getKey();
+                Section section = entry.getValue();
+                dos.writeUTF(sectionName.name());
                 switch (sectionName) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        writeSectionName(dos, sectionName);
-                        dos.writeUTF(((TextSection) entry.getValue()).getContent());
+                        dos.writeUTF(((TextSection) section).getContent());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        writeSectionName(dos, sectionName);
-                        List<String> items = ((ListSection) entry.getValue()).getItems();
-                        dos.writeInt(items.size());
-                        for (String str : items) {
-                            dos.writeUTF(str);
-                        }
+                        writeCollection(((ListSection) section).getItems(), dos, dos::writeUTF);
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        writeSectionName(dos, sectionName);
-                        List<Organization> organizations = ((OrganizationSection) entry.getValue()).getOrganizations();
-                        writeInt(dos, organizations.size());
-                        for (Organization org : organizations) {
-                            dos.writeUTF(org.getHomePage().getName());
-                            dos.writeUTF(writeCheckNull(org.getHomePage().getUrl()));
-                            List<Organization.Position> positions = org.getPositions();
-                            writeInt(dos, positions.size());
-                            for (Organization.Position pos : positions) {
-                                dos.writeUTF(pos.getStartDate().toString());
-                                dos.writeUTF(pos.getEndDate().toString());
-                                dos.writeUTF(pos.getPositionName());
-                                dos.writeUTF(writeCheckNull(pos.getResponsibility()));
-                            }
-                        }
+                        writeCollection(((OrganizationSection) section).getOrganizations(), dos, (organization -> {
+                            dos.writeUTF(organization.getHomePage().getName());
+                            dos.writeUTF(writeCheckNull(organization.getHomePage().getUrl()));
+                            writeCollection(organization.getPositions(), dos, (position -> {
+                                dos.writeUTF(position.getStartDate().toString());
+                                dos.writeUTF(position.getEndDate().toString());
+                                dos.writeUTF(position.getPositionName());
+                                dos.writeUTF(writeCheckNull(position.getResponsibility()));
+                            }));
+                        }));
                 }
-            }
+            });
         }
     }
 
@@ -78,7 +70,7 @@ public class DataStreamSerializer<T> implements StreamSerializer {
             }
 
             size = dis.readInt();
-            for (int i = 0; i < size ; i++) {
+            for (int i = 0; i < size; i++) {
                 SectionType sectionName = SectionType.valueOf(dis.readUTF());
                 switch (sectionName) {
                     case PERSONAL:
@@ -117,16 +109,15 @@ public class DataStreamSerializer<T> implements StreamSerializer {
         }
     }
 
-    private void writeWithException(List<? extends T> list, DataOutputStream dos, Writable section) {
-
+    private interface Writable<T> {
+        void write(T t) throws IOException;
     }
 
-    private void writeInt(DataOutputStream dos, int size) throws IOException {
-        dos.writeInt(size);
-    }
-
-    private void writeSectionName(DataOutputStream dos, SectionType sectionType) throws IOException {
-        dos.writeUTF(sectionType.name());
+    private <T> void writeCollection(Collection<T> collection, DataOutputStream dos, Writable<T> writer) throws IOException {
+        dos.writeInt(collection.size());
+        for (T item : collection) {
+            writer.write(item);
+        }
     }
 
     private String writeCheckNull(String string) {
