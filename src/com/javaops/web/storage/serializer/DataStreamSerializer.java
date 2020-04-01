@@ -20,14 +20,11 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
             Map<ContactType, String> contacts = r.getContacts();
-
             writeCollection(contacts.entrySet(), dos, (entry) -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             });
-
             Map<SectionType, Section> sections = r.getSections();
-
             writeCollection(sections.entrySet(), dos, (entry) -> {
                 SectionType sectionName = entry.getKey();
                 Section section = entry.getValue();
@@ -64,49 +61,53 @@ public class DataStreamSerializer implements StreamSerializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            readItems(dis, () -> {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-
-            size = dis.readInt();
-            for (int i = 0; i < size; i++) {
+            });
+            readItems(dis, () -> {
                 SectionType sectionName = SectionType.valueOf(dis.readUTF());
-                switch (sectionName) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        resume.addSection(sectionName, new TextSection(dis.readUTF()));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        List<String> items = new ArrayList<>();
-                        int sizeItems = dis.readInt();
-                        for (int j = 0; j < sizeItems; j++) {
-                            items.add(dis.readUTF());
-                        }
-                        resume.addSection(sectionName, new ListSection(items));
-                        break;
-                    case EXPERIENCE:
-                    case EDUCATION:
-                        List<Organization> organizations = new ArrayList<>();
-                        int sizeOrg;
-                        sizeOrg = dis.readInt();
-                        for (int k = 0; k < sizeOrg; k++) {
-                            String name = dis.readUTF();
-                            String url = readCheckNull(dis.readUTF());
-                            int sizePos = dis.readInt();
-                            List<Organization.Position> positions = new ArrayList<>();
-                            for (int l = 0; l < sizePos; l++) {
-                                positions.add(new Organization.Position(DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())));
-                            }
-                            organizations.add(new Organization(new Organization.Link(name, url), positions));
-                        }
-                        resume.addSection(sectionName, new OrganizationSection(organizations));
-                        break;
-                }
-            }
+                resume.addSection(sectionName, readSection(dis, sectionName));
+            });
             return resume;
         }
+    }
+
+    private Section readSection(DataInputStream dis, SectionType sectionName) throws IOException {
+        switch (sectionName) {
+            case PERSONAL:
+            case OBJECTIVE:
+                return new TextSection(dis.readUTF());
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
+                return new ListSection(readList(dis, dis::readUTF));
+            case EXPERIENCE:
+            case EDUCATION:
+                return new OrganizationSection(
+                        readList(dis, () -> new Organization(
+                                new Organization.Link(
+                                        dis.readUTF(), dis.readUTF()), readList(dis, () -> new Organization.Position(
+                                                DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())
+                        )))));
+            default:
+                throw new IllegalStateException();
+        }
+    }
+
+    private <T> List<T> readList(DataInputStream dis, ElementReader<T> elementReader) throws IOException {
+        int size = dis.readInt();
+        List<T> items = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            items.add(elementReader.read());
+        }
+        return items;
+    }
+
+    private interface ElementReader<T> {
+        T read() throws IOException;
+    }
+
+    private interface ElementProcessor {
+        void process() throws IOException;
     }
 
     private interface Writable<T> {
@@ -117,6 +118,13 @@ public class DataStreamSerializer implements StreamSerializer {
         dos.writeInt(collection.size());
         for (T item : collection) {
             writer.write(item);
+        }
+    }
+
+    private <T> void readItems(DataInputStream dis, ElementProcessor elementProcessor) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            elementProcessor.process();
         }
     }
 
