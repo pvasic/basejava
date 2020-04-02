@@ -85,7 +85,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 return new OrganizationSection(
                         readList(dis, () -> new Organization(
                                 new Organization.Link(
-                                        dis.readUTF(), dis.readUTF()), readList(dis, () -> new Organization.Position(
+                                        dis.readUTF(), readCheckNull(dis.readUTF())), readList(dis, () -> new Organization.Position(
                                                 DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())
                         )))));
             default:
