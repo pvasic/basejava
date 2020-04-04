@@ -33,11 +33,12 @@ public class MainConcurrency {
 
         System.out.println(thread0.getState());
 
+        final MainConcurrency mainConcurrency = new MainConcurrency();
         List<Thread> threads = new ArrayList<>(THREAD_NUMBER);
         for (int i = 0; i < THREAD_NUMBER; i++) {
             Thread thread = new Thread(() -> {
                 for (int j = 0; j < 100; j++) {
-                    increment();
+                    mainConcurrency.increment();
                 }
             });
             thread.start();
@@ -55,7 +56,9 @@ public class MainConcurrency {
 
     }
 
-    private static void increment() {
+    private void increment() {
+//        synchronized (this) {
+//        synchronized (MainConcurrency.class)
         double a = Math.sin(13.);
         synchronized (LOCK) {
             counter++;
