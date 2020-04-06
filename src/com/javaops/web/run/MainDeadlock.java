@@ -36,7 +36,7 @@ public class MainDeadlock {
             count = count.add(value);
         }
 
-        public void credit(BigDecimal value) throws Exception {
+        public void credit(BigDecimal value){
             if (count.compareTo(value) < 0) {
                 throw new InsufficientFundsException("count = " + count + ". value = " + value);
             } else {
@@ -45,7 +45,7 @@ public class MainDeadlock {
         }
     }
 
-    private static void transfer(Account a1, Account a2, BigDecimal value) throws Exception {
+    private static void transfer(Account a1, Account a2, BigDecimal value){
         synchronized (a1) {
             synchronized (a2) {
                 a1.credit(value);
