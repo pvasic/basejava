@@ -22,6 +22,8 @@ public class MainFile {
         //HW09
         Path path = Paths.get("./src");
         indentedPrintingFiles(path, "");
+        File file = new File("/home/pavel/basejava/storage");
+        System.out.println(file.getAbsolutePath());
     }
 
     private static void hw09PrintFiles(Path path) throws IOException {
