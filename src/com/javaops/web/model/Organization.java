@@ -99,7 +99,7 @@ public class Organization implements Serializable {
             this.startDate = startDate;
             this.endDate = endDate;
             this.positionName = positionName;
-            this.responsibility = responsibility;
+            this.responsibility = responsibility == null ? "" : responsibility;
         }
 
         public LocalDate getStartDate() {
@@ -155,7 +155,7 @@ public class Organization implements Serializable {
         public Link(String name, String url) {
             Objects.requireNonNull(name, "name must not be null");
             this.name = name;
-            this.url = url;
+            this.url = url == null ? "" : url;
         }
 
         public String getName() {

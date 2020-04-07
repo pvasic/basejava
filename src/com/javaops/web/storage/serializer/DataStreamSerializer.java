@@ -42,12 +42,12 @@ public class DataStreamSerializer implements StreamSerializer {
                     case EDUCATION:
                         writeCollection(((OrganizationSection) section).getOrganizations(), dos, (organization -> {
                             dos.writeUTF(organization.getHomePage().getName());
-                            dos.writeUTF(writeCheckNull(organization.getHomePage().getUrl()));
+                            dos.writeUTF(organization.getHomePage().getUrl());
                             writeCollection(organization.getPositions(), dos, (position -> {
                                 dos.writeUTF(position.getStartDate().toString());
                                 dos.writeUTF(position.getEndDate().toString());
                                 dos.writeUTF(position.getPositionName());
-                                dos.writeUTF(writeCheckNull(position.getResponsibility()));
+                                dos.writeUTF(position.getResponsibility());
                             }));
                         }));
                 }
@@ -85,8 +85,8 @@ public class DataStreamSerializer implements StreamSerializer {
                 return new OrganizationSection(
                         readList(dis, () -> new Organization(
                                 new Organization.Link(
-                                        dis.readUTF(), readCheckNull(dis.readUTF())), readList(dis, () -> new Organization.Position(
-                                                DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), readCheckNull(dis.readUTF())
+                                        dis.readUTF(), dis.readUTF()), readList(dis, () -> new Organization.Position(
+                                                DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), dis.readUTF()
                         )))));
             default:
                 throw new IllegalStateException();
@@ -125,22 +125,6 @@ public class DataStreamSerializer implements StreamSerializer {
         int size = dis.readInt();
         for (int i = 0; i < size; i++) {
             elementProcessor.process();
-        }
-    }
-
-    private String writeCheckNull(String string) {
-        if (string == null) {
-            return "null";
-        } else {
-            return string;
-        }
-    }
-
-    private String readCheckNull(String string) {
-        if (string.equals("null")) {
-            return null;
-        } else {
-            return string;
         }
     }
 }
