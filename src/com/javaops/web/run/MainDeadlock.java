@@ -15,18 +15,35 @@ public class MainDeadlock {
 
         BigDecimal value = BigDecimal.valueOf(1);
 
-        Thread t1 = new Thread(new TransferMoney(a1, a2, value));
-        Thread t2 = new Thread(new TransferMoney(a2, a1, value));
+        new Thread(() -> {
+            synchronized (a1) {
+                synchronized (a2) {
+                    a1.credit(value);
+                    a2.deposit(value);
+                    try {
+                        a2.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
 
-        t1.start();
-        t2.start();
+        new Thread(() -> {
+            synchronized (a2) {
+                synchronized (a1) {
+                    a2.credit(value);
+                    a1.deposit(value);
+                }
+            }
+        }).start();
 
     }
 
     private static class Account {
         private BigDecimal count;
 
-//        private int id;
+        //        private int id;
 
         public Account(BigDecimal count) {
             this.count = count;
@@ -36,7 +53,7 @@ public class MainDeadlock {
             count = count.add(value);
         }
 
-        public void credit(BigDecimal value){
+        public void credit(BigDecimal value) {
             if (count.compareTo(value) < 0) {
                 throw new InsufficientFundsException("count = " + count + ". value = " + value);
             } else {
@@ -45,39 +62,39 @@ public class MainDeadlock {
         }
     }
 
-    private static void transfer(Account a1, Account a2, BigDecimal value){
-        synchronized (a1) {
-            synchronized (a2) {
-                a1.credit(value);
-                a2.deposit(value);
-                System.out.println(Thread.currentThread().getName() + "  a1 count = " + a1.count);
-                System.out.println(Thread.currentThread().getName() + "  a2 count = " + a1.count);
-            }
-        }
-    }
-
-    private static final class TransferMoney implements Runnable {
-
-        private Account a1;
-        private Account a2;
-        private BigDecimal value;
-
-        public TransferMoney(Account a1, Account a2, BigDecimal value) {
-            this.a1 = a1;
-            this.a2 = a2;
-            this.value = value;
-        }
-
-        @Override
-        public void run() {
-            for (int i = 0; i < 1000; i++) {
-                try {
-                    transfer(a1, a2, value);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+    //    private static void transfer(Account a1, Account a2, BigDecimal value){
+    //        synchronized (a1) {
+    //            synchronized (a2) {
+    //                a1.credit(value);
+    //                a2.deposit(value);
+    //                System.out.println(Thread.currentThread().getName() + "  a1 count = " + a1.count);
+    //                System.out.println(Thread.currentThread().getName() + "  a2 count = " + a1.count);
+    //            }
+    //        }
+    //    }
+    //
+    //    private static final class TransferMoney implements Runnable {
+    //
+    //        private Account a1;
+    //        private Account a2;
+    //        private BigDecimal value;
+    //
+    //        public TransferMoney(Account a1, Account a2, BigDecimal value) {
+    //            this.a1 = a1;
+    //            this.a2 = a2;
+    //            this.value = value;
+    //        }
+    //
+    //        @Override
+    //        public void run() {
+    //            for (int i = 0; i < 1000; i++) {
+    //                try {
+    //                    transfer(a1, a2, value);
+    //                } catch (Exception e) {
+    //                    e.printStackTrace();
+    //                }
+    //            }
+    //        }
+    //    }
 
 }
