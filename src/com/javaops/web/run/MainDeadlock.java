@@ -17,14 +17,14 @@ public class MainDeadlock {
 
         new Thread(() -> {
             synchronized (a1) {
+                try {
+                    Thread.currentThread().join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 synchronized (a2) {
                     a1.credit(value);
                     a2.deposit(value);
-                    try {
-                        a2.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }).start();
@@ -51,6 +51,7 @@ public class MainDeadlock {
 
         public void deposit(BigDecimal value) {
             count = count.add(value);
+            System.out.println(Thread.currentThread().getName() + " deposit add value" + value);
         }
 
         public void credit(BigDecimal value) {
@@ -58,6 +59,7 @@ public class MainDeadlock {
                 throw new InsufficientFundsException("count = " + count + ". value = " + value);
             } else {
                 count = count.subtract(value);
+                System.out.println(Thread.currentThread().getName() + " credit subtract value" + value);
             }
         }
     }
