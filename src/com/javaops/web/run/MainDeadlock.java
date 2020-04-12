@@ -3,6 +3,7 @@ package com.javaops.web.run;
 import com.javaops.web.exception.InsufficientFundsException;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * @author Vasichkin Pavel
@@ -10,13 +11,14 @@ import java.math.BigDecimal;
 public class MainDeadlock {
 
     public static void main(String[] args) {
-        Account a1 = new Account(BigDecimal.valueOf(2000000.));
-        Account a2 = new Account(BigDecimal.valueOf(3000000.));
+        Account a1 = new Account("Bill" ,BigDecimal.valueOf(2000000.));
+        Account a2 = new Account("Jek" ,BigDecimal.valueOf(3000000.));
 
         BigDecimal value = BigDecimal.valueOf(1);
 
         new Thread(() -> {
             synchronized (a1) {
+                System.out.printf("%s synchronized on account %s \n", Thread.currentThread().getName(), a1.fullName);
                 try {
                     Thread.currentThread().join();
                 } catch (InterruptedException e) {
@@ -27,26 +29,29 @@ public class MainDeadlock {
                     a2.deposit(value);
                 }
             }
-        }).start();
+        }, "Thread-1").start();
 
         new Thread(() -> {
             synchronized (a2) {
+                System.out.printf("%s synchronized on account %s \n", Thread.currentThread().getName(), a2.fullName);
                 synchronized (a1) {
                     a2.credit(value);
                     a1.deposit(value);
                 }
             }
-        }).start();
+        }, "Thread-2").start();
 
     }
 
     private static class Account {
+        private String fullName;
         private BigDecimal count;
 
         //        private int id;
 
-        public Account(BigDecimal count) {
+        public Account(String fullName, BigDecimal count) {
             this.count = count;
+            this.fullName = fullName;
         }
 
         public void deposit(BigDecimal value) {

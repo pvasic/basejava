@@ -8,6 +8,8 @@ import com.javaops.web.model.SectionType;
 public class TestSingleton {
     private static TestSingleton instance;
 
+    private final String connectDataBase = "Connect";
+
     public static TestSingleton getInstance() {
         if (instance == null) {
             instance = new TestSingleton();
@@ -18,17 +20,22 @@ public class TestSingleton {
     private TestSingleton() {
     }
 
-    public static void main(String[] args) {
-        TestSingleton.getInstance().toString();
-        Singleton instance = Singleton.valueOf("INSTANCE");
-        System.out.println(instance.ordinal()); // ordinal number
-
-        for (SectionType type : SectionType.values()) {
-            System.out.println(type.getTitle());
-        }
+    public  String getConnectDataBase() {
+        return connectDataBase;
     }
 
-    public enum Singleton {
-        INSTANCE
-    }
+//    public static void main(String[] args) {
+//        TestSingleton.getInstance().toString();
+//        Singleton instance = Singleton.valueOf("INSTANCE");
+//        System.out.println(instance.ordinal()); // ordinal number
+//
+//        for (SectionType type : SectionType.values()) {
+//            System.out.println(type.getTitle());
+//        }
+//    }
+//
+//    public enum Singleton {
+//        INSTANCE
+
+//    }
 }
