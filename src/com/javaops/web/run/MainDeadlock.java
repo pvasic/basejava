@@ -19,11 +19,6 @@ public class MainDeadlock {
         new Thread(() -> {
             synchronized (a1) {
                 System.out.printf("%s synchronized on account %s \n", Thread.currentThread().getName(), a1.fullName);
-                try {
-                    Thread.currentThread().join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 synchronized (a2) {
                     a1.credit(value);
                     a2.deposit(value);
