@@ -2,6 +2,7 @@ package com.javaops.web.run;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class MainHW12 {
 
@@ -18,39 +19,24 @@ public class MainHW12 {
 //        если сумма всех чисел нечетная - удалить все нечетные, если четная - удалить все четные.
 //        Сложность алгоритма должна быть O(N). Optional - решение в один стрим.
         oddOrEven(Arrays.asList(100, 9, 1, 2, 3, -49, 3, 0, 2, 3)).forEach(System.out::println);
-//        oddOrEven2(Arrays.asList(100, 9, 1, 2, 3, -49, 3, 0, 2, 3)).forEach(System.out::println);
-
-
     }
 
     private static int minValue(int[] values) {
         return Arrays.stream(values).
-                boxed().
                 distinct().
                 sorted().
                 reduce(0, (left, right) -> left * 10 + right);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        List<Integer> odd = new ArrayList<>();
-        List<Integer> even = new ArrayList<>();
         AtomicInteger sum = new AtomicInteger();
-        integers.forEach(val -> {
-            sum.addAndGet(val);
-            if ((val & 1) != 1) {
-                odd.add(val);
-            } else {
-                even.add(val);
-            }
-        });
-        if ((sum.intValue() & 1) != 1) {
-            return odd;
+        Map<Boolean, List<Integer>> map = integers.stream().
+                peek(sum::addAndGet).
+                collect(Collectors.partitioningBy(val -> ((val & 1) == 1)));
+        if ((sum.intValue() & 1) == 1) {
+            return map.get(true);
         } else {
-            return even;
+            return map.get(false);
         }
     }
-
-//    private static List<Integer> oddOrEven2(List<Integer> integers) {
-//
-//    }
 }
