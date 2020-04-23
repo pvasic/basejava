@@ -3,7 +3,7 @@ package com.javaops.web.storage;
 import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
-import com.javaops.web.run.Config;
+import com.javaops.web.config.Config;
 import org.junit.Before;
 import org.junit.Test;
 
