@@ -6,6 +6,7 @@ import com.javaops.web.model.Resume;
 import com.javaops.web.sql.ConnectionFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -42,7 +43,16 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
+            ps.setString(1, resume.getFullName());
+            ps.setString(2, resume.getUuid());
+            if (!ps.execute()) {
+                throw new NotExistStorageException(resume.getUuid());
+            }
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
@@ -59,16 +69,39 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("DELETE from resume WHERE uuid = ?")) {
+            ps.setString(1, uuid);
+            ps.execute();
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public List<Resume> getAllSorted() {
-        return null;
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT * from resume order by full_name, uuid")) {
+            ResultSet resultSet = ps.executeQuery();
+            List<Resume> resumes = new ArrayList<>();
+            while (resultSet.next()) {
+                resumes.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
+            }
+            return resumes;
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 
     @Override
     public int size() {
-        return 0;
+        try (Connection conn = connectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT uuid from resume")) {
+            ResultSet resultSet = ps.executeQuery();
+            resultSet.last();
+            return resultSet.getRow();
+        } catch (SQLException e) {
+            throw new StorageException(e);
+        }
     }
 }

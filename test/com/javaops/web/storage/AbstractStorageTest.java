@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -18,6 +19,7 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractStorageTest {
     protected final static File STORAGE_DIR = Config.get().getStorageDir();
+    protected final static Properties PROPS = Config.get().getProps();
     protected final Storage storage;
 
     private static final String UUID_1 = "uuid1";
