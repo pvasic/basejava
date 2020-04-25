@@ -1,7 +1,5 @@
 package com.javaops.web.storage;
 
-import com.javaops.web.storage.serializer.DataStreamSerializer;
-
 /**
  * @author Vasichkin Pavel
  */
