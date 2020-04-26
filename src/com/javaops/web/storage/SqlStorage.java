@@ -29,7 +29,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        return (Resume) sqlHelper.execute(
+        return  sqlHelper.execute(
                 "SELECT * FROM resume r WHERE uuid = ?", (ps) -> {
                     ps.setString(1, uuid);
                     ResultSet rs = ps.executeQuery();
@@ -78,7 +78,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        return (List<Resume>) sqlHelper.execute(
+        return  sqlHelper.execute(
                 "SELECT * from resume order by full_name, uuid", (ps) -> {
                     ResultSet rs = ps.executeQuery();
                     List<Resume> resumes = new ArrayList<>();
@@ -91,7 +91,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        return (int) sqlHelper.execute(
+        return sqlHelper.execute(
                 "SELECT count(*) FROM resume", (ps) -> {
                     ResultSet rs = ps.executeQuery();
                     if (rs.next()) {

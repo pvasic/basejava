@@ -22,12 +22,12 @@ public class SqlHelper {
 
     public static SqlHelper getSqlHelper(ConnectionFactory connectionFactory) {
         if (SQL_HELPER_INSTANCE == null) {
-            return new SqlHelper(connectionFactory);
+            SQL_HELPER_INSTANCE = new SqlHelper(connectionFactory);
         }
         return SQL_HELPER_INSTANCE;
     }
 
-    public <T> Object execute(String sqlString, SqlStorageBlockOfCode<T> blockOfCode) {
+    public <T> T execute(String sqlString, SqlStorageBlockOfCode<T> blockOfCode) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             return blockOfCode.execute(ps);
