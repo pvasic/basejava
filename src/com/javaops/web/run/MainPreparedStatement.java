@@ -16,7 +16,7 @@ public class MainPreparedStatement {
     }
 
     public static void main(String[] args) {
-        SqlHelper sqlHelper = SqlHelper.getSqlHelper(connectonFactory);
+        SqlHelper sqlHelper = new SqlHelper(connectonFactory);
         sqlHelper.execute(
                 "DELETE FROM resume", (ps) -> {
                     ps.execute();

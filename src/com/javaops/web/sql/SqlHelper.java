@@ -12,19 +12,10 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-    private static SqlHelper SQL_HELPER_INSTANCE;
-
     private final ConnectionFactory connectionFactory;
 
-    private SqlHelper(ConnectionFactory connectionFactory) {
+    public SqlHelper(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
-    }
-
-    public static SqlHelper getSqlHelper(ConnectionFactory connectionFactory) {
-        if (SQL_HELPER_INSTANCE == null) {
-            SQL_HELPER_INSTANCE = new SqlHelper(connectionFactory);
-        }
-        return SQL_HELPER_INSTANCE;
     }
 
     public <T> T execute(String sqlString, SqlStorageBlockOfCode<T> blockOfCode) {

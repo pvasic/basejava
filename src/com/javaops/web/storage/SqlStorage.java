@@ -2,7 +2,6 @@ package com.javaops.web.storage;
 
 import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
-import com.javaops.web.sql.ConnectionFactory;
 import com.javaops.web.sql.SqlHelper;
 
 import java.sql.*;
@@ -10,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
-    private final ConnectionFactory connectionFactory;
     private final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-        sqlHelper = SqlHelper.getSqlHelper(connectionFactory);
+        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
     @Override
