@@ -32,11 +32,11 @@ public class SqlStorage implements Storage {
         return (Resume) sqlHelper.execute(
                 (ps) -> {
                     ps.setString(1, uuid);
-                    ResultSet resultSet = ps.executeQuery();
-                    if (!resultSet.next()) {
+                    ResultSet rs = ps.executeQuery();
+                    if (!rs.next()) {
                         throw new NotExistStorageException(uuid);
                     }
-                    return new Resume(uuid, resultSet.getString("full_name"));
+                    return new Resume(uuid, rs.getString("full_name"));
                 });
     }
 
@@ -84,10 +84,10 @@ public class SqlStorage implements Storage {
         SqlHelper sqlHelper = new SqlHelper(connectionFactory, "SELECT * from resume order by full_name, uuid");
         return (List<Resume>) sqlHelper.execute(
                 (ps) -> {
-                    ResultSet resultSet = ps.executeQuery();
+                    ResultSet rs = ps.executeQuery();
                     List<Resume> resumes = new ArrayList<>();
-                    while (resultSet.next()) {
-                        resumes.add(new Resume(resultSet.getString("uuid").trim(), resultSet.getString("full_name")));
+                    while (rs.next()) {
+                        resumes.add(new Resume(rs.getString("uuid").trim(), rs.getString("full_name")));
                     }
                     return resumes;
                 });
@@ -95,15 +95,14 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        SqlHelper sqlHelper = new SqlHelper(connectionFactory, "SELECT uuid from resume");
+        SqlHelper sqlHelper = new SqlHelper(connectionFactory, "SELECT count(*) FROM resume");
         return (int) sqlHelper.execute(
                 (ps) -> {
-                    ResultSet resultSet = ps.executeQuery();
-                    if (!resultSet.next()) {
-                        return 0;
+                    ResultSet rs = ps.executeQuery();
+                    if (rs.next()) {
+                        return rs.getInt(1);
                     } else {
-                        resultSet.last();
-                        return resultSet.getRow();
+                        return 0;
                     }
                 });
     }

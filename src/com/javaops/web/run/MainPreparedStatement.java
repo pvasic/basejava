@@ -17,10 +17,10 @@ public class MainPreparedStatement {
 
     public static void main(String[] args) {
         try (Connection conn = connectonFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES  (?,?)")) {
-            ps.setString(1, "uuid7");
-            ps.setString(2, "tttttttttt");
-            ps.execute();
+             PreparedStatement ps = conn.prepareStatement("SELECT count(*) FROM resume")) {
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            System.out.println(rs.getInt(1));
         } catch (SQLException e) {
             throw new ExistStorageException("uuid2" + e);
         }

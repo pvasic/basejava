@@ -12,8 +12,8 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-    private ConnectionFactory connectionFactory;
-    private String sqlString;
+    private final ConnectionFactory connectionFactory;
+    private final String sqlString;
 
     public SqlHelper(ConnectionFactory connectionFactory, String sqlString) {
         this.sqlString = sqlString;
