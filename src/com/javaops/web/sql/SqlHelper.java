@@ -12,15 +12,22 @@ import java.sql.SQLException;
 
 public class SqlHelper {
 
-    private final ConnectionFactory connectionFactory;
-    private final String sqlString;
+    private static SqlHelper SQL_HELPER_INSTANCE;
 
-    public SqlHelper(ConnectionFactory connectionFactory, String sqlString) {
-        this.sqlString = sqlString;
+    private final ConnectionFactory connectionFactory;
+
+    private SqlHelper(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 
-    public <T> Object execute(SqlStorageBlockOfCode<T> blockOfCode) {
+    public static SqlHelper getSqlHelper(ConnectionFactory connectionFactory) {
+        if (SQL_HELPER_INSTANCE == null) {
+            return new SqlHelper(connectionFactory);
+        }
+        return SQL_HELPER_INSTANCE;
+    }
+
+    public <T> Object execute(String sqlString, SqlStorageBlockOfCode<T> blockOfCode) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             return blockOfCode.execute(ps);

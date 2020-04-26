@@ -1,8 +1,8 @@
 package com.javaops.web.run;
 
 import com.javaops.web.config.Config;
-import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.sql.ConnectionFactory;
+import com.javaops.web.sql.SqlHelper;
 
 import java.sql.*;
 import java.util.Properties;
@@ -16,14 +16,13 @@ public class MainPreparedStatement {
     }
 
     public static void main(String[] args) {
-        try (Connection conn = connectonFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT count(*) FROM resume")) {
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            System.out.println(rs.getInt(1));
-        } catch (SQLException e) {
-            throw new ExistStorageException("uuid2" + e);
-        }
+        SqlHelper sqlHelper = SqlHelper.getSqlHelper(connectonFactory);
+        sqlHelper.execute(
+                "DELETE FROM resume", (ps) -> {
+                    ps.execute();
+                    return null;
+                }
+        );
 
 
 
