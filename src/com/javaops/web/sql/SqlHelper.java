@@ -22,7 +22,7 @@ public class SqlHelper {
              PreparedStatement ps = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             return blockOfCode.execute(ps);
         } catch (PSQLException e) {
-            if (Integer.parseInt(e.getServerErrorMessage().getSQLState()) == 23505) {
+            if (e.getServerErrorMessage().getSQLState().equals("23505")) {
                 throw new ExistStorageException(e.toString());
             }
             return null;
