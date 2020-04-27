@@ -1,7 +1,6 @@
 package com.javaops.web.sql;
 
 import com.javaops.web.exception.ExistStorageException;
-import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.exception.StorageException;
 import org.postgresql.util.PSQLException;
 
@@ -22,13 +21,13 @@ public class SqlHelper {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sqlString, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             return blockOfCode.execute(ps);
-        } catch (NotExistStorageException e) {
-            throw new NotExistStorageException(e.toString());
         } catch (PSQLException e) {
-            throw new ExistStorageException(e.toString());
-        } catch (StorageException | SQLException e) {
+            if (Integer.parseInt(e.getServerErrorMessage().getSQLState()) == 23505) {
+                throw new ExistStorageException(e.toString());
+            }
+            return null;
+        } catch (SQLException e) {
             throw new StorageException(e);
         }
-
     }
 }
