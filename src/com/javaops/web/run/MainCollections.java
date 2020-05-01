@@ -59,10 +59,10 @@ public class MainCollections {
         }
 
         // Arrays.asList вернет неизменяемый ArrayList, так как этот обект является обьектом вложенного (Nested, static) клсса в классе Arrays . Тема Nested class.
-        List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
-
         // UnsupportedOperationException
         //resumes.remove(1);
+        List<Resume> resumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+
         System.out.println(resumes);
 
         String s3 = "hello";

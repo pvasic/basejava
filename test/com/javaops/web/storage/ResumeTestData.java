@@ -214,12 +214,12 @@ public class ResumeTestData {
 
     public static Resume getRESUME1(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-//        resume.getContacts().put(ContactType.MOBILE, MOBILE_1);
-//        resume.getContacts().put(ContactType.SKYPE, SKYPE_1);
-//        resume.getContacts().put(ContactType.EMAIL, EMAIL_1);
-//        resume.getContacts().put(ContactType.LINKEDLN, LINKEDLN_1);
-//        resume.getContacts().put(ContactType.GITHUB, GITHUB_1);
-//        resume.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW_1);
+        resume.addContact(ContactType.MOBILE, MOBILE_1);
+        resume.addContact(ContactType.SKYPE, SKYPE_1);
+        resume.addContact(ContactType.EMAIL, EMAIL_1);
+        resume.addContact(ContactType.LINKEDLN, LINKEDLN_1);
+        resume.addContact(ContactType.GITHUB, GITHUB_1);
+        resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_1);
 //
 //        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_1);
 //        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
@@ -232,12 +232,12 @@ public class ResumeTestData {
 
     public static Resume getRESUME2(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-//        resume.getContacts().put(ContactType.MOBILE, MOBILE_2);
-//        resume.getContacts().put(ContactType.SKYPE, SKYPE_2);
-//        resume.getContacts().put(ContactType.EMAIL, EMAIL_2);
-//        resume.getContacts().put(ContactType.LINKEDLN, LINKEDLN_2);
-//        resume.getContacts().put(ContactType.GITHUB, GITHUB_2);
-//        resume.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
+        resume.addContact(ContactType.MOBILE, MOBILE_2);
+        resume.addContact(ContactType.SKYPE, SKYPE_2);
+        resume.addContact(ContactType.EMAIL, EMAIL_2);
+        resume.addContact(ContactType.LINKEDLN, LINKEDLN_2);
+        resume.addContact(ContactType.GITHUB, GITHUB_2);
+        resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
 //
 //        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_2);
 //        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
@@ -250,12 +250,12 @@ public class ResumeTestData {
 
     public static Resume getRESUME3(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-//        resume.getContacts().put(ContactType.MOBILE, MOBILE_3);
-//        resume.getContacts().put(ContactType.SKYPE, SKYPE_3);
-//        resume.getContacts().put(ContactType.EMAIL, EMAIL_3);
-//        resume.getContacts().put(ContactType.LINKEDLN, LINKEDLN_3);
-//        resume.getContacts().put(ContactType.GITHUB, GITHUB_3);
-//        resume.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW_3);
+        resume.addContact(ContactType.MOBILE, MOBILE_3);
+        resume.addContact(ContactType.SKYPE, SKYPE_3);
+        resume.addContact(ContactType.EMAIL, EMAIL_3);
+        resume.addContact(ContactType.LINKEDLN, LINKEDLN_3);
+        resume.addContact(ContactType.GITHUB, GITHUB_3);
+        resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_3);
 //
 //        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_3);
 //        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_3);
@@ -268,12 +268,12 @@ public class ResumeTestData {
 
     public static Resume getRESUME4(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-//        resume.getContacts().put(ContactType.MOBILE, MOBILE_4);
-//        resume.getContacts().put(ContactType.SKYPE, SKYPE_4);
-//        resume.getContacts().put(ContactType.EMAIL, EMAIL_4);
-//        resume.getContacts().put(ContactType.LINKEDLN, LINKEDLN_4);
-//        resume.getContacts().put(ContactType.GITHUB, GITHUB_4);
-//        resume.getContacts().put(ContactType.STACKOVERFLOW, STACKOVERFLOW_4);
+        resume.addContact(ContactType.MOBILE, MOBILE_4);
+        resume.addContact(ContactType.SKYPE, SKYPE_4);
+        resume.addContact(ContactType.EMAIL, EMAIL_4);
+        resume.addContact(ContactType.LINKEDLN, LINKEDLN_4);
+        resume.addContact(ContactType.GITHUB, GITHUB_4);
+        resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_4);
 //
 //        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_4);
 //        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_4);
