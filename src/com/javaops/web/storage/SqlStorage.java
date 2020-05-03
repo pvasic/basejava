@@ -124,7 +124,7 @@ public class SqlStorage implements Storage {
                     return null;
                 }
         );
-        Collections.sort(resumes);
+        Collections.sort(resumes, Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         return resumes;
     }
 

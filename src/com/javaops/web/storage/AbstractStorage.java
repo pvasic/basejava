@@ -5,6 +5,7 @@ import com.javaops.web.exception.NotExistStorageException;
 import com.javaops.web.model.Resume;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -61,9 +62,9 @@ public abstract class AbstractStorage<SK> implements Storage {
     @Override
     public List<Resume> getAllSorted() {
         LOG.info("getAllSorted");
-        List<Resume> arrayList = getAll();
-        Collections.sort(arrayList);
-        return arrayList;
+        List<Resume> list = getAll();
+        Collections.sort(list, Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        return list;
     }
 
     private SK getSearchKeyIfExist(String uuid) {

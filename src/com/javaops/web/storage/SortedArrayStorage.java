@@ -12,12 +12,13 @@ import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    private static class ResumeComparator implements Comparator<Resume> {
-        @Override
-        public int compare(Resume o1, Resume o2) {
-            return o1.getUuid().compareTo(o2.getUuid());
-        }
-    }
+//    private static class ResumeComparator implements Comparator<Resume> {
+//        @Override
+//        public int compare(Resume o1, Resume o2) {
+//            int cmp = o1.getFullName().compareTo(o2.getFullName());
+//            return cmp != 0 ? cmp : o1.getUuid().compareTo(o2.getUuid());
+//        }
+//    }
 
 //    private static final Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>() {
 //        @Override
@@ -26,11 +27,8 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 //        }
 //    };
 
-//    private static final Comparator<Resume> RESUME_COMPARATOR = (Resume o1, Resume o2) -> {
-//        int size; // дополнительные вычисления внутри лямбда
-//        return o1.getUuid().compareTo(o2.getUuid());
-//    };
-//
+//    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
+
 //    private static final Comparator<Resume> RESUME_COMPARATORR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
 
     @Override
