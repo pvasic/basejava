@@ -47,7 +47,8 @@ public class SqlStorage implements Storage {
     public void update(Resume resume) {
         sqlHelper.transactionalExecute(conn -> {
                     try (PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
-                        if (writeUuidFullname(ps, resume).executeUpdate() == 0) {
+                        writeUuidFullname(ps, resume);
+                        if (ps.executeUpdate() == 0) {
                             throw new NotExistStorageException(resume.getUuid());
                         }
                     }
@@ -61,7 +62,8 @@ public class SqlStorage implements Storage {
     public void save(Resume resume) {
         sqlHelper.transactionalExecute(conn -> {
                     try (PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (full_name, uuid) VALUES (?,?)")) {
-                        writeUuidFullname(ps, resume).execute();
+                        writeUuidFullname(ps, resume);
+                        ps.execute();
                     }
                     writeContacts(conn, resume, "INSERT INTO contact (value, resume_uuid, type) VALUES (?,?,?)");
                     return null;
@@ -69,10 +71,9 @@ public class SqlStorage implements Storage {
         );
     }
 
-    private PreparedStatement writeUuidFullname(PreparedStatement ps, Resume resume) throws SQLException {
+    private void writeUuidFullname(PreparedStatement ps, Resume resume) throws SQLException {
         ps.setString(1, resume.getFullName());
         ps.setString(2, resume.getUuid());
-        return ps;
     }
 
     private void writeContacts(Connection conn, Resume resume, String s) throws SQLException {
