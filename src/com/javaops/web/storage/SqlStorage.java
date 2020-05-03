@@ -78,6 +78,10 @@ public class SqlStorage implements Storage {
     }
 
     private void writeContacts(Connection conn, Resume resume, String s) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid=?")) {
+            ps.setString(1, resume.getUuid());
+            ps.executeBatch();
+        }
         try (PreparedStatement ps = conn.prepareStatement(s)) {
             for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
                 ps.setString(1, e.getValue());
