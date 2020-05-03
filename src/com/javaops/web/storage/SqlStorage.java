@@ -108,7 +108,7 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         Map<String, Resume> resumes = new LinkedHashMap<>();
         sqlHelper.transactionalExecute(conn -> {
-                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY uuid")) {
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
                             String uuid = rs.getString("uuid");
@@ -118,12 +118,10 @@ public class SqlStorage implements Storage {
                     try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact c ORDER BY resume_uuid")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
+                            ContactType type = ContactType.valueOf(rs.getString("type"));
+                            String value = rs.getString("value");
                             resumes.computeIfPresent(rs.getString("resume_uuid"), (s, r) -> {
-                                try {
-                                    r.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
-                                } catch (SQLException e) {
-                                    throw new StorageException(e);
-                                }
+                                r.addContact(type, value);
                                 return r;
                             });
                         }
@@ -131,9 +129,7 @@ public class SqlStorage implements Storage {
                     return null;
                 }
         );
-        List<Resume> listResume = new ArrayList<>(resumes.values());
-        listResume.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
-        return listResume;
+        return new ArrayList<>(resumes.values());
     }
 
     @Override
