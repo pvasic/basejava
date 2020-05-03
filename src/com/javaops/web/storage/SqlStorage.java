@@ -1,6 +1,7 @@
 package com.javaops.web.storage;
 
 import com.javaops.web.exception.NotExistStorageException;
+import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.ContactType;
 import com.javaops.web.model.Resume;
 import com.javaops.web.sql.SqlHelper;
@@ -101,32 +102,34 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> resumes = new ArrayList<>();
+        Map<String, Resume> resumes = new LinkedHashMap<>();
         sqlHelper.transactionalExecute(conn -> {
                     try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY uuid")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
-                            resumes.add(new Resume(rs.getString("uuid"), rs.getString("full_name")));
+                            String uuid = rs.getString("uuid");
+                            resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                         }
                     }
                     try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact c ORDER BY resume_uuid")) {
                         ResultSet rs = ps.executeQuery();
-                        Iterator<Resume> iterator = resumes.iterator();
                         while (rs.next()) {
-                            while (iterator.hasNext()) {
-                                Resume r = iterator.next();
-                                if (r.getUuid().equals(rs.getString("resume_uuid"))) {
+                            resumes.computeIfPresent(rs.getString("resume_uuid"), (s, r) -> {
+                                try {
                                     r.addContact(ContactType.valueOf(rs.getString("type")), rs.getString("value"));
+                                } catch (SQLException e) {
+                                    throw new StorageException(e);
                                 }
-                            }
-                            iterator = resumes.iterator();
+                                return r;
+                            });
                         }
                     }
                     return null;
                 }
         );
-        Collections.sort(resumes, Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
-        return resumes;
+        List<Resume> listResume = new ArrayList<>(resumes.values());
+        listResume.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
+        return listResume;
     }
 
     @Override
