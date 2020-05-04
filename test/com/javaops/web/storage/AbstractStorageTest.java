@@ -99,7 +99,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume expected = ResumeTestData.getRESUME2(UUID_2, FULL_NAME_UPDATE);
+
+        //Резюме UUID_2 обновляется данными getRESUME4()
+        Resume expected = ResumeTestData.getRESUME4(UUID_2, FULL_NAME_UPDATE);
         storage.update(expected);
         assertEquals(expected, storage.get(UUID_2));
     }
