@@ -1,7 +1,6 @@
 package com.javaops.web.storage;
 
 import com.javaops.web.exception.NotExistStorageException;
-import com.javaops.web.exception.StorageException;
 import com.javaops.web.model.ContactType;
 import com.javaops.web.model.Resume;
 import com.javaops.web.sql.SqlHelper;
@@ -53,7 +52,11 @@ public class SqlStorage implements Storage {
                             throw new NotExistStorageException(resume.getUuid());
                         }
                     }
-                    writeContacts(conn, resume, "UPDATE contact SET value = ? WHERE resume_uuid = ? AND type = ?");
+                    try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact c WHERE c.resume_uuid=?")) {
+                        ps.setString(1, resume.getUuid());
+                        ps.execute();
+                    }
+                    writeContacts(conn, resume, "INSERT INTO contact (value, resume_uuid, type) VALUES (?,?,?)");
                     return null;
                 }
         );
@@ -78,10 +81,6 @@ public class SqlStorage implements Storage {
     }
 
     private void writeContacts(Connection conn, Resume resume, String s) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM contact WHERE resume_uuid=?")) {
-            ps.setString(1, resume.getUuid());
-            ps.executeBatch();
-        }
         try (PreparedStatement ps = conn.prepareStatement(s)) {
             for (Map.Entry<ContactType, String> e : resume.getContacts().entrySet()) {
                 ps.setString(1, e.getValue());
@@ -95,7 +94,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        sqlHelper.<Void>execute("DELETE FROM resume WHERE uuid=?", ps -> {
+        sqlHelper.<Void>execute("DELETE FROM resume r WHERE r.uuid=?", ps -> {
             ps.setString(1, uuid);
             if (ps.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
@@ -108,14 +107,14 @@ public class SqlStorage implements Storage {
     public List<Resume> getAllSorted() {
         Map<String, Resume> resumes = new LinkedHashMap<>();
         sqlHelper.transactionalExecute(conn -> {
-                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY full_name, uuid")) {
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r ORDER BY r.full_name, uuid")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
                             String uuid = rs.getString("uuid");
                             resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                         }
                     }
-                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact c ORDER BY resume_uuid")) {
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact c ORDER BY c.resume_uuid")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
                             ContactType type = ContactType.valueOf(rs.getString("type"));

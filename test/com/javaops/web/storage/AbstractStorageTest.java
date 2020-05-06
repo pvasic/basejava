@@ -2,6 +2,7 @@ package com.javaops.web.storage;
 
 import com.javaops.web.exception.ExistStorageException;
 import com.javaops.web.exception.NotExistStorageException;
+import com.javaops.web.model.ContactType;
 import com.javaops.web.model.Resume;
 import com.javaops.web.config.Config;
 import org.junit.Before;
@@ -30,6 +31,7 @@ public abstract class AbstractStorageTest {
     private static final String FULL_NAME_3 = "FullName3";
     private static final String FULL_NAME_4 = "FullName4";
     private static final String FULL_NAME_UPDATE = "FullNameUpdate";
+    private static final String LINKEDLN_UPDATE = "LinkedlnUpdate";
 
     private static final Resume RESUME_1;
     private static final Resume RESUME_2;
@@ -99,9 +101,10 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-
-        //Резюме UUID_2 обновляется данными getRESUME4()
         Resume expected = ResumeTestData.getRESUME4(UUID_2, FULL_NAME_UPDATE);
+        expected.getContacts().remove(ContactType.EMAIL);
+        expected.getContacts().remove(ContactType.SKYPE);
+        expected.addContact(ContactType.LINKEDLN, LINKEDLN_UPDATE);
         storage.update(expected);
         assertEquals(expected, storage.get(UUID_2));
     }

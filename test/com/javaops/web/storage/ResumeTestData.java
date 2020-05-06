@@ -235,7 +235,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.MOBILE, MOBILE_2);
         resume.addContact(ContactType.SKYPE, SKYPE_2);
         resume.addContact(ContactType.EMAIL, EMAIL_2);
-        resume.addContact(ContactType.LINKEDLN, LINKEDLN_2);
+//        resume.addContact(ContactType.LINKEDLN, LINKEDLN_2);
         resume.addContact(ContactType.GITHUB, GITHUB_2);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
 //
