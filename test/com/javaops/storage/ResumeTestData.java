@@ -220,9 +220,9 @@ public class ResumeTestData {
         resume.addContact(ContactType.LINKEDLN, LINKEDLN_1);
         resume.addContact(ContactType.GITHUB, GITHUB_1);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_1);
-//
-//        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_1);
-//        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
+
+        resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_1);
+        resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
 //        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_1);
 //        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_1);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_1);
@@ -239,8 +239,8 @@ public class ResumeTestData {
         resume.addContact(ContactType.GITHUB, GITHUB_2);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
 //
-//        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_2);
-//        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
+        resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_2);
+        resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
 //        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_2);
 //        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_2);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_2);
@@ -256,9 +256,9 @@ public class ResumeTestData {
         resume.addContact(ContactType.LINKEDLN, LINKEDLN_3);
         resume.addContact(ContactType.GITHUB, GITHUB_3);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_3);
-//
-//        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_3);
-//        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_3);
+
+        resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_3);
+        resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_3);
 //        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_3);
 //        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_3);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_3);
@@ -274,9 +274,9 @@ public class ResumeTestData {
         resume.addContact(ContactType.LINKEDLN, LINKEDLN_4);
         resume.addContact(ContactType.GITHUB, GITHUB_4);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_4);
-//
-//        resume.getSections().put(SectionType.PERSONAL, PERSONAL_SECTION_4);
-//        resume.getSections().put(SectionType.OBJECTIVE, OBJECTIVE_SECTION_4);
+
+        resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_4);
+        resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_4);
 //        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_4);
 //        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_4);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_4);
