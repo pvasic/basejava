@@ -67,8 +67,12 @@ public class SqlStorage implements Storage {
                             throw new NotExistStorageException(resume.getUuid());
                         }
                     }
-                    deleteContacts(conn, resume);
+                    deleteFromTable(conn, resume, "DELETE  FROM contact WHERE resume_uuid=?");
                     insertContacts(conn, resume);
+                    deleteFromTable(conn, resume, "DELETE  FROM text_section WHERE resume_uuid=?");
+                    insertTextSection(conn, resume);
+                    deleteFromTable(conn, resume, "DELETE  FROM list_section WHERE resume_uuid=?");
+                    insertListSection(conn, resume);
                     return null;
                 }
         );
@@ -122,6 +126,28 @@ public class SqlStorage implements Storage {
                             });
                         }
                     }
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM text_section c ORDER BY c.resume_uuid")) {
+                        ResultSet rs = ps.executeQuery();
+                        while (rs.next()) {
+                            SectionType type = SectionType.valueOf(rs.getString("type"));
+                            String content = rs.getString("content");
+                            resumes.computeIfPresent(rs.getString("resume_uuid"), (s, r) -> {
+                                r.addSection(type, new TextSection(content));
+                                return r;
+                            });
+                        }
+                    }
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM list_section c ORDER BY c.resume_uuid")) {
+                        ResultSet rs = ps.executeQuery();
+                        while (rs.next()) {
+                            SectionType type = SectionType.valueOf(rs.getString("type"));
+                            String items = rs.getString("items");
+                            resumes.computeIfPresent(rs.getString("resume_uuid"), (s, r) -> {
+                                r.addSection(type, new ListSection(Stream.of(items.split("\n")).collect(Collectors.toList())));
+                                return r;
+                            });
+                        }
+                    }
                     return null;
                 }
         );
@@ -160,6 +186,14 @@ public class SqlStorage implements Storage {
         ps.setString(2, resume.getUuid());
     }
 
+    private void deleteFromTable(Connection conn, Resume r, String sql) {
+        sqlHelper.execute(sql, ps -> {
+            ps.setString(1, r.getUuid());
+            ps.execute();
+            return null;
+        });
+    }
+
     private void addContact(ResultSet rs, Resume r) throws SQLException {
         String value = rs.getString("value");
         if (value != null) {
@@ -177,14 +211,6 @@ public class SqlStorage implements Storage {
             }
             ps.executeBatch();
         }
-    }
-
-    private void deleteContacts(Connection conn, Resume r) {
-        sqlHelper.execute("DELETE  FROM contact WHERE resume_uuid=?", ps -> {
-            ps.setString(1, r.getUuid());
-            ps.execute();
-            return null;
-        });
     }
 
     private void addTextSection(ResultSet rs, Resume r) throws SQLException {
