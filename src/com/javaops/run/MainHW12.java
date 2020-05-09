@@ -20,10 +20,10 @@ public class MainHW12 {
     }
 
     private static int minValue(int[] values) {
-        return Arrays.stream(values).
-                distinct().
-                sorted().
-                reduce(0, (left, right) -> left * 10 + right);
+        return Arrays.stream(values)
+                .distinct()
+                .sorted()
+                .reduce(0, (left, right) -> left * 10 + right);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {

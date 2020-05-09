@@ -223,8 +223,8 @@ public class ResumeTestData {
 
         resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_1);
         resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_1);
-//        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_1);
-//        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_1);
+        resume.addSection(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_1);
+        resume.addSection(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_1);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_1);
 //        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_1);
         return resume;
@@ -241,8 +241,8 @@ public class ResumeTestData {
 //
         resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_2);
         resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_2);
-//        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_2);
-//        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_2);
+        resume.addSection(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_2);
+        resume.addSection(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_2);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_2);
 //        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_2);
         return resume;
@@ -259,8 +259,8 @@ public class ResumeTestData {
 
         resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_3);
         resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_3);
-//        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_3);
-//        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_3);
+        resume.addSection(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_3);
+        resume.addSection(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_3);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_3);
 //        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_3);
         return resume;
@@ -277,8 +277,8 @@ public class ResumeTestData {
 
         resume.addSection(SectionType.PERSONAL, PERSONAL_SECTION_4);
         resume.addSection(SectionType.OBJECTIVE, OBJECTIVE_SECTION_4);
-//        resume.getSections().put(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_4);
-//        resume.getSections().put(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_4);
+        resume.addSection(SectionType.ACHIEVEMENT, ACHIEVEMENT_SECTION_4);
+        resume.addSection(SectionType.QUALIFICATIONS, QUALIFICATIONS_SECTION_4);
 //        resume.getSections().put(SectionType.EXPERIENCE, EXPERIENCE_SECTION_4);
 //        resume.getSections().put(SectionType.EDUCATION, EDUCATION_SECTION_4);
         return resume;
