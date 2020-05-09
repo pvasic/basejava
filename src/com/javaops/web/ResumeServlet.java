@@ -20,6 +20,7 @@ public class ResumeServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 //        request.setCharacterEncoding("UTF-8");
 //        response.setCharacterEncoding("UTF-8");
 ////       response.setHeader("Content-Type", "text/html; charset=UTF-8");
@@ -31,6 +32,6 @@ public class ResumeServlet extends HttpServlet {
 
         List<Resume> resumes = storage.getAllSorted();
         request.setAttribute("resumes", resumes);
-        request.getRequestDispatcher("mypage.jsp").forward(request, response);
+        request.getRequestDispatcher("resumes.jsp").forward(request, response);
     }
 }

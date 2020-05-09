@@ -10,14 +10,14 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/style.css">
-    <title>Title</title>
+    <title>Resumes</title>
 </head>
 <body>
     <header>Resumes</header>
     <br>
     <br>
     <table border="2">
-        <tr>
+        <tr >
             <th>UUID</th>
             <th>FullName</th>
         </tr>
