@@ -1,5 +1,7 @@
 package com.javaops.run;
 
+import com.javaops.config.Configuration;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -13,6 +15,8 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  * @author Vasichkin Pavel
  */
 public class MainFile {
+    private static final File PROPS = new File("storage\\5f650e2c-3d9a-4b38-9f0f-e6acb7e3ebd7");
+
     public static void main(String[] args) throws IOException {
 
         // The used interface FileVisitor for walkFileTree
@@ -20,10 +24,14 @@ public class MainFile {
         //Files.walkFileTree(directory, new PrintFiles());
 
         //HW09
-        Path path = Paths.get("./src");
-        indentedPrintingFiles(path, "");
-        File file = new File("/home/pavel/basejava/storage");
-        System.out.println(file.getAbsolutePath());
+//        Path path = Paths.get("./src");
+//        indentedPrintingFiles(path, "");
+//        File file = new File("/home/pavel/basejava/storage");
+//        System.out.println(file.getAbsolutePath());
+        System.out.println(PROPS.getAbsolutePath());
+        System.out.println(MainFile.class.getResource(PROPS.getAbsolutePath()));
+        System.out.println(MainFile.class.getResourceAsStream(PROPS.getAbsolutePath()));
+//        System.out.println(getClass().getClassLoader().getResource(PROPS.getAbsolutePath()));
     }
 
     private static void hw09PrintFiles(Path path) throws IOException {

@@ -1,11 +1,7 @@
 package com.javaops.services;
 
-import com.javaops.config.Config;
+import com.javaops.config.Configuration;
 import com.javaops.storage.SqlStorage;
-
-import java.io.*;
-import java.sql.DriverManager;
-import java.util.Properties;
 
 public class StorageService {
 
@@ -15,7 +11,7 @@ public class StorageService {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-//        return Config.get().getStorage();
+//        return Configuration.get().getStorage();
 
 //        Properties props = new Properties();
 //        try (InputStream is = Config.class.getResourceAsStream(Paths.get("config\\resumes.properties").toAbsolutePath().toString()) {

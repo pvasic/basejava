@@ -8,23 +8,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Config {
+public class Configuration {
     private static final File PROPS = new File("config\\resumes.properties");
-    private static final Config INSTANCE = new Config();
+    private static final Configuration INSTANCE = new Configuration();
 
     private final File storageDir;
     private final SqlStorage storage;
 
-    public static Config get() {
+    public static Configuration get() {
         return INSTANCE;
     }
 
-    private Config() {
-        System.out.println(PROPS.getAbsolutePath());
-        System.out.println(Config.class.getResource(PROPS.getAbsolutePath()));
-        System.out.println(Config.class.getResourceAsStream(PROPS.getAbsolutePath()));
-        System.out.println(getClass().getClassLoader().getResource(PROPS.getAbsolutePath()));
-
+    private Configuration() {
         try (InputStream is = new FileInputStream(PROPS)) {
             Properties props = new Properties();
             props.load(is);

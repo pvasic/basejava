@@ -104,35 +104,19 @@ public class SqlStorage implements Storage {
                             resumes.put(uuid, new Resume(uuid, rs.getString("full_name")));
                         }
                     }
-                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact c ORDER BY c.resume_uuid")) {
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM contact")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
-                            ContactType type = ContactType.valueOf(rs.getString("type"));
-                            String value = rs.getString("value");
-                            resumes.computeIfPresent(rs.getString("resume_uuid"), (s, r) -> {
-                                r.addContact(type, value);
-                                return r;
-                            });
+                            Resume r = resumes.get(rs.getString("resume_uuid"));
+                            addContact(rs, r);
                         }
                     }
-                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section c ORDER BY c.resume_uuid")) {
+
+                    try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM section")) {
                         ResultSet rs = ps.executeQuery();
                         while (rs.next()) {
-                            SectionType sectionType = SectionType.valueOf(rs.getString("type"));
-                            String content = rs.getString("content");
-                            resumes.computeIfPresent(rs.getString("resume_uuid"), (s, r) -> {
-                                switch (sectionType) {
-                                    case PERSONAL:
-                                    case OBJECTIVE:
-                                        r.addSection(sectionType, new TextSection(content));
-                                        return r;
-                                    case ACHIEVEMENT:
-                                    case QUALIFICATIONS:
-                                        r.addSection(sectionType, new ListSection(Stream.of(content.split("\n")).collect(Collectors.toList())));
-                                        return r;
-                                }
-                                return null;
-                            });
+                            Resume r = resumes.get(rs.getString("resume_uuid"));
+                            addSection(rs, r);
                         }
                     }
                     return null;
@@ -156,15 +140,15 @@ public class SqlStorage implements Storage {
 
     private void deleteFromTable(Connection conn, Resume r) {
         String uuid = r.getUuid();
-        sqlHelper.execute( ""+
-                "DELETE  FROM contact WHERE resume_uuid=?;" +
-                "DELETE  FROM section WHERE resume_uuid=?"
+        sqlHelper.execute("" +
+                        "DELETE  FROM contact WHERE resume_uuid=?;" +
+                        "DELETE  FROM section WHERE resume_uuid=?"
                 , ps -> {
-            ps.setString(1, uuid);
-            ps.setString(2, uuid);
-            ps.execute();
-            return null;
-        });
+                    ps.setString(1, uuid);
+                    ps.setString(2, uuid);
+                    ps.execute();
+                    return null;
+                });
     }
 
     private void addContact(ResultSet rs, Resume r) throws SQLException {
@@ -210,15 +194,13 @@ public class SqlStorage implements Storage {
                 switch (sectionType) {
                     case PERSONAL:
                     case OBJECTIVE:
-                        ps.setString(1, resume.getUuid());
-                        ps.setString(2, sectionType.name());
+                        setUuidAndType(ps, resume, sectionType);
                         ps.setString(3, ((TextSection) e.getValue()).getContent());
                         ps.addBatch();
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        ps.setString(1, resume.getUuid());
-                        ps.setString(2, sectionType.name());
+                        setUuidAndType(ps, resume, sectionType);
                         ps.setString(3, (String.join("\n", ((ListSection) e.getValue()).getItems())));
                         ps.addBatch();
                         break;
@@ -226,5 +208,10 @@ public class SqlStorage implements Storage {
             }
             ps.executeBatch();
         }
+    }
+
+    private void setUuidAndType(PreparedStatement ps, Resume resume, SectionType sectionType) throws SQLException {
+        ps.setString(1, resume.getUuid());
+        ps.setString(2, sectionType.name());
     }
 }
