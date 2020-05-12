@@ -18,7 +18,7 @@ public class StorageService {
 //        return Config.get().getStorage();
 
 //        Properties props = new Properties();
-//        try (InputStream is = new FileInputStream(new File("config\\resumes.properties"))) {
+//        try (InputStream is = Config.class.getResourceAsStream(Paths.get("config\\resumes.properties").toAbsolutePath().toString()) {
 //            props.load(is);
 //        } catch (IOException e) {
 //            e.printStackTrace();

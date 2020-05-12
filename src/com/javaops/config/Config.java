@@ -20,6 +20,11 @@ public class Config {
     }
 
     private Config() {
+        System.out.println(PROPS.getAbsolutePath());
+        System.out.println(Config.class.getResource(PROPS.getAbsolutePath()));
+        System.out.println(Config.class.getResourceAsStream(PROPS.getAbsolutePath()));
+        System.out.println(getClass().getClassLoader().getResource(PROPS.getAbsolutePath()));
+
         try (InputStream is = new FileInputStream(PROPS)) {
             Properties props = new Properties();
             props.load(is);
