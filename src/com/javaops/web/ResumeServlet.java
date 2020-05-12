@@ -4,6 +4,7 @@ import com.javaops.model.Resume;
 import com.javaops.services.StorageService;
 import com.javaops.storage.Storage;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,13 @@ import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
-    private final Storage storage = StorageService.getStorage();
+    private Storage storage;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        storage = StorageService.getStorage();
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
