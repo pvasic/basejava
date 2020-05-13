@@ -230,7 +230,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.MOBILE, MOBILE_1);
         resume.addContact(ContactType.SKYPE, SKYPE_1);
         resume.addContact(ContactType.EMAIL, EMAIL_1);
-        resume.addContact(ContactType.LINKEDLN, LINKEDLN_1);
+        resume.addContact(ContactType.LINKEDIN, LINKEDLN_1);
         resume.addContact(ContactType.GITHUB, GITHUB_1);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_1);
 
@@ -248,7 +248,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.MOBILE, MOBILE_2);
         resume.addContact(ContactType.SKYPE, SKYPE_2);
         resume.addContact(ContactType.EMAIL, EMAIL_2);
-//        resume.addContact(ContactType.LINKEDLN, LINKEDLN_2);
+//        resume.addContact(ContactType.LINKEDIN, LINKEDIN_2);
         resume.addContact(ContactType.GITHUB, GITHUB_2);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_2);
 //
@@ -266,7 +266,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.MOBILE, MOBILE_3);
         resume.addContact(ContactType.SKYPE, SKYPE_3);
         resume.addContact(ContactType.EMAIL, EMAIL_3);
-        resume.addContact(ContactType.LINKEDLN, LINKEDLN_3);
+        resume.addContact(ContactType.LINKEDIN, LINKEDLN_3);
         resume.addContact(ContactType.GITHUB, GITHUB_3);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_3);
 
@@ -284,7 +284,7 @@ public class ResumeTestData {
         resume.addContact(ContactType.MOBILE, MOBILE_4);
         resume.addContact(ContactType.SKYPE, SKYPE_4);
         resume.addContact(ContactType.EMAIL, EMAIL_4);
-        resume.addContact(ContactType.LINKEDLN, LINKEDLN_4);
+        resume.addContact(ContactType.LINKEDIN, LINKEDLN_4);
         resume.addContact(ContactType.GITHUB, GITHUB_4);
         resume.addContact(ContactType.STACKOVERFLOW, STACKOVERFLOW_4);
 

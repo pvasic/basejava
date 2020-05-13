@@ -93,7 +93,7 @@ public abstract class AbstractStorageTest {
         Resume expected = ResumeTestData.getRESUME4(UUID_2, FULL_NAME_UPDATE);
         expected.getContacts().remove(ContactType.EMAIL);
         expected.getContacts().remove(ContactType.SKYPE);
-        expected.addContact(ContactType.LINKEDLN, LINKEDLN_UPDATE);
+        expected.addContact(ContactType.LINKEDIN, LINKEDLN_UPDATE);
         storage.update(expected);
         assertEquals(expected, storage.get(UUID_2));
     }

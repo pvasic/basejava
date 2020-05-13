@@ -4,17 +4,47 @@ package com.javaops.model;
  * @author Vasichkin Pavel
  */
 public enum ContactType {
-    PHONE("Телефон"),
+    PHONE("Тел."),
     MOBILE("Мобильный"),
     HOME_PHONE("Домашний тел."),
-    SKYPE("Skype"),
-    EMAIL("Email"),
-    LINKEDLN("LinkedIn"),
-    GITHUB("GitHub"),
-    STACKOVERFLOW("Stackoverflow"),
-    HOME_PAGE("Домашняя страница");
+    SKYPE("Skype") {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("skype:" + value, value);
+        }
+    },
+    EMAIL("Почта") {
+        @Override
+        public String toHtml0(String value) {
+            return getTitle() + ": " + toLink("mailto:" + value, value);
+        }
+    },
+    LINKEDIN("Профиль LinkedIn") {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    },
+    GITHUB("Профиль GitHub") {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    },
+    STACKOVERFLOW("Профиль Stackoverflow") {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    },
+    HOME_PAGE("Домашняя страница") {
+        @Override
+        public String toHtml0(String value) {
+            return toLink(value);
+        }
+    };
 
-    private String title;
+    private final String title;
 
     ContactType(String title) {
         this.title = title;
@@ -22,5 +52,21 @@ public enum ContactType {
 
     public String getTitle() {
         return title;
+    }
+
+    protected String toHtml0(String value) {
+        return title + ": " + value;
+    }
+
+    public String toHtml(String value) {
+        return (value == null) ? "" : toHtml0(value);
+    }
+
+    public String toLink(String href) {
+        return toLink(href, title);
+    }
+
+    public static String toLink(String href, String title) {
+        return "<a href='" + href + "'>" + title + "</a>";
     }
 }
