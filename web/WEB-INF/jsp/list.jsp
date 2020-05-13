@@ -14,19 +14,24 @@
     <table border="2" cellpadding="8" cellspacing="0">
         <tr>
             <th>Name</th>
-            <th>UUID</th>
             <th>Email</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="com.javaops.model.Resume"/>
             <tr>
-                <td><a href="resume?uuid=${resume.uuid}"> ${resume.fullName} </a></td>
-                <td>${resume.uuid}</td>
+                <td><a href="resume?uuid=${resume.uuid}&action=view"> ${resume.fullName} </a></td>
                 <td>${resume.getContact(ContactType.EMAIL)}</td>
+                <td><a href="resume?uuid=${resume.uuid}&action=delete">delete</a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=edit">edit</a></td>
             </tr>
         </c:forEach>
 
 
+
+<%--        <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>--%>
+<%--        <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>--%>
         <%--        <%--%>
         <%--            for (Resume resume : (List<Resume>) request.getAttribute("resumes")) {--%>
         <%--        %>--%>
