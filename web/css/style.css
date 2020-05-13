@@ -1,12 +1,12 @@
 section {
-    width: 900px;
+    width: 1300px;
     margin: auto;
 }
 
 header {
     background: none repeat scroll 0 0 #A6C9E2;
     color: #2E6E9E;
-    font-size: 20px;
+    font-size: 40px;
     padding: 5px 20px;
     text-align: center;
 }
