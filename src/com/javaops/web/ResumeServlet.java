@@ -1,5 +1,6 @@
 package com.javaops.web;
 
+import com.javaops.config.Configuration;
 import com.javaops.model.Resume;
 import com.javaops.services.StorageService;
 import com.javaops.storage.Storage;
@@ -20,6 +21,7 @@ public class ResumeServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         storage = StorageService.getStorage();
+//        storage = Configuration.get().getStorage();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

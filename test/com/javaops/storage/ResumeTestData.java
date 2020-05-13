@@ -7,11 +7,24 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Vasichkin Pavel
  */
 public class ResumeTestData {
+
+    public static final String UUID_1 = UUID.randomUUID().toString();
+    public static final String UUID_2 = UUID.randomUUID().toString();
+    public static final String UUID_3 = UUID.randomUUID().toString();
+    public static final String UUID_4 = UUID.randomUUID().toString();
+
+    public static final String FULL_NAME_1 = "FullName1";
+    public static final String FULL_NAME_2 = "FullName2";
+    public static final String FULL_NAME_3 = "FullName3";
+    public static final String FULL_NAME_4 = "FullName4";
+    public static final String FULL_NAME_UPDATE = "FullNameUpdate";
+    public static final String LINKEDLN_UPDATE = "LinkedlnUpdate";
 
     private static final String MOBILE_1 = "+7(921) 855-0482";
     private static final String MOBILE_2 = "+7(926) 665-0482";
