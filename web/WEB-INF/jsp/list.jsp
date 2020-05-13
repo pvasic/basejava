@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: plvas
-  Date: 07.05.2020
-  Time: 16:38
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.javaops.model.ContactType"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -13,8 +7,7 @@
     <title>Resumes</title>
 </head>
 <body>
-<header>Resumes</header>
-<br>
+.<br>
 <jsp:include page="fragments/header.jsp"/>
 <br>
 <section>
@@ -23,15 +16,13 @@
             <th>Name</th>
             <th>UUID</th>
             <th>Email</th>
-            <th>Email</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
+            <jsp:useBean id="resume" type="com.javaops.model.Resume"/>
             <tr>
-                <td><a href="resume?uuid=${resume.getUuid()}"> ${resume.getFullName()} </a></td>
-                <td>${resume.getUuid()}</td>
-                <td></td>
-                <td></td>
-                    <%--                <td>${resume.getContact(ContactType.EMAIL)}</td>--%>
+                <td><a href="resume?uuid=${resume.uuid}"> ${resume.fullName} </a></td>
+                <td>${resume.uuid}</td>
+                <td>${resume.getContact(ContactType.EMAIL)}</td>
             </tr>
         </c:forEach>
 
