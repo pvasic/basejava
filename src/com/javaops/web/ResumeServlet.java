@@ -1,6 +1,7 @@
 package com.javaops.web;
 
 import com.javaops.config.Configuration;
+import com.javaops.model.ContactType;
 import com.javaops.model.Resume;
 import com.javaops.services.StorageService;
 import com.javaops.storage.Storage;
@@ -41,6 +42,7 @@ public class ResumeServlet extends HttpServlet {
 
         List<Resume> resumes = storage.getAllSorted();
         request.setAttribute("resumes", resumes);
-        request.getRequestDispatcher("resumes.jsp").forward(request, response);
+        request.setAttribute("contactType", ContactType.EMAIL);
+        request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
     }
 }
