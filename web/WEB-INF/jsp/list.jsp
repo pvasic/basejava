@@ -15,6 +15,7 @@
 <body>
 <header>Resumes</header>
 <br>
+<jsp:include page="fragments/header.jsp"/>
 <br>
 <section>
     <table border="2" cellpadding="8" cellspacing="0">
@@ -49,6 +50,7 @@
     </table>
 </section>
 <br>
+<jsp:include page="fragments/footer.jsp"/>
 <br>
 </body>
 </html>
