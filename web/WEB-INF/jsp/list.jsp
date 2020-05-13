@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Resumes</title>
 </head>
 <body>
@@ -23,8 +23,8 @@
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view"> ${resume.fullName} </a></td>
                 <td>${resume.getContact(ContactType.EMAIL)}</td>
-                <td><a href="resume?uuid=${resume.uuid}&action=delete">delete</a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=edit">edit</a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
             </tr>
         </c:forEach>
 
