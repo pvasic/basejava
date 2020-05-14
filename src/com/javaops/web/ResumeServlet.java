@@ -3,7 +3,6 @@ package com.javaops.web;
 import com.javaops.config.Config;
 import com.javaops.model.ContactType;
 import com.javaops.model.Resume;
-import com.javaops.services.StorageService;
 import com.javaops.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -20,8 +19,7 @@ public class ResumeServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        storage = StorageService.getStorage();
-//        storage = Config.get().getStorage();
+        storage = Config.get().getStorage();
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

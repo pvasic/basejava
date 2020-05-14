@@ -6,10 +6,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class Config {
-    private static final File PROPS = new File(getHomeDir(),"config\\resumes.properties");
+    private static File PROPS = new File(getHomeDir(), "config\\resumes.properties");
     private static final Config INSTANCE = new Config();
 
     private final File storageDir;
