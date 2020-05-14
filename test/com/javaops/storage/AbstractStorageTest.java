@@ -4,7 +4,7 @@ import com.javaops.exception.ExistStorageException;
 import com.javaops.exception.NotExistStorageException;
 import com.javaops.model.ContactType;
 import com.javaops.model.Resume;
-import com.javaops.config.Configuration;
+import com.javaops.config.Config;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +19,7 @@ import static com.javaops.storage.ResumeTestData.*;
  * @author Vasichkin Pavel
  */
 public abstract class AbstractStorageTest {
-    protected final static File STORAGE_DIR = Configuration.get().getStorageDir();
+    protected final static File STORAGE_DIR = Config.get().getStorageDir();
     protected final Storage storage;
 
     private static final Resume RESUME_1;

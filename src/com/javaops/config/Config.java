@@ -8,18 +8,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class Configuration {
+public class Config {
     private static final File PROPS = new File(getHomeDir(),"config\\resumes.properties");
-    private static final Configuration INSTANCE = new Configuration();
+    private static final Config INSTANCE = new Config();
 
     private final File storageDir;
     private final SqlStorage storage;
 
-    public static Configuration get() {
+    public static Config get() {
         return INSTANCE;
     }
 
-    private Configuration() {
+    private Config() {
         try (InputStream is = new FileInputStream(PROPS)) {
             Properties props = new Properties();
             props.load(is);

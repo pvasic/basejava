@@ -1,6 +1,5 @@
 package com.javaops.services;
 
-import com.javaops.config.Configuration;
 import com.javaops.storage.SqlStorage;
 
 public class StorageService {
