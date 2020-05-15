@@ -71,8 +71,7 @@ public class ResumeTestData {
     private static final String DESC_QUALIFICATIONS_4 = "Scale";
 
     private static final String NAME_1 = "Java Online Projects";
-    private static final String NAME_4 = "Java";
-    private static final String URL_1 = "javaops.ru";
+    private static final String URL_1 = "https://javaops.ru";
     private static final LocalDate START_DATE_1 = DateUtil.of(2013, Month.JANUARY);
     private static final LocalDate END_DATE_1 = LocalDate.now();
     private static final String POSITION_NAME_1 = "Автор проекта";
@@ -85,8 +84,8 @@ public class ResumeTestData {
     private static final String POSITION_NAME_2 = "\"Functional Programming Principles in Scala\" by Martin Odersky";
     private static final String RESPONSIBILITY_2 = null;
 
-    private static final String NAME_3 = "Coursera";
-    private static final String URL_3 = null;
+    private static final String NAME_3 = "stackoverflow";
+    private static final String URL_3 = "https://stackoverflow.com/";
     private static final LocalDate START_DATE_3 = DateUtil.of(2015, Month.FEBRUARY);
     private static final LocalDate END_DATE_3 = DateUtil.of(2016, Month.OCTOBER);
     private static final String POSITION_NAME_3 = "\"Java Enterprise\" by Bill";
@@ -185,18 +184,21 @@ public class ResumeTestData {
         POSITION_3 = new Organization.Position(START_DATE_3, END_DATE_3, POSITION_NAME_3, RESPONSIBILITY_3);
 
         PERIODS_1.add(POSITION_1);
+        PERIODS_1.add(POSITION_2);
+        PERIODS_1.add(POSITION_1);
+        PERIODS_1.add(POSITION_2);
         PERIODS_2.add(POSITION_2);
         PERIODS_2.add(POSITION_3);
 
 
         EXPERIENCE_ORGANIZATION_1 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
-        EXPERIENCE_ORGANIZATION_2 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
-        EXPERIENCE_ORGANIZATION_3 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
-        EXPERIENCE_ORGANIZATION_4 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_1);
+        EXPERIENCE_ORGANIZATION_2 = new Organization(new Organization.Link(NAME_2, URL_2), PERIODS_1);
+        EXPERIENCE_ORGANIZATION_3 = new Organization(new Organization.Link(NAME_3, URL_3), PERIODS_1);
+        EXPERIENCE_ORGANIZATION_4 = new Organization(new Organization.Link(NAME_2, URL_2), PERIODS_1);
         EDUCATION_ORGANIZATION_1 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
-        EDUCATION_ORGANIZATION_2 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
-        EDUCATION_ORGANIZATION_3 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
-        EDUCATION_ORGANIZATION_4 = new Organization(new Organization.Link(NAME_1, URL_1), PERIODS_2);
+        EDUCATION_ORGANIZATION_2 = new Organization(new Organization.Link(NAME_2, URL_2), PERIODS_2);
+        EDUCATION_ORGANIZATION_3 = new Organization(new Organization.Link(NAME_3, URL_3), PERIODS_2);
+        EDUCATION_ORGANIZATION_4 = new Organization(new Organization.Link(NAME_2, URL_2), PERIODS_2);
         EXPERIENCE_LIST_1.add(EXPERIENCE_ORGANIZATION_1);
         EXPERIENCE_LIST_2.add(EXPERIENCE_ORGANIZATION_2);
         EXPERIENCE_LIST_2.add(EXPERIENCE_ORGANIZATION_3);

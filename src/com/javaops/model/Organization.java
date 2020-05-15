@@ -171,6 +171,14 @@ public class Organization implements Serializable {
             return "Link(" + name + ',' + url + ')';
         }
 
+        public String toHtml() {
+            return (url == null) ? toLink("", name) : toLink(url, name);
+        }
+
+        public String toLink(String href, String name) {
+            return "<a href='" + href + "'>" + name + "</a>";
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o)

@@ -20,6 +20,13 @@ public class ResumeServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         storage = Config.get().getStorage();
+        try {
+            Class.forName("com.javaops.model.Organization.Link");
+            Class.forName("com.javaops.model.Organization.Position");
+            Class.forName("com.javaops.util.DateUtil");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

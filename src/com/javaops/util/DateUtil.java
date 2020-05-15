@@ -16,4 +16,11 @@ public class DateUtil {
     public static LocalDate of(String date) {
         return LocalDate.parse(date);
     }
+    public static String toStringPeriod(LocalDate startDate, LocalDate endDate) {
+        return to(startDate) + "-" + to(endDate);
+    }
+
+    private static String to(LocalDate date) {
+        return date.getYear() + "/" + (date.getMonthValue() + 1);
+    }
 }

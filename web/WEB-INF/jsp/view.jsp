@@ -1,6 +1,7 @@
 <%@ page import="com.javaops.model.TextSection" %>
 <%@ page import="com.javaops.model.ListSection" %>
 <%@ page import="com.javaops.model.OrganizationSection" %>
+<%@ page import="com.javaops.util.DateUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -18,9 +19,11 @@
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
                          type="java.util.Map.Entry<com.javaops.model.ContactType, java.lang.String>"/>
-                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+            <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
-    <p>
+    </p>
+</section>
+<section>
     <p>
     <table>
         <tbody>
@@ -62,24 +65,37 @@
                 <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
                     <tr>
                         <td>
-                            <h3><%=sectionEntry.getKey().getTitle()%></h3>
+                            <h3><%=sectionEntry.getKey().getTitle()%>
+                            </h3>
                         </td>
                         <td>
-
                         </td>
                     </tr>
-                    <tr>
-                        <c:forEach var="organisation"
-                                   items="<%=((OrganizationSection) sectionEntry.getValue()).getOrganizations()%>">
+                    <c:forEach var="organisation"
+                               items="<%=((OrganizationSection) sectionEntry.getValue()).getOrganizations()%>">
+                        <jsp:useBean id="organisation"
+                                     type="com.javaops.model.Organization"/>
+                        <tr>
                             <td>
-                                <h2>${organisation.homePage.url}</h2>
+                                <h4>${organisation.homePage.toHtml()}</h4>
                             </td>
                             <td>
-
                             </td>
-
+                        </tr>
+                        <c:forEach var="position" items="<%=organisation.getPositions()%>">
+                            <jsp:useBean id="position"
+                                         type="com.javaops.model.Organization.Position"/>
+                            <tr>
+                            <td>
+                                <%=DateUtil.toStringPeriod(position.getStartDate(), position.getEndDate())%>
+                            </td>
+                            <td>
+                                ${position.positionName}<br>
+                                ${position.responsibility}<br>
+                            </td>
                         </c:forEach>
-                    </tr>
+                        </tr>
+                    </c:forEach>
                 </c:when>
                 <c:otherwise>
                 </c:otherwise>
@@ -87,7 +103,7 @@
         </c:forEach>
         </tbody>
     </table>
-    <p>
+    </p>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
