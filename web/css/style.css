@@ -53,11 +53,13 @@ dl {
 
 dt {
     display: inline-block;
+    margin: 3px 0;
     width: 170px;
 }
 
 dd {
     display: inline-block;
+    margin: 3px 0;
     margin-left: 8px;
     vertical-align: top;
 }
@@ -73,6 +75,10 @@ h1 {
 
 li {
     margin: 15px 0;
+}
+
+input {
+    margin: 3px 0;
 }
 
 /*table {*/

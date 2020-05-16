@@ -22,8 +22,6 @@
             <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
     </p>
-</section>
-<section>
     <p>
     <table>
         <tbody>
@@ -90,8 +88,8 @@
                                 <%=DateUtil.toStringPeriod(position.getStartDate(), position.getEndDate())%>
                             </td>
                             <td>
-                                ${position.positionName}<br>
-                                ${position.responsibility}<br>
+                                    ${position.positionName}<br>
+                                    ${position.responsibility}<br>
                             </td>
                         </c:forEach>
                         </tr>

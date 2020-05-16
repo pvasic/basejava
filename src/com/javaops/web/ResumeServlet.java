@@ -1,9 +1,9 @@
 package com.javaops.web;
 
 import com.javaops.config.Config;
-import com.javaops.model.ContactType;
-import com.javaops.model.Resume;
+import com.javaops.model.*;
 import com.javaops.storage.Storage;
+import com.javaops.util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
 
@@ -37,14 +41,69 @@ public class ResumeServlet extends HttpServlet {
         r.setFullName(fullName);
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (isNotNull(value)) {
                 r.addContact(type, value);
             } else {
                 r.getContacts().remove(type);
             }
         }
+        for (SectionType type : SectionType.values()) {
+            switch (type) {
+                case PERSONAL:
+                case OBJECTIVE:
+                    String content = request.getParameter(type.name());
+                    if (isNotNull(content)) {
+                        r.addSection(type, new TextSection(content));
+                    } else {
+                        removeSection(r, type);
+                    }
+                    break;
+                case ACHIEVEMENT:
+                case QUALIFICATIONS:
+                    List<String> items = Arrays.asList(request.getParameterValues(type.name()));
+                    if (!items.isEmpty()) {
+                        List<String> list = new ArrayList<>(items.size());
+                        for (String item : items) {
+                            if (isNotNull(item)) {
+                                list.add(item);
+                            }
+                        }
+                        r.addSection(type, new ListSection(list));
+                    } else {
+                        removeSection(r, type);
+                    }
+                    break;
+//                case EXPERIENCE:
+//                case EDUCATION:
+//                    List<Organization> organizations = new ArrayList<>();
+//                    List<Organization> list = ((OrganizationSection) r.getSections().get(type)).getOrganizations();
+//                    for (int i = 0; i < (list.size()); i++) {
+//                        Organization.Link link = new Organization.Link(request.getParameter(type.name()), request.getParameter(type.name()));
+//                        List<Organization.Position> positions = new ArrayList<>();
+//                        for (int j = 0; j < list.get(i).getPositions().size(); j++) {
+//                            Organization.Position position = new Organization.Position(DateUtil.of(request.getParameter(type.name())), DateUtil.of(request.getParameter(type.name())), request.getParameter(type.name()), request.getParameter(type.name()));
+//                            positions.add(position);
+//                        }
+//                        organizations.add(new Organization(link, positions));
+//                    }
+//                    if (!organizations.isEmpty()) {
+//                        r.addSection(type, new OrganizationSection(organizations));
+//                    } else {
+//                        removeSection(r, type);
+//                    }
+//                    break;
+            }
+        }
         storage.update(r);
         response.sendRedirect("resume");
+    }
+
+    private void removeSection(Resume r, SectionType type) {
+        r.getSections().remove(type);
+    }
+
+    private boolean isNotNull(String value) {
+        return value != null && value.trim().length() != 0;
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
