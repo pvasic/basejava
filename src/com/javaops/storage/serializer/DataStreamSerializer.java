@@ -1,9 +1,9 @@
 package com.javaops.storage.serializer;
 
 import com.javaops.model.*;
-import com.javaops.util.DateUtil;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,10 +44,10 @@ public class DataStreamSerializer implements StreamSerializer {
                             dos.writeUTF(organization.getHomePage().getName());
                             dos.writeUTF(organization.getHomePage().getUrl());
                             writeCollection(organization.getPositions(), dos, (position -> {
-                                dos.writeUTF(position.getStartDate().toString());
-                                dos.writeUTF(position.getEndDate().toString());
-                                dos.writeUTF(position.getPositionName());
-                                dos.writeUTF(position.getResponsibility());
+                                writeLocalDate(dos, position.getStartDate());
+                                writeLocalDate(dos, position.getEndDate());
+                                dos.writeUTF(position.getTitle());
+                                dos.writeUTF(position.getDescription());
                             }));
                         }));
                 }
@@ -62,11 +62,11 @@ public class DataStreamSerializer implements StreamSerializer {
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
             readItems(dis, () -> {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
+                resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             });
             readItems(dis, () -> {
                 SectionType sectionName = SectionType.valueOf(dis.readUTF());
-                resume.addSection(sectionName, readSection(dis, sectionName));
+                resume.setSection(sectionName, readSection(dis, sectionName));
             });
             return resume;
         }
@@ -86,11 +86,20 @@ public class DataStreamSerializer implements StreamSerializer {
                         readList(dis, () -> new Organization(
                                 new Organization.Link(
                                         dis.readUTF(), dis.readUTF()), readList(dis, () -> new Organization.Position(
-                                                DateUtil.of(dis.readUTF()), DateUtil.of(dis.readUTF()), dis.readUTF(), dis.readUTF()
+                                                readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF()
                         )))));
             default:
                 throw new IllegalStateException();
         }
+    }
+
+    private void writeLocalDate(DataOutputStream dos, LocalDate ld) throws IOException {
+        dos.writeInt(ld.getYear());
+        dos.writeInt(ld.getMonth().getValue());
+    }
+
+    private LocalDate readLocalDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), 1);
     }
 
     private <T> List<T> readList(DataInputStream dis, ElementReader<T> elementReader) throws IOException {

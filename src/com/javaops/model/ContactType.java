@@ -1,8 +1,5 @@
 package com.javaops.model;
 
-/**
- * @author Vasichkin Pavel
- */
 public enum ContactType {
     PHONE("Тел."),
     MOBILE("Мобильный"),

@@ -1,7 +1,7 @@
-<%@ page import="com.javaops.model.TextSection" %>
-<%@ page import="com.javaops.model.ListSection" %>
+<%@ page import="com.javaops.util.HtmlUtil" %>
 <%@ page import="com.javaops.model.OrganizationSection" %>
-<%@ page import="com.javaops.util.DateUtil" %>
+<%@ page import="com.javaops.model.ListSection" %>
+<%@ page import="com.javaops.model.TextSection" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -14,94 +14,80 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <section>
-    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></h2>
+    <h1>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></h1>
     <p>
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
                          type="java.util.Map.Entry<com.javaops.model.ContactType, java.lang.String>"/>
-            <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
+                <%=contactEntry.getKey().toHtml(contactEntry.getValue())%><br/>
         </c:forEach>
-    </p>
     <p>
-    <table>
-        <tbody>
+    <hr>
+    <table cellpadding="2">
         <c:forEach var="sectionEntry" items="${resume.sections}">
             <jsp:useBean id="sectionEntry"
                          type="java.util.Map.Entry<com.javaops.model.SectionType, com.javaops.model.Section>"/>
-            <c:set var="type" value="<%=sectionEntry.getKey().toString()%>"/>
+            <c:set var="type" value="${sectionEntry.key}"/>
+            <c:set var="section" value="${sectionEntry.value}"/>
+            <jsp:useBean id="section" type="com.javaops.model.Section"/>
+            <tr>
+                <td colspan="2"><h2><a name="type.name">${type.title}</a></h2></td>
+            </tr>
             <c:choose>
-                <c:when test="${type == 'PERSONAL' || type == 'OBJECTIVE'}">
+                <c:when test="${type=='OBJECTIVE'}">
                     <tr>
-                        <td>
-                            <h3><%=sectionEntry.getKey().getTitle()%>
-                            </h3>
-                        </td>
-                        <td>
-                            <%=((TextSection) sectionEntry.getValue()).getContent()%>
-                            <hr>
+                        <td colspan="2">
+                            <h3><%=((TextSection) section).getContent()%></h3>
                         </td>
                     </tr>
                 </c:when>
-                <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
+                <c:when test="${type=='PERSONAL'}">
                     <tr>
-                        <td>
-                            <h3><%=sectionEntry.getKey().getTitle()%>
-                            </h3>
+                        <td colspan="2">
+                            <%=((TextSection) section).getContent()%>
                         </td>
-                        <td>
+                    </tr>
+                </c:when>
+                <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
+                    <tr>
+                        <td colspan="2">
                             <ul>
-                                <c:forEach var="item" items="<%=((ListSection) sectionEntry.getValue()).getItems()%>">
-                                    <li>
-                                            ${item}
-                                    </li>
+                                <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
+                                    <li>${item}</li>
                                 </c:forEach>
                             </ul>
-                            <hr>
                         </td>
                     </tr>
                 </c:when>
-                <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
-                    <tr>
-                        <td>
-                            <h3><%=sectionEntry.getKey().getTitle()%>
-                            </h3>
-                        </td>
-                        <td>
-                        </td>
-                    </tr>
-                    <c:forEach var="organisation"
-                               items="<%=((OrganizationSection) sectionEntry.getValue()).getOrganizations()%>">
-                        <jsp:useBean id="organisation"
-                                     type="com.javaops.model.Organization"/>
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
+                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>">
                         <tr>
-                            <td>
-                                <h4>${organisation.homePage.toHtml()}</h4>
-                            </td>
-                            <td>
+                            <td colspan="2">
+                                <c:choose>
+                                    <c:when test="${empty org.homePage.url}">
+                                        <h3>${org.homePage.name}</h3>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <h3><a href="${org.homePage.url}">${org.homePage.name}</a></h3>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
-                        <c:forEach var="position" items="<%=organisation.getPositions()%>">
-                            <jsp:useBean id="position"
-                                         type="com.javaops.model.Organization.Position"/>
+                        <c:forEach var="position" items="${org.positions}">
+                            <jsp:useBean id="position" type="com.javaops.model.Organization.Position"/>
                             <tr>
-                            <td>
-                                <%=DateUtil.toStringPeriod(position.getStartDate(), position.getEndDate())%>
-                            </td>
-                            <td>
-                                    ${position.positionName}<br>
-                                    ${position.responsibility}<br>
-                            </td>
+                                <td width="15%" style="vertical-align: top"><%=HtmlUtil.formatDates(position)%>
+                                </td>
+                                <td><b>${position.title}</b><br>${position.description}</td>
+                            </tr>
                         </c:forEach>
-                        </tr>
                     </c:forEach>
                 </c:when>
-                <c:otherwise>
-                </c:otherwise>
             </c:choose>
         </c:forEach>
-        </tbody>
     </table>
-    </p>
+    <br/>
+    <button onclick="window.history.back()">ОК</button>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
 </body>

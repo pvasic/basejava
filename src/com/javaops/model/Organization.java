@@ -23,6 +23,8 @@ import static com.javaops.util.DateUtil.of;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public static final Organization EMPTY = new Organization("", "", Position.EMPTY);
+
     private Link homePage;
     private List<Position> positions = new ArrayList<>();
 
@@ -74,12 +76,14 @@ public class Organization implements Serializable {
     public static class Position implements Serializable {
         private static final long serialVersionUID = 1L;
 
+        public static final Position EMPTY = new Position();
+
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate startDate;
         @XmlJavaTypeAdapter(LocalDateAdapter.class)
         private LocalDate endDate;
-        private String positionName;
-        private String responsibility;
+        private String title;
+        private String description;
 
         public Position() {
         }
@@ -92,14 +96,14 @@ public class Organization implements Serializable {
             this(of(startYear, startMonth), of(endYear, endMonth), title, description);
         }
 
-        public Position(LocalDate startDate, LocalDate endDate, String positionName, String responsibility) {
+        public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             Objects.requireNonNull(startDate, "startDate must not be null");
             Objects.requireNonNull(endDate, "endDate must not be null");
-            Objects.requireNonNull(positionName, "positionName must not be null");
+            Objects.requireNonNull(title, "title must not be null");
             this.startDate = startDate;
             this.endDate = endDate;
-            this.positionName = positionName;
-            this.responsibility = responsibility == null ? "" : responsibility;
+            this.title = title;
+            this.description = description == null ? "" : description;
         }
 
         public LocalDate getStartDate() {
@@ -110,12 +114,12 @@ public class Organization implements Serializable {
             return endDate;
         }
 
-        public String getPositionName() {
-            return positionName;
+        public String getTitle() {
+            return title;
         }
 
-        public String getResponsibility() {
-            return responsibility;
+        public String getDescription() {
+            return description;
         }
 
         @Override
@@ -125,17 +129,17 @@ public class Organization implements Serializable {
             if (o == null || getClass() != o.getClass())
                 return false;
             Position that = (Position) o;
-            return startDate.equals(that.startDate) && endDate.equals(that.endDate) && positionName.equals(that.positionName) && Objects.equals(responsibility, that.responsibility);
+            return startDate.equals(that.startDate) && endDate.equals(that.endDate) && title.equals(that.title) && Objects.equals(description, that.description);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(startDate, endDate, positionName, responsibility);
+            return Objects.hash(startDate, endDate, title, description);
         }
 
         @Override
         public String toString() {
-            return "Position{" + "startDate=" + startDate + ", endDate=" + endDate + ", positionName='" + positionName + '\'' + ", responsibility='" + responsibility + '\'' + '}';
+            return "Position{" + "startDate=" + startDate + ", endDate=" + endDate + ", title='" + title + '\'' + ", description='" + description + '\'' + '}';
         }
     }
 
